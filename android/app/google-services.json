@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "989953744082",
+    "project_id": "moofoods-ef031",
+    "storage_bucket": "moofoods-ef031.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989953744082:android:6a97191901dffd88df210b",
+        "android_client_info": {
+          "package_name": "com.example.palapa1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXo3iFVgeIhypXfS8qf_x1j7KuscUsPSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989953744082:android:e8e738d3ad22cc12df210b",
+        "android_client_info": {
+          "package_name": "com.example.sushimo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989953744082-ce6ujfcjk6clb9rsteuu9ia040dh3r6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sushimo",
+            "certificate_hash": "0b7f13a9edff3fc4a9c8d403099d7dbb66bff6db"
+          }
+        },
+        {
+          "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXo3iFVgeIhypXfS8qf_x1j7KuscUsPSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989953744082:android:8a16e870fd386acadf210b",
+        "android_client_info": {
+          "package_name": "id.sushimoo.moofood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989953744082-vo7nvcep1niq26hutbc7rubodvhq014p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.sushimoo.moofood",
+            "certificate_hash": "0b7f13a9edff3fc4a9c8d403099d7dbb66bff6db"
+          }
+        },
+        {
+          "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXo3iFVgeIhypXfS8qf_x1j7KuscUsPSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
