@@ -32,6 +32,17 @@ class _ButtonAbsenState extends State<ButtonAbsen> {
     }
   }
 
+  IconData _iconDynamic() {
+    switch (widget.colorDynamic) {
+      case 1:
+        return Icons.check;
+      case 2:
+        return Icons.close;
+      default:
+        return Icons.abc;
+    }
+  }
+
   Widget _absen() {
     return Row(
       key: const Key('first'),
@@ -59,28 +70,21 @@ class _ButtonAbsenState extends State<ButtonAbsen> {
 
   Widget _absenResult() {
     return Container(
-      key: const Key('second'),
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: widget.colorDynamic == 1
-          ? Icon(
-              Icons.check,
-              size: 25.w,
-              color: Colors.green,
-            )
-          : Icon(
-              Icons.close,
-              size: 25.w,
-              color: Config.alertColor,
-            ),
-    );
+        key: const Key('second'),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Icon(
+          _iconDynamic(),
+          size: 25.w,
+          color: Config.alertColor,
+        ));
   }
 
   Widget _animatedSwitcher() {
-    return widget.colorDynamic == 1 ? _absenResult() : _absen();
+    return widget.colorDynamic != 0 ? _absenResult() : _absen();
   }
 
   @override

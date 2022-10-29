@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/models/berita_model.dart';
 import 'package:palapa1/pages/activity.dart';
 import 'package:palapa1/pages/attributes/home_page/home_menu_card.dart';
@@ -9,6 +11,7 @@ import 'package:palapa1/pages/kuisioner_page.dart';
 import 'package:palapa1/pages/monitoring_page.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
+import 'package:palapa1/utils/change_prefs.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:palapa1/utils/config.dart';
 import 'package:palapa1/widgets/slider_card.dart';
@@ -24,6 +27,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   CarouselController _controllerCarousel = CarouselController();
   int _currentIndex = 0;
+  bool _isLoadingSlide = false;
+  bool _isLoadingNews = false;
   List<bool> _listMenu = <bool>[
     false,
     false,
@@ -42,25 +47,33 @@ class _HomePageState extends State<HomePage> {
       _token = prefs.getString('token');
       _user_id = prefs.getInt('user_id');
     });
-    print(_user_id);
-    print(_token);
   }
 
   Future<void> _getNews() async {
     await _sharePrefs();
+    setState(() {
+      _isLoadingSlide = true;
+    });
     fetchData(
       'api/get-slideshow',
       method: FetchDataMethod.get,
       tokenLabel: TokenLabel.xa,
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then((dynamic value) {
+      setState(() {
+        _isLoadingSlide = false;
+      });
       print(value);
       print('testing');
-      _slideShowValue = [
+
+      _slideShowValue = <String>[
         value['data']['slideshow_1'],
         value['data']['slideshow_2'],
         value['data']['slideshow_3'],
       ];
+    });
+    setState(() {
+      _isLoadingNews = true;
     });
     fetchData(
       'api/get-thumbnails',
@@ -69,14 +82,23 @@ class _HomePageState extends State<HomePage> {
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then(
       (dynamic value) {
+        if (mounted) {
+          setState(() {
+            _isLoadingNews = false;
+          });
+        }
+
+        print(value);
         for (final dynamic i in value['data']) {
           BeritaModel bm = BeritaModel(
             thumb: i['images'],
             link: i['link'],
           );
-          setState(() {
-            _beritaValue.add(bm);
-          });
+          if (mounted) {
+            setState(() {
+              _beritaValue.add(bm);
+            });
+          }
         }
       },
     );
@@ -127,40 +149,78 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: CarouselSlider(
-                  carouselController: _controllerCarousel,
-                  items: List<Widget>.generate(
-                    _slideShowValue.length,
-                    (int index) {
-                      return InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(
-                                _slideShowValue[index],
-                              ),
-                            ),
-                          ),
+                child: _isLoadingSlide
+                    ? Center(
+                        child: Text(
+                          'Loading data...',
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    fontSize: 18.sp,
+                                    fontWeight: Config.bold,
+                                  ),
                         ),
-                      );
-                    },
-                  ),
-                  options: CarouselOptions(
-                    height: MediaQuery.of(context).size.height / 3.5,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 1,
-                    onPageChanged: (int val, _) {
-                      setState(() {
-                        _currentIndex = val;
-                      });
-                    },
-                  ),
-                ),
+                      )
+                    : CarouselSlider(
+                        carouselController: _controllerCarousel,
+                        items: List<Widget>.generate(
+                          _slideShowValue.length,
+                          (int index) {
+                            return CachedNetworkImage(
+                              imageUrl: _slideShowValue[index],
+                              imageBuilder: (_, ImageProvider imageProvider) {
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height:
+                                      MediaQuery.of(context).size.height / 4,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              },
+                              errorWidget: (_, __, ___) => Container(
+                                height: MediaQuery.of(context).size.height / 4,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Image Error',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                          fontSize: 18.sp,
+                                          fontWeight: Config.bold,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                              placeholder: (_, __) => Container(
+                                height: 200,
+                                color: Colors.black12,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        options: CarouselOptions(
+                          height: MediaQuery.of(context).size.height / 3.5,
+                          enableInfiniteScroll: false,
+                          viewportFraction: 1,
+                          onPageChanged: (int val, _) {
+                            setState(() {
+                              _currentIndex = val;
+                            });
+                          },
+                        ),
+                      ),
               ),
               Container(
                 height: 8,
@@ -212,28 +272,38 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           const SizedBox(height: 10),
-          CarouselSlider(
-            carouselController: _controllerCarousel,
-            items: List<Widget>.generate(
-              _beritaValue.length,
-              (int index) {
-                return SliderCard(
-                  beritaModel: _beritaValue[index],
-                  onTap: () async {
-                    await launchUrlString(_beritaValue[index].link);
-                  },
-                );
-              },
-            ),
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height / 9,
-              enableInfiniteScroll: false,
-              aspectRatio: 1,
-              initialPage: 2,
-              viewportFraction: 0.5,
-              enlargeCenterPage: true,
-            ),
-          ),
+          _isLoadingNews
+              ? Center(
+                  child: Text(
+                    'Loading berita...',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 18.sp,
+                          fontWeight: Config.bold,
+                        ),
+                  ),
+                )
+              : CarouselSlider(
+                  carouselController: _controllerCarousel,
+                  items: List<Widget>.generate(
+                    _beritaValue.length,
+                    (int index) {
+                      return SliderCard(
+                        beritaModel: _beritaValue[index],
+                        onTap: () async {
+                          await launchUrlString(_beritaValue[index].link);
+                        },
+                      );
+                    },
+                  ),
+                  options: CarouselOptions(
+                    height: MediaQuery.of(context).size.height / 9,
+                    enableInfiniteScroll: false,
+                    aspectRatio: 1,
+                    initialPage: 2,
+                    viewportFraction: 0.5,
+                    enlargeCenterPage: true,
+                  ),
+                ),
           const SizedBox(height: 50),
           Text(
             'Latihan Kegel',

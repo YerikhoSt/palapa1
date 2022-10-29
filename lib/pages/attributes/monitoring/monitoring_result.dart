@@ -37,7 +37,7 @@ class _PerbaikanGejalaState extends State<MonitoringResult> {
       for (final i in widget.result) {
         final MonitoringResultModel rt = MonitoringResultModel(
           week: i['week'].toString(),
-          skor: int.parse(i['skor']),
+          skor: double.parse(i['skor']),
         );
         _result.add(rt);
       }

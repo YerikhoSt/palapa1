@@ -46,26 +46,30 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
           TextPosition(offset: _controllerChat.text.length));
   }
 
-  List<ChatMessage> messages = <ChatMessage>[
-    ChatMessage(messageContent: 'Hello, Uba', messageType: 'receiver'),
-    ChatMessage(messageContent: 'How have you been?', messageType: 'receiver'),
-    ChatMessage(
-        messageContent: 'Hey zidan, I am doing fine dude. wbu?',
-        messageType: 'sender'),
-    ChatMessage(messageContent: 'ehhhh, doing OK.', messageType: 'receiver'),
-    ChatMessage(
-        messageContent: 'Is there any thing wrong?', messageType: 'sender'),
-  ];
+  List<ChatMessage> _messagesList = <ChatMessage>[];
 
   Future<void> _getData() async {
     await _sharePrefs();
     fetchData(
-      'api/get-slideshow',
-      method: FetchDataMethod.get,
+      'api/live-chat/get',
+      method: FetchDataMethod.post,
       tokenLabel: TokenLabel.xa,
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
+      params: <String, dynamic>{
+        'token': _token,
+        'user_id_to': 1,
+      },
     ).then((dynamic value) {
       print(value);
+      for (final i in value['data']) {
+        final ChatMessage val = ChatMessage(
+          messageContent: i['message'],
+          messageType: 'receiver',
+        );
+        setState(() {
+          _messagesList.add(val);
+        });
+      }
     });
   }
 
@@ -148,7 +152,7 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
               ),
               children: <Widget>[
                 ListView.builder(
-                  itemCount: messages.length,
+                  itemCount: _messagesList.length,
                   shrinkWrap: true,
                   padding: const EdgeInsets.only(
                     top: 10,
@@ -159,22 +163,24 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
                       padding: const EdgeInsets.only(
                           left: 14, right: 14, top: 5, bottom: 5),
                       child: Align(
-                        alignment: (messages[index].messageType == 'receiver'
-                            ? Alignment.topLeft
-                            : Alignment.topRight),
+                        alignment:
+                            (_messagesList[index].messageType == 'receiver'
+                                ? Alignment.topLeft
+                                : Alignment.topRight),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: (messages[index].messageType == 'receiver'
-                                ? Colors.grey.shade200
-                                : Config.primaryColor.withOpacity(0.6)),
+                            color:
+                                (_messagesList[index].messageType == 'receiver'
+                                    ? Colors.grey.shade200
+                                    : Config.primaryColor.withOpacity(0.6)),
                           ),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 18,
                             vertical: 15,
                           ),
                           child: Text(
-                            messages[index].messageContent,
+                            _messagesList[index].messageContent,
                             style: const TextStyle(fontSize: 15),
                           ),
                         ),
@@ -220,7 +226,31 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
                             hintStyle: const TextStyle(color: Colors.black54),
                             border: InputBorder.none,
                             suffixIcon: GestureDetector(
-                              onTap: () {},
+                              onTap: () async {
+                                await fetchData(
+                                  'api/live-chat/send',
+                                  method: FetchDataMethod.post,
+                                  tokenLabel: TokenLabel.xa,
+                                  extraHeader: <String, String>{
+                                    'Authorization': 'Bearer ${_token}'
+                                  },
+                                  params: <String, dynamic>{
+                                    'pesan': _controllerChat.text,
+                                    'token': _token,
+                                    'user_id_to': _user_id,
+                                  },
+                                ).then((dynamic value) {
+                                  print(value);
+                                  final ChatMessage val = ChatMessage(
+                                    messageContent: _controllerChat.text,
+                                    messageType: 'sender',
+                                  );
+                                  setState(() {
+                                    _messagesList.add(val);
+                                    _controllerChat.clear();
+                                  });
+                                });
+                              },
                               child: const Icon(
                                 Icons.send,
                                 size: 23,

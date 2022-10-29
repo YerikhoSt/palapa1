@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:palapa1/pages/home.dart';
-import 'package:palapa1/pages/main_container.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/checker_chat.dart';
@@ -19,11 +18,7 @@ Future<void> doLoginToServer(BuildContext context, String username,
       pass: password,
     ).then(
       (dynamic value) async {
-        print('value login');
-
-        print(value.toString());
-        print(value['data']['id']);
-
+        progress(false);
         if (value != null) {
           if (value['status'] != 200) {
             ScaffoldMessenger.of(context).showSnackBar(

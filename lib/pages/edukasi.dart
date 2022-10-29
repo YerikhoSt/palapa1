@@ -1,12 +1,14 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/attributes/edukasi/list_video_card.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/config.dart';
 import 'package:palapa1/widgets/custom_progress_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+import 'package:intl/intl.dart';
 
 class Edukasi extends StatefulWidget {
   const Edukasi({super.key});
@@ -18,6 +20,8 @@ class Edukasi extends StatefulWidget {
 class _EdukasiState extends State<Edukasi> {
   VideoPlayerController? _controllerVideo;
   ChewieController? _chewieController;
+  DateTime _selectedDate = DateTime.now();
+
   List<String> _listVideo = <String>[
     'assets/images/palapa.mp4',
     'assets/images/palapa.mp4',
@@ -25,9 +29,10 @@ class _EdukasiState extends State<Edukasi> {
     'assets/images/palapa.mp4',
   ];
   int _selectedVideoIndex = 0;
+  int _progressVideoIndex = 0;
+
   String? _token;
   int? _user_id;
-
   Future<void> _sharePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -38,8 +43,20 @@ class _EdukasiState extends State<Edukasi> {
     print(_token);
   }
 
+  void checkVideo() {
+    // Implement your calls inside these conditions' bodies :
+    if (_controllerVideo!.value.position ==
+        const Duration(seconds: 0, minutes: 0, hours: 0)) {
+      print('video Started');
+    }
+
+    if (_controllerVideo!.value.position == _controllerVideo!.value.duration) {
+      print('video Ended');
+    }
+  }
+
   int dinamisProgress() {
-    switch (_selectedVideoIndex) {
+    switch (_progressVideoIndex) {
       case 0:
         return 25;
       case 1:
@@ -99,8 +116,11 @@ class _EdukasiState extends State<Edukasi> {
 
   @override
   void initState() {
+    DateFormat('y-MM-d h : mm : 0').format(_selectedDate);
+    _sharePrefs();
     loadVideo();
     // _getVideosList();
+    _controllerVideo!.addListener(checkVideo);
     super.initState();
   }
 
@@ -167,6 +187,116 @@ class _EdukasiState extends State<Edukasi> {
                         fontSize: 16,
                         fontWeight: Config.medium,
                       ),
+                ),
+                SizedBox(height: 15.w),
+                Visibility(
+                  visible: _controllerVideo!.value.position ==
+                          _controllerVideo!.value.duration
+                      ? true
+                      : false,
+                  child: InkWell(
+                    onTap: () async {
+                      if (_controllerVideo!.value.position ==
+                          _controllerVideo!.value.duration) {
+                        if (_progressVideoIndex == 0) {
+                          await fetchData(
+                            'api/video-kegel/post',
+                            method: FetchDataMethod.post,
+                            tokenLabel: TokenLabel.xa,
+                            extraHeader: <String, String>{
+                              'Authorization': 'Bearer ${_token}'
+                            },
+                            params: <String, dynamic>{
+                              'user_id': _user_id,
+                              'video_1': _selectedDate.toString(),
+                            },
+                          ).then((dynamic value) {
+                            print('testing post video');
+                            print(value);
+                          });
+                        }
+                        if (_progressVideoIndex == 1) {
+                          await fetchData(
+                            'api/video-kegel/post',
+                            method: FetchDataMethod.post,
+                            tokenLabel: TokenLabel.xa,
+                            extraHeader: <String, String>{
+                              'Authorization': 'Bearer ${_token}'
+                            },
+                            params: <String, dynamic>{
+                              'user_id': _user_id,
+                              'video_2': _selectedDate.toString(),
+                            },
+                          ).then((dynamic value) {
+                            print('testing post video');
+                            print(value);
+                          });
+                        }
+                        if (_progressVideoIndex == 2) {
+                          await fetchData(
+                            'api/video-kegel/post',
+                            method: FetchDataMethod.post,
+                            tokenLabel: TokenLabel.xa,
+                            extraHeader: <String, String>{
+                              'Authorization': 'Bearer ${_token}'
+                            },
+                            params: <String, dynamic>{
+                              'user_id': _user_id,
+                              'video_3': _selectedDate.toString(),
+                            },
+                          ).then((dynamic value) {
+                            print('testing post video');
+                            print(value);
+                          });
+                        }
+                        if (_progressVideoIndex == 3) {
+                          await fetchData(
+                            'api/video-kegel/post',
+                            method: FetchDataMethod.post,
+                            tokenLabel: TokenLabel.xa,
+                            extraHeader: <String, String>{
+                              'Authorization': 'Bearer ${_token}'
+                            },
+                            params: <String, dynamic>{
+                              'user_id': _user_id,
+                              'video_4': _selectedDate.toString(),
+                            },
+                          ).then((dynamic value) {
+                            print('testing post video');
+                            print(value);
+                            _controllerVideo!.play();
+                          });
+                        }
+                        if (_selectedVideoIndex < 3) {
+                          _controllerVideo!.play();
+
+                          setState(() {
+                            _selectedVideoIndex++;
+                            _progressVideoIndex++;
+                          });
+                        }
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(vertical: 7.h),
+                      decoration: BoxDecoration(
+                        color: Config.primaryColor,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          _progressVideoIndex == 3
+                              ? 'Edukasi Selesai'
+                              : 'Next Video',
+                          style: Config.whiteTextStyle.copyWith(
+                            fontSize: 18.sp,
+                            fontWeight: Config.semiBold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

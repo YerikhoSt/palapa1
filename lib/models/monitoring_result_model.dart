@@ -1,6 +1,6 @@
 class MonitoringResultModel {
   String week;
-  int skor;
+  double skor;
 
   MonitoringResultModel({
     required this.week,

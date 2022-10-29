@@ -5,8 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/attributes/activity/activity_absen_button.dart';
 import 'package:palapa1/pages/attributes/activity/activity_cart.dart';
 import 'package:palapa1/pages/attributes/activity/activity_history.dart';
+import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Activity extends StatefulWidget {
   const Activity({super.key});
@@ -18,16 +20,35 @@ class Activity extends StatefulWidget {
 class _ActivityState extends State<Activity> {
   DateTime _dateTime = DateTime.now();
   String _showDays = '';
-  int _colorDynamic = 0;
+  List<int> _colorDynamic = <int>[];
   String _dateDetail = '';
+  String _dateActivity = '';
   List<String> _listJawaban = <String>['Pagi', 'Siang', 'Malam'];
-  List<bool> _isCheck = <bool>[];
+  List<String> _isCheck = <String>[];
+  List<String> _isClose = <String>[];
+  DateTime _selectedDate = DateTime.now();
+
+  String? _token;
+  int? _user_id;
+
+  Future<void> _sharePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token');
+      _user_id = prefs.getInt('user_id');
+    });
+    print(_user_id);
+    print(_token);
+  }
 
   @override
   void initState() {
     super.initState();
+    DateFormat('y-MM-d h : mm : 0').format(_selectedDate);
+    _sharePrefs();
     _showDays = DateFormat.EEEE('id_ID').format(_dateTime);
     _dateDetail = DateFormat.yMMMMd('id_ID').format(_dateTime);
+    _dateActivity = DateFormat('y-MM-d').format(_dateTime);
   }
 
   List<FlSpot> _points = [
@@ -157,21 +178,39 @@ class _ActivityState extends State<Activity> {
             itemBuilder: (_, int i) {
               return ButtonAbsen(
                 text: _listJawaban[i],
-                colorDynamic: _colorDynamic,
-                check: () {
+                colorDynamic: _isCheck.contains(_listJawaban[i])
+                    ? 1
+                    : _isClose.contains(_listJawaban[i])
+                        ? 2
+                        : 0,
+                check: () async {
+                  await fetchData(
+                    'api/aktivitas-harian/post',
+                    method: FetchDataMethod.post,
+                    tokenLabel: TokenLabel.xa,
+                    extraHeader: <String, String>{
+                      'Authorization': 'Bearer ${_token}'
+                    },
+                    params: <String, dynamic>{
+                      'user_id': _user_id,
+                      'absen_pagi': _selectedDate.toString(),
+                      'tanggal_aktivitas': _dateActivity,
+                    },
+                  ).then((dynamic value) {
+                    print(value);
+                  });
                   setState(() {
-                    _colorDynamic = 1;
+                    _isCheck.add(_listJawaban[i]);
                   });
                 },
                 close: () {
                   setState(() {
-                    _colorDynamic = 2;
+                    _isClose.add(_listJawaban[i]);
                   });
                 },
               );
             },
           ),
-          const ActivityCart(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -185,7 +224,7 @@ class _ActivityState extends State<Activity> {
         ),
         child: Center(
           child: Text(
-            'Confirm Absen',
+            'Confirm Aktivitas',
             style: Config.whiteTextStyle.copyWith(
               fontSize: 16.sp,
               fontWeight: Config.bold,

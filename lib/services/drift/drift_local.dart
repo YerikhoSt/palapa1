@@ -16,6 +16,31 @@ class Users extends Table {
   Set<Column<Object>> get primaryKey => <IntColumn>{id};
 }
 
+class Jadwals extends Table {
+  IntColumn get id => integer()();
+  IntColumn get user_id => integer()();
+  DateTimeColumn get tanggal => dateTime()();
+  IntColumn get perineometri => integer()();
+  IntColumn get pad_test => integer()();
+  IntColumn get udi => integer()();
+  IntColumn get iiq => integer()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <IntColumn>{id};
+}
+
+class Aktivitas extends Table {
+  IntColumn get id => integer()();
+  IntColumn get user_id => integer()();
+  DateTimeColumn get tanggal_aktivitas => dateTime()();
+  BoolColumn get absen_pagi => boolean()();
+  BoolColumn get absen_siang => boolean()();
+  BoolColumn get absen_malem => boolean()();
+
+  @override
+  Set<Column<Object>> get primaryKey => <IntColumn>{id};
+}
+
 @DriftDatabase(
   tables: <Type>[Users],
   daos: <Type>[UserDao],

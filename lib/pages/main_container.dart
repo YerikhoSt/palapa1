@@ -3,8 +3,10 @@ import 'package:palapa1/pages/home_page.dart';
 import 'package:palapa1/pages/pengaturan_page.dart';
 import 'package:palapa1/pages/profile_page.dart';
 import 'package:palapa1/pages/tanya_kami_page.dart';
+import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainContainer extends StatefulWidget {
   final int index;
@@ -18,12 +20,26 @@ class _MainContainerState extends State<MainContainer>
     with TickerProviderStateMixin<MainContainer> {
   late TabController _tabController;
 
+  String? _token;
+  String? _email;
+
+  Future<void> _sharePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token');
+      _email = prefs.getString('user_email');
+    });
+    print(_email);
+    print(_token);
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
     _tabController.index = widget.index;
+    _sharePrefs();
   }
 
   void _handleTabSelection() {
@@ -88,11 +104,28 @@ class _MainContainerState extends State<MainContainer>
                 text: 'Home',
               ),
               GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                  AniRoute(
-                    child: const TanyaKamiPage(),
-                  ),
-                ),
+                onTap: () async {
+                  await fetchData(
+                    'api/live-chat/create-anonym',
+                    method: FetchDataMethod.post,
+                    tokenLabel: TokenLabel.xa,
+                    extraHeader: <String, String>{
+                      'Authorization': 'Bearer ${_token}'
+                    },
+                    params: <String, dynamic>{
+                      'email': _email,
+                    },
+                  ).then(
+                    (dynamic value) async {
+                      print(value);
+                      await Navigator.of(context).push(
+                        AniRoute(
+                          child: const TanyaKamiPage(),
+                        ),
+                      );
+                    },
+                  );
+                },
                 child: Tab(
                   iconMargin: const EdgeInsets.all(0),
                   icon: Icon(

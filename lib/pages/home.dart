@@ -7,14 +7,12 @@ import 'package:palapa1/pages/main_container.dart';
 import 'package:palapa1/providers/google_sign_in_provider.dart';
 import 'package:palapa1/services/drift/drift_local.dart';
 import 'package:palapa1/services/server/server.dart';
-import 'package:palapa1/services/server/server_cbor.dart';
 import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/change_statusbar_color.dart';
-import 'package:palapa1/utils/config.dart';
 import 'package:palapa1/utils/localization/custom_localization.dart';
 import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:palapa1/utils/msg_reader.dart';
+
 import 'package:palapa1/utils/theme/theme_data_custom.dart';
 import 'package:palapa1/utils/theme/theme_mode.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +35,29 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   final AppDatabase appDatabase = AppDatabase();
 
+  // Future<void> _silentLogin() async {
+  //   await getPrefsProfile().then((Map<String, dynamic> v) {
+  //     login(
+  //       username: v['user_email'] ?? '',
+  //       pass: v['user_password'] ?? '',
+  //     ).then((dynamic value) async {
+  //       print('disini');
+  //       print(value);
+
+  //       await changePrefsLogin(<String, dynamic>{
+  //         'email': v['user_email'] ?? '',
+  //         'password': v['user_password'] ?? '',
+  //         'token': value['data']['remember_token'] as String,
+  //         'user_id': value['data']['id'],
+  //       });
+  //     });
+  //   });
+  // }
+
   @override
   void initState() {
+    // _silentLogin();
+
     super.initState();
   }
 
@@ -92,32 +111,10 @@ class HomeBodyState extends State<HomeBody>
   }
 
   HomeBodyState();
-  Future<void> _silentLogin() async {
-    getPrefsProfile().then((Map<String, dynamic> v) {
-      login(
-        username: v['user_email'] ?? '',
-        pass: v['user_password'] ?? '',
-      ).then((dynamic value) async {
-        print(value);
-        await changePrefsLogin(<String, dynamic>{
-          'email': v['user_email'] ?? '',
-          'password': v['user_password'] ?? '',
-          'token': value['data']['remember_token'] as String,
-          'user_id': value['data']['id'],
-        });
-      });
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    _silentLogin();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -146,7 +143,10 @@ class HomeBodyState extends State<HomeBody>
                     darkTheme: ThemeDataCustom.dark,
                     themeMode: snapshot.data,
                     debugShowCheckedModeBanner: false,
-                    initialRoute: '/',
+                    initialRoute: '/home',
+                    routes: <String, Widget Function(BuildContext)>{
+                      '/home': (BuildContext context) => const MainContainer(),
+                    },
                     //Add default locale class to MaterialApp locale attribute
                     locale: _locale,
                     supportedLocales: const <Locale>[

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/attributes/activity/activity_history_card.dart';
+import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ActivityHistory extends StatefulWidget {
   const ActivityHistory({super.key});
@@ -11,6 +13,41 @@ class ActivityHistory extends StatefulWidget {
 }
 
 class _ActivityHistoryState extends State<ActivityHistory> {
+  String? _token;
+  int? _user_id;
+
+  Future<void> _sharePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token');
+      _user_id = prefs.getInt('user_id');
+    });
+    print(_user_id);
+    print(_token);
+  }
+
+  Future<void> _getHistory() async {
+    await _sharePrefs();
+    fetchData(
+      'api/aktivitas-harian/view/${_user_id}',
+      method: FetchDataMethod.get,
+      tokenLabel: TokenLabel.xa,
+      extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
+    ).then(
+      (dynamic value) {
+        print(value);
+
+        print('haloiii');
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    _getHistory();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
