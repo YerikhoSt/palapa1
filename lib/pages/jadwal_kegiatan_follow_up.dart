@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:palapa1/models/jadwal_kegiatan_model.dart';
 import 'package:palapa1/pages/attributes/jadwal_kegiatan_follow_up/add_jadwal_kegiatan.dart';
+import 'package:palapa1/pages/attributes/jadwal_kegiatan_follow_up/jadwal_kegiatan_follow_up_card.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
@@ -27,6 +29,8 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
     print(_token);
   }
 
+  List<JadwalKegiatanModel> _listJadwal = <JadwalKegiatanModel>[];
+
   Future<void> _getDataFollowUp() async {
     await _sharePrefs();
     fetchData(
@@ -35,6 +39,20 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
       tokenLabel: TokenLabel.xa,
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then((dynamic value) {
+      for (final dynamic i in value['data']) {
+        final JadwalKegiatanModel val = JadwalKegiatanModel(
+          id: i['id'].toString(),
+          user_id: i['user_id'].toString(),
+          tanggal_follow_up: i['tanggal_follow_up'],
+          perineometri: i['perineometri'].toString(),
+          pad_test: i['pad_test'].toString(),
+          udi_6: i['udi_6'].toString(),
+          iiq_7: i['iiq_7'].toString(),
+        );
+        setState(() {
+          _listJadwal.add(val);
+        });
+      }
       print(value);
     });
   }
@@ -63,6 +81,17 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: <Widget>[
+          ListView.builder(
+            itemCount: _listJadwal.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, int i) {
+              return JadwalKegiatanFollowUpCard(
+                jadwal: _listJadwal[i],
+              );
+            },
+          ),
+          SizedBox(height: 20.h),
           InkWell(
             onTap: () => Navigator.of(context).push(
               AniRoute(

@@ -224,11 +224,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                       Theme.of(context).primaryColor.withOpacity(0.5))
                   : null,
               value: Theme.of(context).brightness == Brightness.dark,
-              onChanged: (bool value) async {
-                await context
-                    .read<ThemeModeCustom>()
-                    .changeTheme(darkMode: value);
-              },
+              onChanged: (bool value) async {},
               activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.3),
               activeColor: Theme.of(context).primaryColor,
             ),
@@ -258,11 +254,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
                       Theme.of(context).primaryColor.withOpacity(0.5))
                   : null,
               value: Theme.of(context).brightness == Brightness.dark,
-              onChanged: (bool value) async {
-                await context
-                    .read<ThemeModeCustom>()
-                    .changeTheme(darkMode: value);
-              },
+              onChanged: (bool value) async {},
               activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.3),
               activeColor: Theme.of(context).primaryColor,
             ),

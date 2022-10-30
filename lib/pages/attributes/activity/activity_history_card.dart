@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:palapa1/models/activity_model.dart';
 import 'package:palapa1/utils/config.dart';
 
 class ActivityHistoryCard extends StatefulWidget {
-  final String day;
-  const ActivityHistoryCard({super.key, required this.day});
+  final ActivityModel activity;
+  const ActivityHistoryCard({super.key, required this.activity});
 
   @override
   State<ActivityHistoryCard> createState() => _ActivityHistoryCardState();
@@ -41,7 +42,7 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  widget.day,
+                  '${widget.activity.hari_aktivitas}, ${widget.activity.tanggal_aktivitas}',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 16.sp,
                         fontWeight: Config.bold,
@@ -74,10 +75,12 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
                               fontWeight: Config.bold,
                             ),
                       ),
-                      Icon(
-                        Icons.check,
-                        size: 25.w,
-                        color: Colors.green,
+                      Text(
+                        widget.activity.absen_pagi,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: Config.regular,
+                            ),
                       ),
                     ],
                   ),
@@ -92,10 +95,12 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
                               fontWeight: Config.bold,
                             ),
                       ),
-                      Icon(
-                        Icons.close,
-                        size: 25.w,
-                        color: Config.alertColor,
+                      Text(
+                        widget.activity.absen_siang,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: Config.regular,
+                            ),
                       ),
                     ],
                   ),
@@ -110,10 +115,12 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
                               fontWeight: Config.bold,
                             ),
                       ),
-                      Icon(
-                        Icons.close,
-                        size: 25.w,
-                        color: Config.alertColor,
+                      Text(
+                        widget.activity.absen_malem,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: Config.regular,
+                            ),
                       ),
                     ],
                   ),

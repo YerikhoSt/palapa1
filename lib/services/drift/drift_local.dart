@@ -31,19 +31,25 @@ class Jadwals extends Table {
 
 class Aktivitas extends Table {
   IntColumn get id => integer()();
-  IntColumn get user_id => integer()();
-  DateTimeColumn get tanggal_aktivitas => dateTime()();
-  BoolColumn get absen_pagi => boolean()();
-  BoolColumn get absen_siang => boolean()();
-  BoolColumn get absen_malem => boolean()();
+  TextColumn get tanggal_aktivitas => text()();
+  TextColumn get hari_aktivitas => text()();
+  TextColumn get absen_pagi => text()();
+  TextColumn get absen_siang => text()();
+  TextColumn get absen_malem => text()();
 
   @override
   Set<Column<Object>> get primaryKey => <IntColumn>{id};
 }
 
 @DriftDatabase(
-  tables: <Type>[Users],
-  daos: <Type>[UserDao],
+  tables: <Type>[
+    Users,
+    Aktivitas,
+  ],
+  daos: <Type>[
+    UserDao,
+    AktivitaDao,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -74,4 +80,22 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   Future<User?> getUserById(int id) =>
       (select(users)..where(($UsersTable t) => t.id.equals(id)))
           .getSingleOrNull();
+}
+
+@DriftAccessor(tables: <Type>[Aktivitas])
+class AktivitaDao extends DatabaseAccessor<AppDatabase>
+    with _$AktivitaDaoMixin {
+  final AppDatabase database;
+  AktivitaDao(this.database) : super(database);
+
+  Future<Aktivita?> getAktivitaById(int id) =>
+      (select(aktivitas)..where(($AktivitasTable t) => t.id.equals(id)))
+          .getSingleOrNull();
+
+  Future<int> insertAktivita(Insertable<Aktivita> aktivita) =>
+      into(aktivitas).insert(aktivita);
+  Future<bool> updateAktivita(Insertable<Aktivita> aktivita) =>
+      update(aktivitas).replace(aktivita);
+  Future<int> deleteAktivita(Insertable<Aktivita> aktivita) =>
+      delete(aktivitas).delete(aktivita);
 }

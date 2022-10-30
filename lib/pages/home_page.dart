@@ -16,6 +16,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:palapa1/utils/config.dart';
 import 'package:palapa1/widgets/slider_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
-          'My Kegel',
+          'Palapa 1',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
                 fontWeight: Config.bold,

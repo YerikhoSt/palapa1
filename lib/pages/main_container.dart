@@ -105,7 +105,12 @@ class _MainContainerState extends State<MainContainer>
               ),
               GestureDetector(
                 onTap: () async {
-                  await fetchData(
+                  await Navigator.of(context).push(
+                    AniRoute(
+                      child: const TanyaKamiPage(),
+                    ),
+                  );
+                  fetchData(
                     'api/live-chat/create-anonym',
                     method: FetchDataMethod.post,
                     tokenLabel: TokenLabel.xa,
@@ -118,11 +123,6 @@ class _MainContainerState extends State<MainContainer>
                   ).then(
                     (dynamic value) async {
                       print(value);
-                      await Navigator.of(context).push(
-                        AniRoute(
-                          child: const TanyaKamiPage(),
-                        ),
-                      );
                     },
                   );
                 },

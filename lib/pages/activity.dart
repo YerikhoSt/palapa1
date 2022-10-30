@@ -136,7 +136,7 @@ class _ActivityState extends State<Activity> {
               ),
             ),
             child: Text(
-              'History',
+              'Daftar Aktivitas',
               style: Config.primaryTextStyle.copyWith(
                 fontSize: 14.sp,
                 fontWeight: Config.semiBold,
@@ -183,8 +183,11 @@ class _ActivityState extends State<Activity> {
                     : _isClose.contains(_listJawaban[i])
                         ? 2
                         : 0,
-                check: () async {
-                  await fetchData(
+                check: () {
+                  setState(() {
+                    _isCheck.add(_listJawaban[i]);
+                  });
+                  fetchData(
                     'api/aktivitas-harian/post',
                     method: FetchDataMethod.post,
                     tokenLabel: TokenLabel.xa,
@@ -194,18 +197,41 @@ class _ActivityState extends State<Activity> {
                     params: <String, dynamic>{
                       'user_id': _user_id,
                       'absen_pagi': _selectedDate.toString(),
+                      'absen_siang': _isCheck.contains(_listJawaban[1])
+                          ? _selectedDate.toString()
+                          : null,
+                      'absen_malem': _isCheck.contains(_listJawaban[2])
+                          ? _selectedDate.toString()
+                          : null,
                       'tanggal_aktivitas': _dateActivity,
                     },
                   ).then((dynamic value) {
                     print(value);
                   });
-                  setState(() {
-                    _isCheck.add(_listJawaban[i]);
-                  });
                 },
                 close: () {
                   setState(() {
                     _isClose.add(_listJawaban[i]);
+                  });
+                  fetchData(
+                    'api/aktivitas-harian/post',
+                    method: FetchDataMethod.post,
+                    tokenLabel: TokenLabel.xa,
+                    extraHeader: <String, String>{
+                      'Authorization': 'Bearer ${_token}'
+                    },
+                    params: <String, dynamic>{
+                      'user_id': _user_id,
+                      'absen_pagi':
+                          _isClose.contains(_listJawaban[0]) ? null : null,
+                      'absen_siang':
+                          _isClose.contains(_listJawaban[1]) ? null : null,
+                      'absen_malem':
+                          _isClose.contains(_listJawaban[2]) ? null : null,
+                      'tanggal_aktivitas': _dateActivity,
+                    },
+                  ).then((dynamic value) {
+                    print(value);
                   });
                 },
               );
@@ -213,21 +239,28 @@ class _ActivityState extends State<Activity> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 40.h,
-        margin: EdgeInsets.all(20.w),
-        padding: EdgeInsets.symmetric(vertical: 12.w),
-        decoration: BoxDecoration(
-          color: Config.primaryColor,
-          borderRadius: BorderRadius.circular(16.w),
+      bottomNavigationBar: InkWell(
+        onTap: () => Navigator.of(context).push(
+          AniRoute(
+            child: const ActivityHistory(),
+          ),
         ),
-        child: Center(
-          child: Text(
-            'Confirm Aktivitas',
-            style: Config.whiteTextStyle.copyWith(
-              fontSize: 16.sp,
-              fontWeight: Config.bold,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 40.h,
+          margin: EdgeInsets.all(20.w),
+          padding: EdgeInsets.symmetric(vertical: 12.w),
+          decoration: BoxDecoration(
+            color: Config.primaryColor,
+            borderRadius: BorderRadius.circular(16.w),
+          ),
+          child: Center(
+            child: Text(
+              'Confirm Aktivitas',
+              style: Config.whiteTextStyle.copyWith(
+                fontSize: 16.sp,
+                fontWeight: Config.bold,
+              ),
             ),
           ),
         ),
