@@ -170,46 +170,46 @@ class ProfilePageCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Nama Pendamping',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontSize: 14.w,
-                            fontWeight: Config.bold,
-                          ),
-                    ),
-                    Text(
-                      user.nama_pendamping,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontSize: 16,
-                            fontWeight: Config.medium,
-                          ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'No. Telepon Pendamping',
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontSize: 14.w,
-                            fontWeight: Config.bold,
-                          ),
-                    ),
-                    Text(
-                      user.no_telpon_pendamping,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontSize: 14.w,
-                            fontWeight: Config.medium,
-                          ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: <Widget>[
+                //     Text(
+                //       'Nama Pendamping',
+                //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                //             fontSize: 14.w,
+                //             fontWeight: Config.bold,
+                //           ),
+                //     ),
+                //     Text(
+                //       user.nama_pendamping,
+                //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                //             fontSize: 16,
+                //             fontWeight: Config.medium,
+                //           ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(height: 15),
+                // Column(
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: <Widget>[
+                //     Text(
+                //       'No. Telepon Pendamping',
+                //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                //             fontSize: 14.w,
+                //             fontWeight: Config.bold,
+                //           ),
+                //     ),
+                //     Text(
+                //       user.no_telpon_pendamping,
+                //       style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                //             fontSize: 14.w,
+                //             fontWeight: Config.medium,
+                //           ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(height: 15),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[

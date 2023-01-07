@@ -34,10 +34,7 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <action android:name="android.intent.action.VIEW" />
-<<<<<<< HEAD
-=======
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
->>>>>>> f559091 (fix bug on monitoring)
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>

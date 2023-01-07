@@ -77,7 +77,6 @@ class _HomePageState extends State<HomePage> {
             'tanggal_lahir': value['data']['tanggal_lahir'].toString(),
             'alamat': value['data']['alamat'],
             'no_telpon': value['data']['no_telpon'].toString(),
-            'nama_pendamping': value['data']['nama_pendamping'],
             'no_telpon_pendamping':
                 value['data']['no_telpon_pendamping'].toString(),
             'kota': value['data']['kota'],

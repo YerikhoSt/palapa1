@@ -10,29 +10,41 @@ class MonitoringEmptyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        elevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
-        titleSpacing: 0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+        elevation: 0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            'assets/images/monitoring_empty.jpg',
-            width: 200,
-            height: 200,
-          ),
-          SizedBox(height: 15.h),
-          Text(
-            'Hasil Monitoring Kamu Masih Kosong!',
-            style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontSize: 20.w,
-                  fontWeight: Config.semiBold,
-                ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              'assets/images/monitoring_empty.jpg',
+              width: 200,
+              height: 200,
+            ),
+            SizedBox(height: 15.h),
+            Text(
+              'Hasil Monitoring Kamu Masih Kosong!',
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontSize: 20.w,
+                    fontWeight: Config.semiBold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

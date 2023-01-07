@@ -64,18 +64,14 @@ class _ProfilePageState extends State<ProfilePage> {
         setState(() {
           _isLoading = false;
         });
-        print(value);
+        print('ISI USER $value');
         await changePrefsProfile(
           <String, String>{
-            'username': value['data']['username'],
             'email': value['data']['email'],
             'name': value['data']['name'],
             'tanggal_lahir': value['data']['tanggal_lahir'].toString(),
             'alamat': value['data']['alamat'],
             'no_telpon': value['data']['no_telpon'].toString(),
-            'nama_pendamping': value['data']['nama_pendamping'],
-            'no_telpon_pendamping':
-                value['data']['no_telpon_pendamping'].toString(),
             'kota': value['data']['kota'],
             'provinsi': value['data']['provinsi'],
           },

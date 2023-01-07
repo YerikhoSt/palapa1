@@ -23,12 +23,18 @@ class _EdukasiState extends State<Edukasi> {
   VideoPlayerController? _controllerVideo;
   ChewieController? _chewieController;
   DateTime _selectedDate = DateTime.now();
-
+  bool _loadingVideo = false;
+  List<String> _listJudul = <String>[
+    'Apa Itu Dasar Panggul',
+    'Inkontinensia Urin Tipe Tekanan (IUT)',
+    'Latihan Kegel',
+    'Posisi Melakukan latihan Kegel',
+  ];
   List<String> _listVideo = <String>[
-    'assets/images/palapa.mp4',
-    'assets/images/palapa.mp4',
-    'assets/images/palapa.mp4',
-    'assets/images/palapa.mp4',
+    // 'assets/images/palapa.mp4',
+    // 'assets/images/palapa.mp4',
+    // 'assets/images/palapa.mp4',
+    // 'assets/images/palapa.mp4',
   ];
   int _selectedVideoIndex = 0;
   bool _isCompleted = false;
@@ -132,23 +138,27 @@ class _EdukasiState extends State<Edukasi> {
       tokenLabel: TokenLabel.xa,
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then((dynamic value) async {
-      print('response setting');
-      print(value);
-      // setState(() {
-      //   _listVideo = <String>[
-      //     value['data']['link_video_1'],
-      //     value['data']['link_video_2'],
-      //     value['data']['link_video_3'],
-      //     value['data']['link_video_4'],
-      //   ];
-      // });
+      print('LINK VIDEO 1 ====> ${value['data']['link_video_1']}');
+      print('LINK VIDEO 2 ====> ${value['data']['link_video_2']}');
+
+      setState(() {
+        _listVideo = <String>[
+          value['data']['link_video_1'],
+          value['data']['link_video_2'],
+          value['data']['link_video_3'],
+          value['data']['link_video_4'],
+        ];
+      });
     });
     loadVideo();
   }
 
   Future<void> loadVideo() async {
+    setState(() {
+      _loadingVideo = true;
+    });
     _controllerVideo =
-        VideoPlayerController.asset(_listVideo[_selectedVideoIndex]);
+        await VideoPlayerController.network(_listVideo[_selectedVideoIndex]);
     await _controllerVideo!.initialize().then((void value) {});
     _controllerVideo!.addListener(() {
       if (mounted) {
@@ -165,6 +175,9 @@ class _EdukasiState extends State<Edukasi> {
           <DeviceOrientation>[DeviceOrientation.portraitUp],
         );
       }
+    });
+    setState(() {
+      _loadingVideo = false;
     });
   }
 
@@ -208,7 +221,7 @@ class _EdukasiState extends State<Edukasi> {
         ),
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
-          'Edukasi Senam Kegel',
+          'Edukasi',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
                 fontWeight: Config.bold,
@@ -235,159 +248,177 @@ class _EdukasiState extends State<Edukasi> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 180,
-                  child: _chewieController != null
-                      ? Chewie(controller: _chewieController!)
-                      : const SizedBox.shrink(),
-                ),
+                _loadingVideo
+                    ? SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 180,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Config.primaryColor,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 180,
+                        child: _chewieController != null
+                            ? Chewie(controller: _chewieController!)
+                            : const SizedBox.shrink(),
+                      ),
                 Text(
-                  'Senam Kegel - ${_selectedVideoIndex + 1}',
+                  _listJudul[_selectedVideoIndex],
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 20,
                         fontWeight: Config.bold,
                       ),
                 ),
                 Text(
-                  'Video gerakan kegel yang membantu melakukan pemanasan',
+                  'Video Edukasi untuk membantu proses kegiatan latihan kegel',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 16,
                         fontWeight: Config.medium,
                       ),
                 ),
                 SizedBox(height: 15.w),
-                Visibility(
-                  visible: _controllerVideo!.value.position ==
-                          _controllerVideo!.value.duration
-                      ? true
-                      : false,
-                  child: InkWell(
-                    onTap: () async {
-                      if (_progressVideo[3] == 'null') {
-                        if (_selectedVideoIndex == 0) {
-                          log('testing post video');
-                          await fetchData(
-                            'api/video-kegel/post',
-                            method: FetchDataMethod.post,
-                            tokenLabel: TokenLabel.xa,
-                            extraHeader: <String, String>{
-                              'Authorization': 'Bearer ${_token}'
-                            },
-                            params: <String, dynamic>{
-                              'user_id': _user_id,
-                              'video_1': _selectedDate.toString(),
-                            },
-                          ).then((dynamic value) async {
+                if (_controllerVideo != null)
+                  Visibility(
+                    visible: _controllerVideo!.value.position ==
+                                _controllerVideo!.value.duration &&
+                            _loadingVideo == false
+                        ? true
+                        : false,
+                    child: InkWell(
+                      onTap: () async {
+                        if (_progressVideo[3] == 'null') {
+                          if (_selectedVideoIndex == 0) {
                             log('testing post video');
-                            log(value.toString());
+                            await fetchData(
+                              'api/video-kegel/post',
+                              method: FetchDataMethod.post,
+                              tokenLabel: TokenLabel.xa,
+                              extraHeader: <String, String>{
+                                'Authorization': 'Bearer ${_token}'
+                              },
+                              params: <String, dynamic>{
+                                'user_id': _user_id,
+                                'video_1': _selectedDate.toString(),
+                              },
+                            ).then((dynamic value) async {
+                              log('testing post video');
+                              log(value.toString());
 
-                            await _getVideosList();
+                              await _getVideosList();
 
-                            setState(() {
-                              _selectedVideoIndex++;
+                              setState(() {
+                                _selectedVideoIndex++;
+                                loadVideo();
+                              });
                             });
-                          });
-                        } else if (_selectedVideoIndex == 1) {
-                          await fetchData(
-                            'api/video-kegel/post',
-                            method: FetchDataMethod.post,
-                            tokenLabel: TokenLabel.xa,
-                            extraHeader: <String, String>{
-                              'Authorization': 'Bearer ${_token}'
-                            },
-                            params: <String, dynamic>{
-                              'user_id': _user_id,
-                              'video_2': _selectedDate.toString(),
-                            },
-                          ).then((dynamic value) async {
-                            log('testing post video');
-                            log(value.toString());
+                          } else if (_selectedVideoIndex == 1) {
+                            await fetchData(
+                              'api/video-kegel/post',
+                              method: FetchDataMethod.post,
+                              tokenLabel: TokenLabel.xa,
+                              extraHeader: <String, String>{
+                                'Authorization': 'Bearer ${_token}'
+                              },
+                              params: <String, dynamic>{
+                                'user_id': _user_id,
+                                'video_2': _selectedDate.toString(),
+                              },
+                            ).then((dynamic value) async {
+                              log('testing post video');
+                              log(value.toString());
 
-                            await _getVideosList();
+                              await _getVideosList();
 
-                            setState(() {
-                              _selectedVideoIndex++;
+                              setState(() {
+                                _selectedVideoIndex++;
+                                loadVideo();
+                              });
                             });
-                          });
-                        } else if (_selectedVideoIndex == 2) {
-                          await fetchData(
-                            'api/video-kegel/post',
-                            method: FetchDataMethod.post,
-                            tokenLabel: TokenLabel.xa,
-                            extraHeader: <String, String>{
-                              'Authorization': 'Bearer ${_token}'
-                            },
-                            params: <String, dynamic>{
-                              'user_id': _user_id,
-                              'video_3': _selectedDate.toString(),
-                            },
-                          ).then((dynamic value) async {
-                            log('testing post video');
-                            log(value.toString());
-                            await _getVideosList();
+                          } else if (_selectedVideoIndex == 2) {
+                            await fetchData(
+                              'api/video-kegel/post',
+                              method: FetchDataMethod.post,
+                              tokenLabel: TokenLabel.xa,
+                              extraHeader: <String, String>{
+                                'Authorization': 'Bearer ${_token}'
+                              },
+                              params: <String, dynamic>{
+                                'user_id': _user_id,
+                                'video_3': _selectedDate.toString(),
+                              },
+                            ).then((dynamic value) async {
+                              log('testing post video');
+                              log(value.toString());
+                              await _getVideosList();
 
-                            setState(() {
-                              _selectedVideoIndex++;
+                              setState(() {
+                                _selectedVideoIndex++;
+                                loadVideo();
+                              });
                             });
-                          });
-                        } else if (_selectedVideoIndex == 3) {
-                          await fetchData(
-                            'api/video-kegel/post',
-                            method: FetchDataMethod.post,
-                            tokenLabel: TokenLabel.xa,
-                            extraHeader: <String, String>{
-                              'Authorization': 'Bearer ${_token}'
-                            },
-                            params: <String, dynamic>{
-                              'user_id': _user_id,
-                              'video_4': _selectedDate.toString(),
-                            },
-                          ).then((dynamic value) async {
-                            log('testing post video');
-                            log(value.toString());
+                          } else if (_selectedVideoIndex == 3) {
+                            await fetchData(
+                              'api/video-kegel/post',
+                              method: FetchDataMethod.post,
+                              tokenLabel: TokenLabel.xa,
+                              extraHeader: <String, String>{
+                                'Authorization': 'Bearer ${_token}'
+                              },
+                              params: <String, dynamic>{
+                                'user_id': _user_id,
+                                'video_4': _selectedDate.toString(),
+                              },
+                            ).then((dynamic value) async {
+                              log('testing post video');
+                              log(value.toString());
 
-                            await _getVideosList();
+                              await _getVideosList();
 
+                              setState(() {
+                                _selectedVideoIndex = 0;
+                              });
+                            });
+                          }
+                        } else {
+                          print(
+                              'select4ed video =====> ${_selectedVideoIndex}');
+                          if (_selectedVideoIndex == 3) {
+                            Navigator.pop(context);
                             setState(() {
                               _selectedVideoIndex = 0;
                             });
-                          });
+                          } else {
+                            setState(() {
+                              _selectedVideoIndex++;
+                              loadVideo();
+                            });
+                          }
                         }
-                      } else {
-                        print('select4ed video =====> ${_selectedVideoIndex}');
-                        if (_selectedVideoIndex == 3) {
-                          setState(() {
-                            _selectedVideoIndex = 0;
-                          });
-                        } else {
-                          setState(() {
-                            _selectedVideoIndex++;
-                          });
-                        }
-                      }
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.symmetric(vertical: 7.h),
-                      decoration: BoxDecoration(
-                        color: Config.primaryColor,
-                        borderRadius: BorderRadius.circular(16.r),
-                      ),
-                      child: Center(
-                        child: Text(
-                          _selectedVideoIndex == 3
-                              ? 'Edukasi Selesai'
-                              : 'Video Selanjutnya',
-                          style: Config.whiteTextStyle.copyWith(
-                            fontSize: 18.sp,
-                            fontWeight: Config.semiBold,
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(vertical: 7.h),
+                        decoration: BoxDecoration(
+                          color: Config.primaryColor,
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            _selectedVideoIndex == 3
+                                ? 'Edukasi Selesai'
+                                : 'Video Selanjutnya',
+                            style: Config.whiteTextStyle.copyWith(
+                              fontSize: 18.sp,
+                              fontWeight: Config.semiBold,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -419,9 +450,8 @@ class _EdukasiState extends State<Edukasi> {
             ),
             itemBuilder: (_, int i) {
               return ListVideoCard(
-                nomer: i + 1,
+                title: _listJudul[i],
                 subTitle: 'Panduan awal senam kegel',
-                onTap: () {},
               );
             },
           ),

@@ -7,9 +7,6 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "49.0.0"
-=======
     version: "50.0.0"
   _flutterfire_internals:
     dependency: transitive
@@ -18,18 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.9"
->>>>>>> f559091 (fix bug on monitoring)
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "5.1.0"
-=======
     version: "5.2.0"
->>>>>>> f559091 (fix bug on monitoring)
   analyzer_plugin:
     dependency: transitive
     description:
@@ -43,22 +35,14 @@ packages:
       name: android_intent_plus
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.1.2"
-=======
     version: "3.1.5"
->>>>>>> f559091 (fix bug on monitoring)
   archive:
     dependency: transitive
     description:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.3.1"
-=======
     version: "3.3.5"
->>>>>>> f559091 (fix bug on monitoring)
   args:
     dependency: transitive
     description:
@@ -93,11 +77,7 @@ packages:
       name: build_config
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.1.0"
-=======
     version: "1.1.1"
->>>>>>> f559091 (fix bug on monitoring)
   build_daemon:
     dependency: transitive
     description:
@@ -111,33 +91,21 @@ packages:
       name: build_resolvers
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.0.10"
-=======
     version: "2.1.0"
->>>>>>> f559091 (fix bug on monitoring)
   build_runner:
     dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.2.1"
-=======
     version: "2.3.2"
->>>>>>> f559091 (fix bug on monitoring)
   build_runner_core:
     dependency: transitive
     description:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "7.2.4"
-=======
     version: "7.2.7"
->>>>>>> f559091 (fix bug on monitoring)
   built_collection:
     dependency: transitive
     description:
@@ -151,22 +119,14 @@ packages:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "8.4.1"
-=======
     version: "8.4.2"
->>>>>>> f559091 (fix bug on monitoring)
   cached_network_image:
     dependency: "direct main"
     description:
       name: cached_network_image
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.2.2"
-=======
     version: "3.2.3"
->>>>>>> f559091 (fix bug on monitoring)
   cached_network_image_platform_interface:
     dependency: transitive
     description:
@@ -222,11 +182,7 @@ packages:
       name: chewie
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.3.5"
-=======
     version: "1.3.6"
->>>>>>> f559091 (fix bug on monitoring)
   cli_util:
     dependency: transitive
     description:
@@ -241,8 +197,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-<<<<<<< HEAD
-=======
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
@@ -257,7 +211,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
->>>>>>> f559091 (fix bug on monitoring)
   code_builder:
     dependency: transitive
     description:
@@ -285,11 +238,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.0.2"
-=======
     version: "3.1.1"
->>>>>>> f559091 (fix bug on monitoring)
   crypto:
     dependency: transitive
     description:
@@ -318,8 +267,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
-<<<<<<< HEAD
-=======
   dbus:
     dependency: transitive
     description:
@@ -327,29 +274,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.8"
->>>>>>> f559091 (fix bug on monitoring)
   drift:
     dependency: "direct main"
     description:
       name: drift
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.2.0"
-=======
     version: "2.3.0"
->>>>>>> f559091 (fix bug on monitoring)
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.2.0+1"
-=======
     version: "2.3.2"
->>>>>>> f559091 (fix bug on monitoring)
   drift_sqflite:
     dependency: "direct main"
     description:
@@ -391,64 +329,41 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.10.0"
-=======
     version: "4.1.5"
->>>>>>> f559091 (fix bug on monitoring)
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "6.9.0"
-=======
     version: "6.11.3"
->>>>>>> f559091 (fix bug on monitoring)
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "4.5.0"
-=======
     version: "5.1.3"
->>>>>>> f559091 (fix bug on monitoring)
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.23.0"
-=======
     version: "2.3.0"
->>>>>>> f559091 (fix bug on monitoring)
   firebase_core_platform_interface:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "4.5.1"
-=======
     version: "4.5.2"
->>>>>>> f559091 (fix bug on monitoring)
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.7.2"
-=======
     version: "2.0.1"
   firebase_messaging:
     dependency: "direct main"
@@ -471,7 +386,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.8"
->>>>>>> f559091 (fix bug on monitoring)
   fixnum:
     dependency: transitive
     description:
@@ -512,8 +426,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-<<<<<<< HEAD
-=======
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -535,7 +447,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.0"
->>>>>>> f559091 (fix bug on monitoring)
   flutter_localizations:
     dependency: "direct dev"
     description: flutter
@@ -547,22 +458,14 @@ packages:
       name: flutter_native_splash
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.2.10+1"
-=======
     version: "2.2.16"
->>>>>>> f559091 (fix bug on monitoring)
   flutter_screenutil:
     dependency: "direct main"
     description:
       name: flutter_screenutil
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "5.5.4"
-=======
     version: "5.6.0"
->>>>>>> f559091 (fix bug on monitoring)
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -579,20 +482,13 @@ packages:
       name: fluttertoast
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "8.0.9"
-=======
     version: "8.1.1"
->>>>>>> f559091 (fix bug on monitoring)
   frontend_server_client:
     dependency: transitive
     description:
       name: frontend_server_client
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.1.3"
-=======
     version: "3.2.0"
   get:
     dependency: "direct main"
@@ -601,18 +497,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.5"
->>>>>>> f559091 (fix bug on monitoring)
   glob:
     dependency: transitive
     description:
       name: glob
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.1.0"
-=======
     version: "2.1.1"
->>>>>>> f559091 (fix bug on monitoring)
   google_fonts:
     dependency: "direct main"
     description:
@@ -633,22 +524,14 @@ packages:
       name: google_sign_in_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "6.1.1"
-=======
     version: "6.1.4"
->>>>>>> f559091 (fix bug on monitoring)
   google_sign_in_ios:
     dependency: transitive
     description:
       name: google_sign_in_ios
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "5.5.0"
-=======
     version: "5.5.1"
->>>>>>> f559091 (fix bug on monitoring)
   google_sign_in_platform_interface:
     dependency: transitive
     description:
@@ -663,8 +546,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.2"
-<<<<<<< HEAD
-=======
   graphic:
     dependency: "direct main"
     description:
@@ -672,18 +553,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
->>>>>>> f559091 (fix bug on monitoring)
   graphs:
     dependency: transitive
     description:
       name: graphs
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.1.0"
-=======
     version: "2.2.0"
->>>>>>> f559091 (fix bug on monitoring)
   hex:
     dependency: transitive
     description:
@@ -697,11 +573,7 @@ packages:
       name: html
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.15.0"
-=======
     version: "0.15.1"
->>>>>>> f559091 (fix bug on monitoring)
   http:
     dependency: "direct main"
     description:
@@ -722,11 +594,7 @@ packages:
       name: http_parser
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "4.0.1"
-=======
     version: "4.0.2"
->>>>>>> f559091 (fix bug on monitoring)
   ieee754:
     dependency: transitive
     description:
@@ -740,11 +608,7 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.2.0"
-=======
     version: "3.2.2"
->>>>>>> f559091 (fix bug on monitoring)
   intl:
     dependency: transitive
     description:
@@ -800,11 +664,7 @@ packages:
       name: logging
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.0.2"
-=======
     version: "1.1.0"
->>>>>>> f559091 (fix bug on monitoring)
   matcher:
     dependency: transitive
     description:
@@ -832,11 +692,7 @@ packages:
       name: mime
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.0.2"
-=======
     version: "1.0.3"
->>>>>>> f559091 (fix bug on monitoring)
   nested:
     dependency: transitive
     description:
@@ -857,11 +713,7 @@ packages:
       name: omni_datetime_picker
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.1.2"
-=======
     version: "0.1.3"
->>>>>>> f559091 (fix bug on monitoring)
   package_config:
     dependency: transitive
     description:
@@ -876,8 +728,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
-<<<<<<< HEAD
-=======
   path_drawing:
     dependency: transitive
     description:
@@ -892,7 +742,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
->>>>>>> f559091 (fix bug on monitoring)
   path_provider:
     dependency: transitive
     description:
@@ -906,11 +755,7 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.0.20"
-=======
     version: "2.0.22"
->>>>>>> f559091 (fix bug on monitoring)
   path_provider_ios:
     dependency: transitive
     description:
@@ -938,11 +783,7 @@ packages:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.0.4"
-=======
     version: "2.0.5"
->>>>>>> f559091 (fix bug on monitoring)
   path_provider_windows:
     dependency: transitive
     description:
@@ -970,66 +811,42 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "10.1.0"
-=======
     version: "10.2.0"
->>>>>>> f559091 (fix bug on monitoring)
   permission_handler_android:
     dependency: transitive
     description:
       name: permission_handler_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "10.1.0"
-=======
     version: "10.2.0"
->>>>>>> f559091 (fix bug on monitoring)
   permission_handler_apple:
     dependency: transitive
     description:
       name: permission_handler_apple
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "9.0.6"
-=======
     version: "9.0.7"
->>>>>>> f559091 (fix bug on monitoring)
   permission_handler_platform_interface:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.8.0"
-=======
     version: "3.9.0"
->>>>>>> f559091 (fix bug on monitoring)
   permission_handler_windows:
     dependency: transitive
     description:
       name: permission_handler_windows
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.1.1"
-=======
     version: "0.1.2"
->>>>>>> f559091 (fix bug on monitoring)
   petitparser:
     dependency: transitive
     description:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "5.0.0"
-=======
     version: "5.1.0"
->>>>>>> f559091 (fix bug on monitoring)
   pin_code_text_field:
     dependency: "direct main"
     description:
@@ -1051,8 +868,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
-<<<<<<< HEAD
-=======
   pointycastle:
     dependency: transitive
     description:
@@ -1060,7 +875,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.6.2"
->>>>>>> f559091 (fix bug on monitoring)
   pool:
     dependency: transitive
     description:
@@ -1081,22 +895,14 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "6.0.3"
-=======
     version: "6.0.4"
->>>>>>> f559091 (fix bug on monitoring)
   pub_semver:
     dependency: transitive
     description:
       name: pub_semver
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.1.1"
-=======
     version: "2.1.3"
->>>>>>> f559091 (fix bug on monitoring)
   pubspec_parse:
     dependency: transitive
     description:
@@ -1124,11 +930,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.27.5"
-=======
     version: "0.27.7"
->>>>>>> f559091 (fix bug on monitoring)
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1142,11 +944,7 @@ packages:
       name: shared_preferences_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.0.13"
-=======
     version: "2.0.14"
->>>>>>> f559091 (fix bug on monitoring)
   shared_preferences_ios:
     dependency: transitive
     description:
@@ -1202,22 +1000,14 @@ packages:
       name: shelf_web_socket
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.0.2"
-=======
     version: "1.0.3"
->>>>>>> f559091 (fix bug on monitoring)
   sign_in_with_apple:
     dependency: "direct main"
     description:
       name: sign_in_with_apple
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "4.1.0"
-=======
     version: "4.2.0"
->>>>>>> f559091 (fix bug on monitoring)
   sign_in_with_apple_platform_interface:
     dependency: transitive
     description:
@@ -1257,44 +1047,28 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.1.0+1"
-=======
     version: "2.2.1"
->>>>>>> f559091 (fix bug on monitoring)
   sqflite_common:
     dependency: transitive
     description:
       name: sqflite_common
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.3.0"
-=======
     version: "2.4.0+2"
->>>>>>> f559091 (fix bug on monitoring)
   sqlite3:
     dependency: transitive
     description:
       name: sqlite3
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.9.0"
-=======
     version: "1.9.1"
->>>>>>> f559091 (fix bug on monitoring)
   sqlparser:
     dependency: transitive
     description:
       name: sqlparser
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.23.3"
-=======
     version: "0.24.0"
->>>>>>> f559091 (fix bug on monitoring)
   stack_trace:
     dependency: transitive
     description:
@@ -1308,11 +1082,7 @@ packages:
       name: stacked_firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.2.16"
-=======
     version: "0.2.18"
->>>>>>> f559091 (fix bug on monitoring)
   stream_channel:
     dependency: transitive
     description:
@@ -1326,11 +1096,7 @@ packages:
       name: stream_transform
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.0.0"
-=======
     version: "2.1.0"
->>>>>>> f559091 (fix bug on monitoring)
   string_scanner:
     dependency: transitive
     description:
@@ -1359,8 +1125,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
-<<<<<<< HEAD
-=======
   timezone:
     dependency: transitive
     description:
@@ -1368,7 +1132,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
->>>>>>> f559091 (fix bug on monitoring)
   timing:
     dependency: transitive
     description:
@@ -1403,22 +1166,14 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "6.1.6"
-=======
     version: "6.1.7"
->>>>>>> f559091 (fix bug on monitoring)
   url_launcher_android:
     dependency: transitive
     description:
       name: url_launcher_android
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "6.0.20"
-=======
     version: "6.0.22"
->>>>>>> f559091 (fix bug on monitoring)
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1467,11 +1222,7 @@ packages:
       name: uuid
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.0.6"
-=======
     version: "3.0.7"
->>>>>>> f559091 (fix bug on monitoring)
   vector_math:
     dependency: transitive
     description:
@@ -1492,11 +1243,7 @@ packages:
       name: video_player
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.4.7"
-=======
     version: "2.4.8"
->>>>>>> f559091 (fix bug on monitoring)
   video_player_android:
     dependency: transitive
     description:
@@ -1510,11 +1257,7 @@ packages:
       name: video_player_avfoundation
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "2.3.6"
-=======
     version: "2.3.7"
->>>>>>> f559091 (fix bug on monitoring)
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -1570,11 +1313,7 @@ packages:
       name: watcher
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "1.0.1"
-=======
     version: "1.0.2"
->>>>>>> f559091 (fix bug on monitoring)
   web_socket_channel:
     dependency: transitive
     description:
@@ -1582,8 +1321,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-<<<<<<< HEAD
-=======
   webview_flutter:
     dependency: "direct main"
     description:
@@ -1612,25 +1349,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.5"
->>>>>>> f559091 (fix bug on monitoring)
   win32:
     dependency: transitive
     description:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "3.0.0"
-  workmanager:
-    dependency: "direct main"
-    description:
-      name: workmanager
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
-=======
     version: "3.1.2"
->>>>>>> f559091 (fix bug on monitoring)
   xdg_directories:
     dependency: transitive
     description:

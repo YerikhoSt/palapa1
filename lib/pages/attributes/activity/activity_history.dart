@@ -18,12 +18,16 @@ class _ActivityHistoryState extends State<ActivityHistory> {
   String? _token;
   int? _user_id;
   bool _isLoading = false;
+  String _totalPagi = '';
+  String _totalSiang = '';
+  String _totalMalam = '';
   List<ActivityModel> _activityHistory = <ActivityModel>[];
-  List<Map<String, dynamic>> dataPie = <Map<String, dynamic>>[
-    // {'time': 'Sore', 'sales': 20.0},
-    // {'time': 'Siang', 'sales': 40.0},
-    // {'time': 'Malam', 'sales': 40.0},
+  List<Color> _colorPie = [
+    Colors.red,
+    Colors.blue,
+    Colors.green,
   ];
+  List<Map<String, dynamic>> dataPie = <Map<String, dynamic>>[];
   Future<void> _sharePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -46,18 +50,24 @@ class _ActivityHistoryState extends State<ActivityHistory> {
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then(
       (dynamic value) {
+        print('hasil ===> $value');
         setState(() {
           _isLoading = false;
         });
         List isiData = value['data'];
+
         var resultPie = isiData.map((e) {
+          print('ISI PERSENTASE ===> ${e['percentage']}');
           return {
-            'time': '${e['name']}',
+            'time': e['total'] == 0 ? ' ' : '${e['name']}',
             'sales': num.parse(e['percentage'].toString()),
           };
         }).toList();
         setState(() {
           dataPie = resultPie;
+          _totalPagi = isiData[0]['total'].toString();
+          _totalSiang = isiData[1]['total'].toString();
+          _totalMalam = isiData[2]['total'].toString();
         });
       },
     );
@@ -123,23 +133,12 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                 ),
           ),
         ),
-        body: Stack(
+        body: ListView(
+          shrinkWrap: true,
           children: <Widget>[
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: _activityHistory.length,
-              padding: EdgeInsets.fromLTRB(22.w, 200.h, 22.w, 50.h),
-              itemBuilder: (_, int i) {
-                return ActivityHistoryCard(
-                  activity: _activityHistory[i],
-                );
-              },
-            ),
             _isLoading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: Config.primaryColor,
-                    ),
+                ? CircularProgressIndicator(
+                    color: Config.primaryColor,
                   )
                 : SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -167,7 +166,7 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                           modifiers: [StackModifier()],
                           color: ColorAttr(
                             variable: 'time',
-                            values: Defaults.colors10,
+                            values: _colorPie,
                           ),
                           label: LabelAttr(
                             encoder: (Tuple tuple) => Label(
@@ -183,6 +182,47 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                       ),
                     ),
                   ),
+            SizedBox(height: 20.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text(
+                  'Pagi : ${_totalPagi}x',
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        fontSize: 15.sp,
+                        fontWeight: Config.bold,
+                      ),
+                ),
+                Text(
+                  'Siang : ${_totalSiang}x',
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        fontSize: 15.sp,
+                        fontWeight: Config.bold,
+                      ),
+                ),
+                Text(
+                  'Malam : ${_totalMalam}x',
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        fontSize: 15.sp,
+                        fontWeight: Config.bold,
+                      ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: _activityHistory.length,
+                padding: EdgeInsets.fromLTRB(22.w, 50.h, 22.w, 50.h),
+                itemBuilder: (_, int i) {
+                  return ActivityHistoryCard(
+                    activity: _activityHistory[i],
+                  );
+                },
+              ),
+            ),
           ],
         ));
   }
