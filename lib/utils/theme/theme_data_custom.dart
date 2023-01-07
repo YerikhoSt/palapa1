@@ -6,7 +6,7 @@ class ThemeDataCustom {
 
   static ThemeData dark = ThemeData(
     focusColor: Config.blackColor,
-    cardColor: Config.whiteColor,
+    cardColor: Config.blackColor,
     dividerColor: Colors.white,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,

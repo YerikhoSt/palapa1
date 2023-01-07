@@ -18,7 +18,7 @@ class JadwalKegiatanFollowUp extends StatefulWidget {
 class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
   String? _token;
   int? _user_id;
-
+  bool _isLoading = false;
   Future<void> _sharePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -33,6 +33,9 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
 
   Future<void> _getDataFollowUp() async {
     await _sharePrefs();
+    setState(() {
+      _isLoading = true;
+    });
     fetchData(
       'api/follow-up/view/${_user_id}',
       method: FetchDataMethod.get,
@@ -49,10 +52,15 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
           udi_6: i['udi_6'].toString(),
           iiq_7: i['iiq_7'].toString(),
         );
-        setState(() {
-          _listJadwal.add(val);
-        });
+        if (mounted) {
+          setState(() {
+            _listJadwal.add(val);
+          });
+        }
       }
+      setState(() {
+        _isLoading = false;
+      });
       print(value);
     });
   }
@@ -69,6 +77,17 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
           'Jadwal',
@@ -78,49 +97,55 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
               ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: <Widget>[
-          ListView.builder(
-            itemCount: _listJadwal.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (_, int i) {
-              return JadwalKegiatanFollowUpCard(
-                jadwal: _listJadwal[i],
-              );
-            },
-          ),
-          SizedBox(height: 20.h),
-          InkWell(
-            onTap: () => Navigator.of(context).push(
-              AniRoute(
-                child: const AddJadwalKegiatan(),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Config.primaryColor,
               ),
-            ),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(vertical: 12.h),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Config.primaryColor,
+            )
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: <Widget>[
+                ListView.builder(
+                  itemCount: _listJadwal.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (_, int i) {
+                    return JadwalKegiatanFollowUpCard(
+                      jadwal: _listJadwal[i],
+                    );
+                  },
                 ),
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Center(
-                child: Text(
-                  'Masukan Kegiatan Follow Up',
-                  style: Config.primaryTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: Config.semiBold,
+                SizedBox(height: 20.h),
+                InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    AniRoute(
+                      child: const AddJadwalKegiatan(),
+                    ),
+                  ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: Config.primaryColor,
+                      ),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Masukan Kegiatan Follow Up',
+                        style: Config.primaryTextStyle.copyWith(
+                          fontSize: 18,
+                          fontWeight: Config.semiBold,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 class ActivityModel {
-  final String absen_pagi;
-  final String absen_siang;
-  final String absen_malem;
+  String? absen_pagi;
+  String? absen_siang;
+  String? absen_malem;
   final String hari_aktivitas;
   final String tanggal_aktivitas;
 

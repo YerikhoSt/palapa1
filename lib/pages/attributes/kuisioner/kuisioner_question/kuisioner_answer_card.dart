@@ -49,8 +49,8 @@ class KuisionerAnswerCard extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: Config.medium,
                     color: groupValue == radioValue
-                        ? Config.whiteColor
-                        : Config.blackColor,
+                        ? Theme.of(context).cardColor
+                        : Theme.of(context).dividerColor,
                   ),
             ),
           ],

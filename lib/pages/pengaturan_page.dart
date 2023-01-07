@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:palapa1/controller/notification_controller.dart';
 import 'package:palapa1/pages/home.dart';
 import 'package:palapa1/services/server/server.dart';
+import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/config.dart';
 import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:palapa1/utils/theme/theme_mode.dart';
@@ -16,6 +19,18 @@ class PengaturanPage extends StatefulWidget {
 
 class _PengaturanPageState extends State<PengaturanPage> {
   bool _changeLang = false;
+  bool _notif = false;
+  bool _vibra = false;
+
+  Future<void> _sharePrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        _notif = prefs.getBool('user_notif')!;
+        _vibra = prefs.getBool('user_vibra')!;
+      });
+    }
+  }
 
   void _changeLanguage(Locale locale) {
     setLocale(locale.toString());
@@ -23,13 +38,22 @@ class _PengaturanPageState extends State<PengaturanPage> {
   }
 
   @override
+  void initState() {
+    _sharePrefs();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var notifController = Get.put(NotificationController());
+    _sharePrefs();
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
+        automaticallyImplyLeading: false,
         elevation: 0,
-        centerTitle: true,
         title: Text(
           'Pengaturan',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -95,7 +119,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
               _changeLang
                   ? Icons.keyboard_arrow_up_outlined
                   : Icons.keyboard_arrow_down_outlined,
-              color: Config.blackColor,
+              color: Theme.of(context).iconTheme.color,
               size: 30,
             ),
           ),
@@ -215,16 +239,18 @@ class _PengaturanPageState extends State<PengaturanPage> {
                   ),
             ),
             trailing: Switch(
-              thumbColor: Theme.of(context).brightness == Brightness.dark
-                  ? MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor)
-                  : null,
-              trackColor: Theme.of(context).brightness == Brightness.dark
-                  ? MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor.withOpacity(0.5))
-                  : null,
-              value: Theme.of(context).brightness == Brightness.dark,
-              onChanged: (bool value) async {},
+              value: _vibra,
+              onChanged: (bool value) async {
+                setState(() {
+                  changePrefsSettings(
+                    <String, dynamic>{
+                      'notif': _notif,
+                      'vibra': value,
+                    },
+                  );
+                  print('isi vibra $_vibra');
+                });
+              },
               activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.3),
               activeColor: Theme.of(context).primaryColor,
             ),
@@ -245,16 +271,18 @@ class _PengaturanPageState extends State<PengaturanPage> {
                   ),
             ),
             trailing: Switch(
-              thumbColor: Theme.of(context).brightness == Brightness.dark
-                  ? MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor)
-                  : null,
-              trackColor: Theme.of(context).brightness == Brightness.dark
-                  ? MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor.withOpacity(0.5))
-                  : null,
-              value: Theme.of(context).brightness == Brightness.dark,
-              onChanged: (bool value) async {},
+              value: _notif,
+              onChanged: (bool value) async {
+                setState(() {
+                  changePrefsSettings(
+                    <String, dynamic>{
+                      'notif': value,
+                      'vibra': _vibra,
+                    },
+                  );
+                  print('isinotif $_notif');
+                });
+              },
               activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.3),
               activeColor: Theme.of(context).primaryColor,
             ),

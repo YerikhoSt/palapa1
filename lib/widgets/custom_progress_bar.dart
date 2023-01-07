@@ -12,6 +12,8 @@ class CustomProgressBar extends StatefulWidget {
 class _CustomProgressBarState extends State<CustomProgressBar> {
   double progressDinamis() {
     switch (widget.progress) {
+      case 0:
+        return MediaQuery.of(context).size.width;
       case 25:
         return 4;
       case 50:

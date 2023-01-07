@@ -1,32 +1,51 @@
 {
   "project_info": {
+<<<<<<< HEAD
     "project_number": "989953744082",
     "project_id": "moofoods-ef031",
     "storage_bucket": "moofoods-ef031.appspot.com"
+=======
+    "project_number": "185564898820",
+    "project_id": "palapa-48b85",
+    "storage_bucket": "palapa-48b85.appspot.com"
+>>>>>>> f559091 (fix bug on monitoring)
   },
   "client": [
     {
       "client_info": {
+<<<<<<< HEAD
         "mobilesdk_app_id": "1:989953744082:android:6a97191901dffd88df210b",
+=======
+        "mobilesdk_app_id": "1:185564898820:android:e50ebc5f531069ff2e7751",
+>>>>>>> f559091 (fix bug on monitoring)
         "android_client_info": {
           "package_name": "com.example.palapa1"
         }
       },
       "oauth_client": [
         {
+<<<<<<< HEAD
           "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+=======
+          "client_id": "185564898820-bnc145hntedh5gim7aqg8lfit3jfbod4.apps.googleusercontent.com",
+>>>>>>> f559091 (fix bug on monitoring)
           "client_type": 3
         }
       ],
       "api_key": [
         {
+<<<<<<< HEAD
           "current_key": "AIzaSyBXo3iFVgeIhypXfS8qf_x1j7KuscUsPSo"
+=======
+          "current_key": "AIzaSyBisiBdNqo84onNkAvF7aMMKrAfUAVwXLk"
+>>>>>>> f559091 (fix bug on monitoring)
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
+<<<<<<< HEAD
               "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
               "client_type": 3
             }
@@ -102,6 +121,9 @@
           "other_platform_oauth_client": [
             {
               "client_id": "989953744082-dokvgsiei6c8den7f0uqs9fkr7utd66h.apps.googleusercontent.com",
+=======
+              "client_id": "185564898820-bnc145hntedh5gim7aqg8lfit3jfbod4.apps.googleusercontent.com",
+>>>>>>> f559091 (fix bug on monitoring)
               "client_type": 3
             }
           ]

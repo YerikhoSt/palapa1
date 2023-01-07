@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/main_container.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
 
 class KuisionerDone extends StatelessWidget {
-  const KuisionerDone({super.key});
+  final String skor;
+  const KuisionerDone({super.key, required this.skor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
+      padding: EdgeInsets.symmetric(horizontal: 20.sp),
       decoration: BoxDecoration(color: Theme.of(context).cardColor),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -27,6 +30,16 @@ class KuisionerDone extends StatelessWidget {
               fontWeight: Config.bold,
             ),
           ),
+          SizedBox(height: 5.w),
+          Text(
+            'Skor Kamu : $skor ',
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 18,
+                  fontWeight: Config.bold,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 15.w),
           Text(
             'Kamu sudah menyelesaikan kuisioner kondisi gejala awal',
             style: Theme.of(context).textTheme.bodyText1!.copyWith(

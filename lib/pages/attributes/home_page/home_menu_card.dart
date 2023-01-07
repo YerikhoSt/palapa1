@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/utils/config.dart';
 
 class HomeMenuCard extends StatelessWidget {
@@ -26,6 +27,7 @@ class HomeMenuCard extends StatelessWidget {
           color: isDisable ? Colors.grey : Config.primaryColor,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
               icon,
@@ -36,9 +38,10 @@ class HomeMenuCard extends StatelessWidget {
             Text(
               text,
               style: Config.whiteTextStyle.copyWith(
-                fontSize: 18,
+                fontSize: 16.sp,
                 fontWeight: Config.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

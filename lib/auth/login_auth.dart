@@ -18,6 +18,7 @@ Future<void> doLoginToServer(BuildContext context, String username,
       pass: password,
     ).then(
       (dynamic value) async {
+        print(value);
         progress(false);
         if (value != null) {
           if (value['status'] != 200) {
@@ -26,7 +27,7 @@ Future<void> doLoginToServer(BuildContext context, String username,
                 duration: const Duration(milliseconds: 500),
                 backgroundColor: Colors.red.shade400,
                 content: const Text(
-                  'Password Anda Salah',
+                  'username atau password Anda Salah',
                   textAlign: TextAlign.center,
                 ),
               ),

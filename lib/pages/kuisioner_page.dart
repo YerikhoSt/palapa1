@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/attributes/kuisioner/kuisioner_card.dart';
 import 'package:palapa1/pages/attributes/kuisioner/kuisioner_question/kuisioner_question.dart';
 import 'package:palapa1/pages/jadwal_kegiatan_follow_up.dart';
@@ -65,7 +66,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
           ),
         ),
         title: Text(
-          'Kuisioner',
+          'Penilaian Kondisi',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
                 fontWeight: Config.bold,
@@ -75,10 +76,19 @@ class _KuisionerPageState extends State<KuisionerPage> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: <Widget>[
+          Text(
+            'Hasil Penilaian Kondisi Hanya Akan Direkam Selama 1 Bulan Sekali',
+            style: Config.blackTextStyle.copyWith(
+              fontSize: 16.sp,
+              fontWeight: Config.semiBold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 20.w),
           Image.asset(
-            'assets/images/kuisioner.jpg',
-            width: 200,
-            height: 200,
+            'assets/images/penilaian_kondisi.png',
+            width: 180.w,
+            height: 150.h,
           ),
           const SizedBox(
             height: 50,
@@ -87,9 +97,9 @@ class _KuisionerPageState extends State<KuisionerPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Pilih Kuisioner',
+                'Pilih Penilaian Kondisi',
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: Config.bold,
                     ),
               ),
@@ -97,7 +107,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
                 color: Config.primaryColor,
                 thickness: 2,
                 height: 10,
-                endIndent: 200,
+                endIndent: 100,
               ),
             ],
           ),
@@ -125,7 +135,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
           Divider(
             color: Config.blackColor.withOpacity(0.5),
             thickness: 1,
-            height: 40,
+            height: 20.h,
           ),
           InkWell(
             onTap: () => Navigator.of(context).push(
@@ -135,8 +145,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
             ),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.only(top: 20),
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: EdgeInsets.symmetric(vertical: 10.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
                 color: Config.primaryColor,
@@ -146,14 +155,14 @@ class _KuisionerPageState extends State<KuisionerPage> {
                   Text(
                     'Jadwal Kegiatan',
                     style: Config.whiteTextStyle.copyWith(
-                      fontSize: 16,
+                      fontSize: 14.sp,
                       fontWeight: Config.bold,
                     ),
                   ),
                   Text(
                     'Follow - Up',
                     style: Config.whiteTextStyle.copyWith(
-                      fontSize: 16,
+                      fontSize: 14.sp,
                       fontWeight: Config.bold,
                     ),
                   ),

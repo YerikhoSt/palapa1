@@ -50,6 +50,17 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).cardColor,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
         title: Text(
           'Tambahkan Kegiatan Follow Up',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
@@ -101,7 +112,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                     if (value != null) {
                       setState(() {
                         _controllerTanggal.text =
-                            DateFormat('y-MM-d').format(value);
+                            DateFormat('y-MM-dd').format(value);
                       });
                     }
                   });
@@ -165,7 +176,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                       width: 2,
                     ),
                   ),
-                  hintText: 'Enter ynilai perineometri kamu',
+                  hintText: 'Enter nilai perineometri kamu',
                   hintStyle: Theme.of(context).textTheme.bodyText1,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -253,28 +264,55 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
           SizedBox(height: 30.h),
           InkWell(
             onTap: () async {
-              await fetchData(
-                'api/follow-up/post',
-                method: FetchDataMethod.post,
-                tokenLabel: TokenLabel.xa,
-                extraHeader: <String, String>{
-                  'Authorization': 'Bearer ${_token}'
-                },
-                params: <String, dynamic>{
-                  'user_id': _user_id,
-                  'tanggal_follow_up': _controllerTanggal.text,
-                  'perineometri': _controllerPerineometri.text,
-                  'pad_test': _controllerPadTest.text,
-                },
-              ).then((dynamic value) async {
-                print(value);
-
-                await Navigator.pushAndRemoveUntil(
-                  context,
-                  AniRoute(child: const JadwalKegiatanFollowUp()),
-                  ModalRoute.withName('/home'),
+              if (_controllerTanggal.text.isNotEmpty &&
+                  _controllerPerineometri.text.isNotEmpty &&
+                  _controllerPadTest.text.isNotEmpty) {
+                await fetchData(
+                  'api/follow-up/post',
+                  method: FetchDataMethod.post,
+                  tokenLabel: TokenLabel.xa,
+                  extraHeader: <String, String>{
+                    'Authorization': 'Bearer ${_token}'
+                  },
+                  params: <String, dynamic>{
+                    'user_id': _user_id,
+                    'tanggal_follow_up': _controllerTanggal.text,
+                    'perineometri': _controllerPerineometri.text,
+                    'pad_test': _controllerPadTest.text,
+                  },
+                ).then((dynamic value) async {
+                  print(value);
+                  if (value['status'] == 200) {
+                    await Navigator.pushAndRemoveUntil(
+                      context,
+                      AniRoute(child: const JadwalKegiatanFollowUp()),
+                      ModalRoute.withName('/home'),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        duration: const Duration(milliseconds: 500),
+                        backgroundColor: Colors.red.shade400,
+                        content: const Text(
+                          'Belum saatnya memasukan hasil follow up',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  }
+                });
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    duration: const Duration(milliseconds: 500),
+                    backgroundColor: Colors.red.shade400,
+                    content: const Text(
+                      'Semua Data Wajib Di Isi',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 );
-              });
+              }
             },
             child: Container(
               width: MediaQuery.of(context).size.width,

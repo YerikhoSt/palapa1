@@ -159,7 +159,7 @@ class _LoginBodyState extends State<LoginBody> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'Welcome To Cherry',
+                    'Welcome To Palapa',
                     style: Config.primaryTextStyle.copyWith(
                       fontSize: 22,
                       fontWeight: Config.bold,
@@ -179,9 +179,9 @@ class _LoginBodyState extends State<LoginBody> {
               height: 70,
             ),
             Image.asset(
-              'assets/images/login_image.png',
-              width: 120,
-              height: 200,
+              'assets/images/login.png',
+              width: 120.w,
+              height: 200.w,
             ),
             const SizedBox(
               height: 50,
@@ -241,6 +241,7 @@ class _LoginBodyState extends State<LoginBody> {
               children: <Widget>[
                 TextField(
                   controller: _controllerPassword,
+                  obscureText: _obscureText,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -265,21 +266,22 @@ class _LoginBodyState extends State<LoginBody> {
                           ? Config.primaryColor
                           : Theme.of(context).iconTheme.color,
                     ),
-                    suffixIcon: _obscureText == true
-                        ? Icon(
-                            Icons.visibility_outlined,
-                            size: 20,
-                            color: _passwordIsWrong == true
-                                ? Config.alertColor
-                                : Theme.of(context).iconTheme.color,
-                          )
-                        : Icon(
-                            Icons.visibility_off_outlined,
-                            size: 20,
-                            color: _passwordIsWrong == true
-                                ? Config.alertColor
-                                : Theme.of(context).iconTheme.color,
-                          ),
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                      child: Icon(
+                        _obscureText == true
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        size: 20,
+                        color: _passwordIsWrong == true
+                            ? Config.alertColor
+                            : Theme.of(context).iconTheme.color,
+                      ),
+                    ),
                   ),
                 ),
                 Row(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,8 +31,9 @@ class _EdukasiState extends State<Edukasi> {
     'assets/images/palapa.mp4',
   ];
   int _selectedVideoIndex = 0;
+  bool _isCompleted = false;
   int _progressVideoIndex = 0;
-
+  List _progressVideo = [];
   String? _token;
   int? _user_id;
   Future<void> _sharePrefs() async {
@@ -39,7 +42,7 @@ class _EdukasiState extends State<Edukasi> {
       _token = prefs.getString('token');
       _user_id = prefs.getInt('user_id');
     });
-    print(_user_id);
+    print('isi user id ========> $_user_id');
     print(_token);
   }
 
@@ -55,51 +58,102 @@ class _EdukasiState extends State<Edukasi> {
     }
   }
 
-  int dinamisProgress() {
+  dinamisProgress() {
     switch (_progressVideoIndex) {
       case 0:
-        return 25;
+        return 0;
       case 1:
-        return 50;
+        return 25;
       case 2:
-        return 75;
+        return 50;
       case 3:
+        return 75;
+      case 4:
         return 100;
       default:
         return 0;
     }
   }
 
-  // Future<void> _getVideosList() async {
-  //   await _sharePrefs();
-  //   await fetchData(
-  //     'api/video-kegel/list',
-  //     method: FetchDataMethod.get,
-  //     tokenLabel: TokenLabel.xa,
-  //     extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
-  //   ).then((dynamic value) async {
-  //     print('response setting');
-  //     print(value);
-  //     setState(() {
-  //       _listVideo = <String>[
-  //         value['data']['link_video_1'],
-  //         value['data']['link_video_2'],
-  //         value['data']['link_video_3'],
-  //         value['data']['link_video_4'],
-  //       ];
-  //     });
-  //   });
-  //   loadVideo();
-  // }
+  Future<void> _getProgressVideo() async {
+    await _sharePrefs();
+    setState(() {
+      _isCompleted = true;
+    });
+    await fetchData(
+      'api/video-kegel/view/$_user_id',
+      extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
+    ).then(
+      (dynamic value) {
+        setState(() {
+          _isCompleted = false;
+        });
+        print('get progress $value');
+
+        setState(() {
+          _progressVideo = <String>[
+            value['data']['video_1'].toString(),
+            value['data']['video_2'].toString(),
+            value['data']['video_3'].toString(),
+            value['data']['video_4'].toString(),
+          ];
+        });
+      },
+    );
+  }
+
+  Future<void> _getVideosList() async {
+    await _sharePrefs();
+    await _getProgressVideo();
+    if (_progressVideo[0] != 'null') {
+      setState(() {
+        _progressVideoIndex = 1;
+      });
+      if (_progressVideo[1] != 'null') {
+        setState(() {
+          _progressVideoIndex = 2;
+        });
+        if (_progressVideo[2] != 'null') {
+          setState(() {
+            _progressVideoIndex = 3;
+          });
+          if (_progressVideo[3] != 'null') {
+            setState(() {
+              _progressVideoIndex = 4;
+            });
+          }
+        }
+      }
+    }
+
+    await fetchData(
+      'api/video-kegel/list',
+      method: FetchDataMethod.get,
+      tokenLabel: TokenLabel.xa,
+      extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
+    ).then((dynamic value) async {
+      print('response setting');
+      print(value);
+      // setState(() {
+      //   _listVideo = <String>[
+      //     value['data']['link_video_1'],
+      //     value['data']['link_video_2'],
+      //     value['data']['link_video_3'],
+      //     value['data']['link_video_4'],
+      //   ];
+      // });
+    });
+    loadVideo();
+  }
 
   Future<void> loadVideo() async {
     _controllerVideo =
         VideoPlayerController.asset(_listVideo[_selectedVideoIndex]);
-    await _controllerVideo!.initialize().then((void value) {
-      setState(() {});
-    });
+    await _controllerVideo!.initialize().then((void value) {});
     _controllerVideo!.addListener(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     _chewieController = ChewieController(
       videoPlayerController: _controllerVideo!,
@@ -117,10 +171,14 @@ class _EdukasiState extends State<Edukasi> {
   @override
   void initState() {
     DateFormat('y-MM-d h : mm : 0').format(_selectedDate);
+
     _sharePrefs();
     loadVideo();
-    // _getVideosList();
-    _controllerVideo!.addListener(checkVideo);
+    _getVideosList();
+    print('index progress $_progressVideoIndex');
+    if (_controllerVideo != null) {
+      _controllerVideo!.addListener(checkVideo);
+    }
     super.initState();
   }
 
@@ -137,7 +195,17 @@ class _EdukasiState extends State<Edukasi> {
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
         elevation: 0,
-        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
           'Edukasi Senam Kegel',
@@ -196,9 +264,9 @@ class _EdukasiState extends State<Edukasi> {
                       : false,
                   child: InkWell(
                     onTap: () async {
-                      if (_controllerVideo!.value.position ==
-                          _controllerVideo!.value.duration) {
-                        if (_progressVideoIndex == 0) {
+                      if (_progressVideo[3] == 'null') {
+                        if (_selectedVideoIndex == 0) {
+                          log('testing post video');
                           await fetchData(
                             'api/video-kegel/post',
                             method: FetchDataMethod.post,
@@ -210,12 +278,17 @@ class _EdukasiState extends State<Edukasi> {
                               'user_id': _user_id,
                               'video_1': _selectedDate.toString(),
                             },
-                          ).then((dynamic value) {
-                            print('testing post video');
-                            print(value);
+                          ).then((dynamic value) async {
+                            log('testing post video');
+                            log(value.toString());
+
+                            await _getVideosList();
+
+                            setState(() {
+                              _selectedVideoIndex++;
+                            });
                           });
-                        }
-                        if (_progressVideoIndex == 1) {
+                        } else if (_selectedVideoIndex == 1) {
                           await fetchData(
                             'api/video-kegel/post',
                             method: FetchDataMethod.post,
@@ -227,12 +300,17 @@ class _EdukasiState extends State<Edukasi> {
                               'user_id': _user_id,
                               'video_2': _selectedDate.toString(),
                             },
-                          ).then((dynamic value) {
-                            print('testing post video');
-                            print(value);
+                          ).then((dynamic value) async {
+                            log('testing post video');
+                            log(value.toString());
+
+                            await _getVideosList();
+
+                            setState(() {
+                              _selectedVideoIndex++;
+                            });
                           });
-                        }
-                        if (_progressVideoIndex == 2) {
+                        } else if (_selectedVideoIndex == 2) {
                           await fetchData(
                             'api/video-kegel/post',
                             method: FetchDataMethod.post,
@@ -244,12 +322,16 @@ class _EdukasiState extends State<Edukasi> {
                               'user_id': _user_id,
                               'video_3': _selectedDate.toString(),
                             },
-                          ).then((dynamic value) {
-                            print('testing post video');
-                            print(value);
+                          ).then((dynamic value) async {
+                            log('testing post video');
+                            log(value.toString());
+                            await _getVideosList();
+
+                            setState(() {
+                              _selectedVideoIndex++;
+                            });
                           });
-                        }
-                        if (_progressVideoIndex == 3) {
+                        } else if (_selectedVideoIndex == 3) {
                           await fetchData(
                             'api/video-kegel/post',
                             method: FetchDataMethod.post,
@@ -261,18 +343,26 @@ class _EdukasiState extends State<Edukasi> {
                               'user_id': _user_id,
                               'video_4': _selectedDate.toString(),
                             },
-                          ).then((dynamic value) {
-                            print('testing post video');
-                            print(value);
-                            _controllerVideo!.play();
+                          ).then((dynamic value) async {
+                            log('testing post video');
+                            log(value.toString());
+
+                            await _getVideosList();
+
+                            setState(() {
+                              _selectedVideoIndex = 0;
+                            });
                           });
                         }
-                        if (_selectedVideoIndex < 3) {
-                          _controllerVideo!.play();
-
+                      } else {
+                        print('select4ed video =====> ${_selectedVideoIndex}');
+                        if (_selectedVideoIndex == 3) {
+                          setState(() {
+                            _selectedVideoIndex = 0;
+                          });
+                        } else {
                           setState(() {
                             _selectedVideoIndex++;
-                            _progressVideoIndex++;
                           });
                         }
                       }
@@ -286,9 +376,9 @@ class _EdukasiState extends State<Edukasi> {
                       ),
                       child: Center(
                         child: Text(
-                          _progressVideoIndex == 3
+                          _selectedVideoIndex == 3
                               ? 'Edukasi Selesai'
-                              : 'Next Video',
+                              : 'Video Selanjutnya',
                           style: Config.whiteTextStyle.copyWith(
                             fontSize: 18.sp,
                             fontWeight: Config.semiBold,
@@ -301,13 +391,28 @@ class _EdukasiState extends State<Edukasi> {
               ],
             ),
           ),
-          CustomProgressBar(progress: dinamisProgress()),
+          _isCompleted
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15.w),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Config.primaryColor,
+                    ),
+                  ),
+                )
+              : Visibility(
+                  visible: _progressVideoIndex != 4,
+                  child: CustomProgressBar(
+                    progress: dinamisProgress(),
+                  ),
+                ),
+          SizedBox(height: 20.w),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: _listVideo.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 240,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: 220.w,
               mainAxisSpacing: 10,
               crossAxisSpacing: 16,
               crossAxisCount: 2,
@@ -315,14 +420,8 @@ class _EdukasiState extends State<Edukasi> {
             itemBuilder: (_, int i) {
               return ListVideoCard(
                 nomer: i + 1,
-                subTitle: 'Panduan awal pemanasan senam kegel',
-                onTap: () {
-                  setState(() {
-                    _selectedVideoIndex = i;
-                    print('halo');
-                    print(_selectedVideoIndex);
-                  });
-                },
+                subTitle: 'Panduan awal senam kegel',
+                onTap: () {},
               );
             },
           ),

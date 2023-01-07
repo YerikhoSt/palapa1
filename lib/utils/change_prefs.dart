@@ -70,3 +70,19 @@ Future<Map<String, dynamic>> getPrefsProfileForm() async {
     'user_provinsi': prefs.getString('user_provinsi') ?? '',
   };
 }
+
+Future<void> changePrefsSettings(Map<String, dynamic> userMap) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('user_notif',
+      userMap['notif'] != null ? userMap['notif'] as bool : false);
+  await prefs.setBool('user_vibra',
+      userMap['vibra'] != null ? userMap['vibra'] as bool : false);
+}
+
+Future<Map<String, dynamic>> getPrefsSettings() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return <String, dynamic>{
+    'user_notif': prefs.getBool('user_notif') ?? false,
+    'user_vibra': prefs.getBool('user_vibra') ?? false,
+  };
+}

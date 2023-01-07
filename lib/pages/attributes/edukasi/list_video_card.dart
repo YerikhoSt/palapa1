@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/utils/config.dart';
 
 class ListVideoCard extends StatelessWidget {
@@ -42,7 +43,7 @@ class ListVideoCard extends StatelessWidget {
                   Text(
                     'Senam Kegel - ${nomer}',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          fontSize: 17,
+                          fontSize: 13.sp,
                           fontWeight: Config.bold,
                         ),
                   ),

@@ -5,6 +5,7 @@ import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:intl/intl.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KuisionerQuestion extends StatefulWidget {
@@ -21,6 +22,7 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
   bool _isAdded = false;
   String? _token;
   int? _user_id;
+  bool isLoading = false;
 
   Future<void> _sharePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,13 +38,13 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
     switch (widget.type) {
       case 1:
         return ListView(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+          padding: EdgeInsets.fromLTRB(20.w, 25.w, 20.w, 130.w),
           children: <Widget>[
             Column(
               children: <Widget>[
                 Text(
                   'Kondisi Gejala Awal',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         fontSize: 20,
                         fontWeight: Config.bold,
                       ),
@@ -63,14 +65,14 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
                 Text(
                   'Pertanyaan berikut berhubungan dengan inkontinensia urin',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: Config.regular,
                       ),
                 ),
                 Text(
                   'Apakah kencing yang keluar mengganggu:',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: Config.bold,
                       ),
                 ),
@@ -95,6 +97,7 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: _binaryAnswer.length,
                     padding: const EdgeInsets.only(top: 15),
                     itemBuilder: (_, int i) {
@@ -128,21 +131,26 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
         );
       case 2:
         return ListView(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+          padding: EdgeInsets.fromLTRB(
+            20.w,
+            25.w,
+            20.w,
+            135.w,
+          ),
           children: <Widget>[
             Column(
               children: <Widget>[
                 Text(
                   'Kualitas Hidup',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 20,
+                        fontSize: 20.sp,
                         fontWeight: Config.bold,
                       ),
                 ),
                 Text(
                   'IIQ - 7',
                   style: Config.primaryTextStyle.copyWith(
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: Config.semiBold,
                   ),
                 ),
@@ -155,14 +163,14 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
                 Text(
                   'Distress Urinary',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: Config.regular,
                       ),
                 ),
                 Text(
                   'Apakah anda mengalami, dan jika ya seberapa parah anda terganggu dengan :',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: Config.bold,
                       ),
                 ),
@@ -188,6 +196,7 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: _binaryAnswer.length,
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.only(top: 15),
                     itemBuilder: (_, int i) {
                       return KuisionerAnswerCard(
@@ -257,7 +266,11 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
     print('testing');
     print(_selectedDate);
     await _sharePrefs();
+
     if (widget.type == 1) {
+      setState(() {
+        isLoading = true;
+      });
       fetchData(
         'api/kuesioner-udi-6/post',
         method: FetchDataMethod.post,
@@ -275,11 +288,37 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
         },
       ).then(
         (dynamic value) {
+          setState(() {
+            isLoading = false;
+          });
           print('response post');
           print(value);
+          if (value['status'] == 200) {
+            Navigator.of(context).push(
+              AniRoute(
+                child: KuisionerDone(
+                  skor: value['data']['total_skor_udi_6'].toString(),
+                ),
+              ),
+            );
+          } else if (value['status'] == 400) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: 500),
+                backgroundColor: Colors.red.shade400,
+                content: const Text(
+                  'belom waktunya untuk mengisi kuisioner lagi',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
         },
       );
     } else {
+      setState(() {
+        isLoading = true;
+      });
       fetchData(
         'api/kuesioner-iiq-7/post',
         method: FetchDataMethod.post,
@@ -298,8 +337,31 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
         },
       ).then(
         (dynamic value) {
+          setState(() {
+            isLoading = false;
+          });
           print('response post');
           print(value);
+          if (value['status'] == 200) {
+            Navigator.of(context).push(
+              AniRoute(
+                child: KuisionerDone(
+                  skor: value['data']['total_skor'].toString(),
+                ),
+              ),
+            );
+          } else if (value['status'] == 400) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(milliseconds: 500),
+                backgroundColor: Colors.red.shade400,
+                content: const Text(
+                  'belom waktunya untuk mengisi kuisioner lagi',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
         },
       );
     }
@@ -339,72 +401,118 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
         ),
       ),
       body: dinamisQuestion(),
-      bottomSheet: InkWell(
-        onTap: () {
-          if (widget.type == 1) {
-            if (_questionIndex < 5) {
-              setState(() {
-                _questionIndex++;
-                _isAnswer.add(groupValue);
-              });
-            } else {
-              _isAnswer.add(groupValue);
-              print(_isAnswer);
-
-              _postResult().then(
-                (value) => Navigator.of(context).push(
-                  AniRoute(
-                    child: const KuisionerDone(),
-                  ),
+      bottomSheet: Container(
+        color: Config.whiteColor,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            InkWell(
+              onTap: () {
+                if (_questionIndex != 0) {
+                  if (widget.type == 1) {
+                    if (_questionIndex < 5) {
+                      setState(() {
+                        _questionIndex--;
+                        _isAnswer.remove(groupValue);
+                      });
+                    }
+                  } else {
+                    if (_questionIndex < 6) {
+                      setState(() {
+                        _questionIndex--;
+                        _isAnswer.remove(groupValue);
+                      });
+                    }
+                  }
+                }
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width / 2.2,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                height: 50,
+                decoration: BoxDecoration(
+                  color: _questionIndex == 0 ? Colors.grey : Config.alertColor,
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              );
-            }
-          } else {
-            if (_questionIndex < 6) {
-              setState(() {
-                _questionIndex++;
-                _isAnswer.add(groupValue);
-              });
-            } else {
-              _isAnswer.add(groupValue);
-              print(_isAnswer);
+                child: Center(
+                    child: Text(
+                  'Back',
+                  style: Config.whiteTextStyle.copyWith(
+                    fontSize: 16,
+                    fontWeight: Config.bold,
+                  ),
+                )),
+              ),
+            ),
+            InkWell(
+              onTap: isLoading == true
+                  ? null
+                  : () {
+                      if (widget.type == 1) {
+                        if (_questionIndex < 5) {
+                          setState(() {
+                            _questionIndex++;
+                            _isAnswer.add(groupValue);
+                          });
+                        } else {
+                          _isAnswer.add(groupValue);
+                          print(_isAnswer);
 
-              _postResult().then(
-                (value) => Navigator.of(context).push(
-                  AniRoute(
-                    child: const KuisionerDone(),
-                  ),
+                          _postResult();
+                        }
+                      } else {
+                        if (_questionIndex < 6) {
+                          setState(() {
+                            _questionIndex++;
+                            _isAnswer.add(groupValue);
+                          });
+                        } else {
+                          _isAnswer.add(groupValue);
+                          print(_isAnswer);
+
+                          _postResult();
+                        }
+                      }
+                    },
+              child: Container(
+                width: MediaQuery.of(context).size.width / 2.2,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Config.primaryColor.withOpacity(0.8),
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              );
-            }
-          }
-        },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          margin: const EdgeInsets.all(20),
-          height: 50,
-          decoration: BoxDecoration(
-            color: Config.primaryColor.withOpacity(0.8),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Center(
-            child: widget.type == 1
-                ? Text(
-                    _questionIndex == 5 ? 'Selesaikan Kuis' : 'Next Question',
-                    style: Config.whiteTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: Config.bold,
-                    ),
-                  )
-                : Text(
-                    _questionIndex == 6 ? 'Selesaikan Kuis' : 'Next Question',
-                    style: Config.whiteTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: Config.bold,
-                    ),
-                  ),
-          ),
+                child: isLoading == true
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Config.whiteColor,
+                        ),
+                      )
+                    : Center(
+                        child: widget.type == 1
+                            ? Text(
+                                _questionIndex == 5
+                                    ? 'Selesaikan Kuis'
+                                    : 'Selanjutnya',
+                                style: Config.whiteTextStyle.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: Config.bold,
+                                ),
+                              )
+                            : Text(
+                                _questionIndex == 6
+                                    ? 'Selesaikan Kuis'
+                                    : 'Selanjutnya',
+                                style: Config.whiteTextStyle.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: Config.bold,
+                                ),
+                              ),
+                      ),
+              ),
+            ),
+          ],
         ),
       ),
     );

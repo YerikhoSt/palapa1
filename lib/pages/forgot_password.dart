@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/attributes/forgot_password/input_new_password.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
@@ -22,6 +23,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
         foregroundColor: Theme.of(context).iconTheme.color,
         elevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -30,11 +42,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             ListView(
               shrinkWrap: true,
+              padding: const EdgeInsets.only(top: 50),
               children: <Widget>[
+                Image.asset(
+                  'assets/images/lupa_password.png',
+                  width: 120.w,
+                  height: 200.w,
+                ),
+                SizedBox(height: 50.w),
                 Text(
                   'Forgot Password',
                   style: Config.primaryTextStyle.copyWith(

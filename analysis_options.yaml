@@ -13,7 +13,6 @@ analyzer:
 linter:
   rules:
     prefer_single_quotes: true
-    missing_required_param: true
     prefer_const_declarations: true
     prefer_const_constructors: true
     exhaustive_cases: true

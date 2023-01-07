@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "indonesia": "Indonesia",
   "inggris": "Inggris",
   "pengaturan": "Pengaturan",
@@ -168,3 +169,56 @@
   "foto_tidak_terbaca": "Foto tidak terbaca",
   "foto_berhasil_terbaca": "Foto berhasil terbaca"
 }
+=======
+	"indonesia": "Indonesia",
+	"inggris": "Inggris",
+	"pengaturan": "Pengaturan",
+	"mode_gelap": "Mode Gelap",
+	"pilih_bahasa": "Pilih Bahasa",
+	"bahasa": "Bahasa",
+	"cari": "Cari",
+	"dasbor": "Dasbor",
+	"map": "Peta",
+	"profil": "Profil",
+
+	"beranda": "Beranda",
+	"tanya_kami": "Tanya Kami",
+	"berita": "Berita",
+	"lihat_semua": "Lihat Semua",
+	"latihan_kegel": "Latihan Kegel",
+
+	"edukasi": "Edukasi",
+	"kuisioner": "Penilaian Kondisi",
+	"aktivitas": "Aktivitas",
+	"monitoring": "Pemantauan",
+
+	"edukasi_senam_kegel": "Edukasi Senam Kegel",
+	"kuisioner_alert": "Hasil Kuisioner Hanya Akan Direkam Selama 1 Bulan Sekali",
+	"pilih_kuisioner": "Pilih Kuisioner",
+	"pertanyaan": "Pertanyaan",
+	"pilih_admin": "Pilih admin untuk kamu chat",
+	"selanjutnya": "Selanjutnya",
+	"udi_topper": "Pertanyaan berikut berhubungan dengan inkontinensia urin",
+	"udi_bottom": "Apakah kencing yang keluar mengganggu:",
+	"udi": "Kondisi Gejala Awal",
+	"iiq": "Kualitas Hidup",
+	"iiq_bottom": "Apakah anda mengalami, dan jika ya seberapa parah anda terganggu dengan :",
+	"panduan_awal": "Panduan awal senam kegel",
+	"video_desc": "Video gerakan kegel yang membantu melakukan pemanasan",
+	"informasi": "Informasi",
+
+	"tentang": "Tentang Aplikasi",
+	"referensi": "Referensi Aplikasi",
+	"tentang_1": "Aplikasi ini merupakan panduan latihan Kegel pada perempuan dengan gangguan Inkontinesia Urin Tekanan.",
+	"tentang_2":"Aplikasi berupa edukasi pemantauan latihan, evaluasi klinis, dan komunikasi antara pasien dengan dokter.",
+	"tentang_3":"Manfaat dari aplikasi ini, ibu akan mendapatkan evaluasi medis yang sangat detil terkait keluhan/penyakit sehingga diharapkan kesembuhan yang lebih optimal.",
+	"tentang_4": "Identitas ataupun informasi pasien akan terjaga kerahasiannya dan hasil tersebut mungkin akan digunakan untuk kepentingan penelitian dikemudian hari.",
+	"referensi_1": "1. Hakim S, Santoso BI, Rahardjo HE, Setiati S, Kusumaningsih W, Erwinanto, et al. Peran Buku Panduan Latihan Kegel Dalam Meningkatkan Keberhasilan Tatalaksana Non-bedah Pada Perempuan Dengan Inkontinensia Urin Tekanan [dissertation]. 2023.",
+	"referensi_2": "2. Hakim S. Buku Panduan Latihan Kegel Untuk Inkontinensia Urin Tipe Tekanan. 2021",
+	"referensi_3":"3. Abrams P, Andersson KE, Birder L, et al. Fourth International Consultation on Incontinence Recommendations of the International Scientific Committee: Evaluation and treatment of urinary incontinence, pelvic organ prolapse, and fecal incontinence. Neurourol Urodyn. 2010;29(1):213-40.",
+	"referensi_4":"4. Dumoulin C, Cacciari LP, Hay-Smith EJC. Pelvic floor muscle training versus no treatment, or inactive control treatments, for urinary incontinence in women. Cochrane Database Syst Rev. 2018;10.",
+	"referensi_5":"5. Araujo CC, Marques AA, Juliato CRT. The Adherence of Home Pelvic Floor Muscles Training Using a Mobile Device Application for Women With Urinary Incontinence: A Randomized Controlled Trial. Female Pelvic Med Reconstr Surg. Nov 2020;26(11):697-703."
+
+
+}
+>>>>>>> f559091 (fix bug on monitoring)

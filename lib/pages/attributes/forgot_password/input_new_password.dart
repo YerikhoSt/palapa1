@@ -23,12 +23,25 @@ class _InputNewPasswordState extends State<InputNewPassword> {
   bool _codeIsWrong = false;
   bool hasError = false;
 
+  bool _passwordIsWrong = false;
+  bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         foregroundColor: Theme.of(context).iconTheme.color,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
         elevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
       ),
@@ -157,51 +170,49 @@ class _InputNewPasswordState extends State<InputNewPassword> {
                           ),
                       textAlign: TextAlign.center,
                     ),
-                    Container(
-                      height: 50,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                      ),
-                      margin: const EdgeInsets.only(top: 15),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Theme.of(context).iconTheme.color!,
-                          width: 2,
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: _controllerPassword,
+                      obscureText: _obscureText,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Config.blackColor,
+                            width: 2,
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.mail_outline,
-                              size: 23,
-                              color: _newPassword == true
-                                  ? Config.alertColor
-                                  : Theme.of(context).iconTheme.color,
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: _controllerPassword,
-                                style: Theme.of(context).textTheme.bodyText1!,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                  focusedErrorBorder: InputBorder.none,
-                                  hintText: 'New Password',
-                                  hintStyle:
-                                      Theme.of(context).textTheme.bodyText1!,
-                                ),
-                              ),
-                            ),
-                          ],
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: Config.primaryColor,
+                            width: 2,
+                          ),
+                        ),
+                        hintText: 'Enter your password',
+                        hintStyle: Theme.of(context).textTheme.bodyText1,
+                        prefixIcon: Icon(
+                          Icons.key,
+                          size: 23,
+                          color: _passwordIsWrong == true
+                              ? Config.primaryColor
+                              : Theme.of(context).iconTheme.color,
+                        ),
+                        suffixIcon: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                          child: Icon(
+                            _obscureText == true
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            size: 20,
+                            color: _passwordIsWrong == true
+                                ? Config.alertColor
+                                : Theme.of(context).iconTheme.color,
+                          ),
                         ),
                       ),
                     ),

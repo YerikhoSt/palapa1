@@ -76,7 +76,7 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
                             ),
                       ),
                       Text(
-                        widget.activity.absen_pagi,
+                        widget.activity.absen_pagi ?? 'tidak aktivitas',
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               fontSize: 14.sp,
                               fontWeight: Config.regular,
@@ -96,7 +96,7 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
                             ),
                       ),
                       Text(
-                        widget.activity.absen_siang,
+                        widget.activity.absen_siang ?? 'tidak aktivitas',
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               fontSize: 14.sp,
                               fontWeight: Config.regular,
@@ -116,7 +116,7 @@ class _ActivityHistoryCardState extends State<ActivityHistoryCard> {
                             ),
                       ),
                       Text(
-                        widget.activity.absen_malem,
+                        widget.activity.absen_malem ?? 'tidak aktivitas',
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               fontSize: 14.sp,
                               fontWeight: Config.regular,

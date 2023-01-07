@@ -1,9 +1,11 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/aktivasi_akun.dart';
 import 'package:palapa1/pages/main_container.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
+import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/config.dart';
 import 'package:intl/intl.dart';
 import 'package:palapa1/utils/localization/localization_constants.dart';
@@ -43,7 +45,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerUsername = TextEditingController();
   TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerPassword = TextEditingController();
   TextEditingController _controllerAlamat = TextEditingController();
   TextEditingController _controllerKota = TextEditingController();
   TextEditingController _controllerProvinsi = TextEditingController();
@@ -66,6 +67,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
     });
     print(_user_id);
     print(_token);
+  }
+
+  Future<void> _getDataUser() async {
+    await _sharePrefs();
+    await fetchData(
+      'api/user/view/${_user_id}',
+      method: FetchDataMethod.get,
+      tokenLabel: TokenLabel.xa,
+      extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
+    ).then(
+      (dynamic value) async {
+        print(value);
+        await changePrefsProfile(
+          <String, String>{
+            'username': value['data']['username'],
+            'email': value['data']['email'],
+            'name': value['data']['name'],
+            'tanggal_lahir': value['data']['tanggal_lahir'].toString(),
+            'alamat': value['data']['alamat'],
+            'no_telpon': value['data']['no_telpon'].toString(),
+            'nama_pendamping': value['data']['nama_pendamping'],
+            'no_telpon_pendamping':
+                value['data']['no_telpon_pendamping'].toString(),
+            'kota': value['data']['kota'],
+            'provinsi': value['data']['provinsi'],
+          },
+        );
+        print('response profile');
+        print(value);
+      },
+    );
   }
 
   @override
@@ -94,39 +126,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).cardColor,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+        title: Text(
+          'Edit Account',
+          style: Config.primaryTextStyle.copyWith(
+            fontSize: 22,
+            fontWeight: Config.bold,
+          ),
+        ),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 15,
+        padding: EdgeInsets.symmetric(
+          vertical: 20.w,
+          horizontal: 15.w,
         ),
         children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Edit Account',
-                style: Config.primaryTextStyle.copyWith(
-                  fontSize: 22,
-                  fontWeight: Config.bold,
-                ),
-              ),
-              Text(
-                'Edit your account for change your data',
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      fontSize: 18,
-                      fontWeight: Config.light,
-                    ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 50,
-          ),
           Image.asset(
-            'assets/images/sign_up.jpg',
-            width: 180,
-            height: 180,
+            'assets/images/registrasi.png',
+            width: 180.w,
+            height: 180.w,
           ),
           const SizedBox(
             height: 30,
@@ -271,56 +299,56 @@ class _EditProfilePageState extends State<EditProfilePage> {
           const SizedBox(
             height: 20,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextField(
-                controller: _controllerUsername,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.blackColor,
-                      width: 2,
-                    ),
-                  ),
-                  hintText: 'Enter your username',
-                  hintStyle: Theme.of(context).textTheme.bodyText1,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.primaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.person_outline,
-                    size: 23,
-                    color: _usernameIsWrong == true
-                        ? Config.primaryColor
-                        : Theme.of(context).iconTheme.color,
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: _usernameIsWrong,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                  child: Text(
-                    getTranslated(context, 'email_wajib_di_isi') ?? '',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Config.alertColor,
-                          fontWeight: Config.light,
-                        ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: <Widget>[
+          //     TextField(
+          //       controller: _controllerUsername,
+          //       decoration: InputDecoration(
+          //         enabledBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //           borderSide: BorderSide(
+          //             color: Config.blackColor,
+          //             width: 2,
+          //           ),
+          //         ),
+          //         hintText: 'Enter your username',
+          //         hintStyle: Theme.of(context).textTheme.bodyText1,
+          //         focusedBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //           borderSide: BorderSide(
+          //             color: Config.primaryColor,
+          //             width: 2,
+          //           ),
+          //         ),
+          //         prefixIcon: Icon(
+          //           Icons.person_outline,
+          //           size: 23,
+          //           color: _usernameIsWrong == true
+          //               ? Config.primaryColor
+          //               : Theme.of(context).iconTheme.color,
+          //         ),
+          //       ),
+          //     ),
+          //     Visibility(
+          //       visible: _usernameIsWrong,
+          //       child: Container(
+          //         width: MediaQuery.of(context).size.width,
+          //         margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+          //         child: Text(
+          //           getTranslated(context, 'email_wajib_di_isi') ?? '',
+          //           style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          //                 color: Config.alertColor,
+          //                 fontWeight: Config.light,
+          //               ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -345,56 +373,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   prefixIcon: Icon(
                     Icons.mail_outline,
-                    size: 23,
-                    color: _usernameIsWrong == true
-                        ? Config.primaryColor
-                        : Theme.of(context).iconTheme.color,
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: _usernameIsWrong,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                  child: Text(
-                    getTranslated(context, 'email_wajib_di_isi') ?? '',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Config.alertColor,
-                          fontWeight: Config.light,
-                        ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextField(
-                controller: _controllerPassword,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.blackColor,
-                      width: 2,
-                    ),
-                  ),
-                  hintText: 'Enter your Password',
-                  hintStyle: Theme.of(context).textTheme.bodyText1,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.primaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.key,
                     size: 23,
                     color: _usernameIsWrong == true
                         ? Config.primaryColor
@@ -618,106 +596,106 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextField(
-                controller: _controllerNamaPendamping,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.blackColor,
-                      width: 2,
-                    ),
-                  ),
-                  hintText: 'Nama pendamping',
-                  hintStyle: Theme.of(context).textTheme.bodyText1,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.primaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.people,
-                    size: 23,
-                    color: _usernameIsWrong == true
-                        ? Config.primaryColor
-                        : Theme.of(context).iconTheme.color,
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: _usernameIsWrong,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                  child: Text(
-                    getTranslated(context, 'email_wajib_di_isi') ?? '',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Config.alertColor,
-                          fontWeight: Config.light,
-                        ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextField(
-                controller: _controllerNoTeleponPendamping,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.blackColor,
-                      width: 2,
-                    ),
-                  ),
-                  hintText: 'Nomer telepon pendamping',
-                  hintStyle: Theme.of(context).textTheme.bodyText1,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: Config.primaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.phone,
-                    size: 23,
-                    color: _usernameIsWrong == true
-                        ? Config.primaryColor
-                        : Theme.of(context).iconTheme.color,
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: _usernameIsWrong,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
-                  child: Text(
-                    getTranslated(context, 'email_wajib_di_isi') ?? '',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Config.alertColor,
-                          fontWeight: Config.light,
-                        ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: <Widget>[
+          //     TextField(
+          //       controller: _controllerNamaPendamping,
+          //       decoration: InputDecoration(
+          //         enabledBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //           borderSide: BorderSide(
+          //             color: Config.blackColor,
+          //             width: 2,
+          //           ),
+          //         ),
+          //         hintText: 'Nama pendamping',
+          //         hintStyle: Theme.of(context).textTheme.bodyText1,
+          //         focusedBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //           borderSide: BorderSide(
+          //             color: Config.primaryColor,
+          //             width: 2,
+          //           ),
+          //         ),
+          //         prefixIcon: Icon(
+          //           Icons.people,
+          //           size: 23,
+          //           color: _usernameIsWrong == true
+          //               ? Config.primaryColor
+          //               : Theme.of(context).iconTheme.color,
+          //         ),
+          //       ),
+          //     ),
+          //     Visibility(
+          //       visible: _usernameIsWrong,
+          //       child: Container(
+          //         width: MediaQuery.of(context).size.width,
+          //         margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+          //         child: Text(
+          //           getTranslated(context, 'email_wajib_di_isi') ?? '',
+          //           style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          //                 color: Config.alertColor,
+          //                 fontWeight: Config.light,
+          //               ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 20,
+          // ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: <Widget>[
+          //     TextField(
+          //       controller: _controllerNoTeleponPendamping,
+          //       decoration: InputDecoration(
+          //         enabledBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //           borderSide: BorderSide(
+          //             color: Config.blackColor,
+          //             width: 2,
+          //           ),
+          //         ),
+          //         hintText: 'Nomer telepon pendamping',
+          //         hintStyle: Theme.of(context).textTheme.bodyText1,
+          //         focusedBorder: OutlineInputBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //           borderSide: BorderSide(
+          //             color: Config.primaryColor,
+          //             width: 2,
+          //           ),
+          //         ),
+          //         prefixIcon: Icon(
+          //           Icons.phone,
+          //           size: 23,
+          //           color: _usernameIsWrong == true
+          //               ? Config.primaryColor
+          //               : Theme.of(context).iconTheme.color,
+          //         ),
+          //       ),
+          //     ),
+          //     Visibility(
+          //       visible: _usernameIsWrong,
+          //       child: Container(
+          //         width: MediaQuery.of(context).size.width,
+          //         margin: const EdgeInsets.only(top: 5, left: 20, right: 20),
+          //         child: Text(
+          //           getTranslated(context, 'email_wajib_di_isi') ?? '',
+          //           style: Theme.of(context).textTheme.bodyText1!.copyWith(
+          //                 color: Config.alertColor,
+          //                 fontWeight: Config.light,
+          //               ),
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           const SizedBox(
             height: 20,
           ),
@@ -734,50 +712,65 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isLoading = true;
-                });
-                await fetchData(
-                  'api/user/edit/${_user_id}',
-                  method: FetchDataMethod.post,
-                  tokenLabel: TokenLabel.xa,
-                  extraHeader: <String, String>{
-                    'Authorization': 'Bearer ${_token}'
-                  },
-                  params: <String, dynamic>{
-                    'avatar': 'https://via.placeholder.com/150',
-                    'email': _controllerEmail.text,
-                    'username': _controllerUsername.text,
-                    'password': _controllerPassword.text,
-                    'name': _controllerName.text,
-                    'tanggal_lahir': _controllerTanggalLahir.text,
-                    'alamat': _controllerAlamat.text,
-                    'kota': _controllerKota.text,
-                    'provinsi': _controllerProvinsi.text,
-                    'long': '3412412',
-                    'lat': '1231231',
-                    'no_telpon': _controllerNoTelepon.text,
-                    'nama_pendamping': _controllerNamaPendamping.text,
-                    'no_telpon_pendamping': _controllerNoTeleponPendamping.text,
-                  },
-                ).then(
-                  (dynamic value) async {
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    print('response regist');
-                    print(value);
-
-                    Navigator.of(context).pushAndRemoveUntil(
-                      AniRoute(
-                        child: const MainContainer(
-                          index: 3,
+                if (_controllerAlamat.text.isNotEmpty &&
+                    _controllerEmail.text.isNotEmpty &&
+                    _controllerKota.text.isNotEmpty &&
+                    _controllerName.text.isNotEmpty &&
+                    _controllerNoTelepon.text.isNotEmpty &&
+                    _controllerProvinsi.text.isNotEmpty &&
+                    _controllerTanggalLahir.text.isNotEmpty) {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  await fetchData(
+                    'api/user/edit/${_user_id}',
+                    method: FetchDataMethod.post,
+                    tokenLabel: TokenLabel.xa,
+                    extraHeader: <String, String>{
+                      'Authorization': 'Bearer ${_token}'
+                    },
+                    params: <String, dynamic>{
+                      'avatar': 'https://via.placeholder.com/150',
+                      'email': _controllerEmail.text,
+                      'name': _controllerName.text,
+                      'tanggal_lahir': _controllerTanggalLahir.text,
+                      'alamat': _controllerAlamat.text,
+                      'kota': _controllerKota.text,
+                      'provinsi': _controllerProvinsi.text,
+                      'long': '3412412',
+                      'lat': '1231231',
+                      'no_telpon': _controllerNoTelepon.text,
+                    },
+                  ).then(
+                    (dynamic value) async {
+                      print('response regist');
+                      print(value);
+                      await _getDataUser();
+                      setState(() {
+                        _isLoading = false;
+                      });
+                      Navigator.of(context).pushAndRemoveUntil(
+                        AniRoute(
+                          child: const MainContainer(
+                            index: 3,
+                          ),
                         ),
+                        (route) => false,
+                      );
+                    },
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(milliseconds: 500),
+                      backgroundColor: Colors.red.shade400,
+                      content: const Text(
+                        'Silahkan isi semua data terlebih dahulu',
+                        textAlign: TextAlign.center,
                       ),
-                      (route) => false,
-                    );
-                  },
-                );
+                    ),
+                  );
+                }
               },
               child: Center(
                 child: _isLoading

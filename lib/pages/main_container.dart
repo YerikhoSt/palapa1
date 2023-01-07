@@ -1,11 +1,21 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/instance_manager.dart';
+import 'package:palapa1/controller/notification_controller.dart';
+import 'package:palapa1/models/activity_model.dart';
 import 'package:palapa1/pages/home_page.dart';
+import 'package:palapa1/pages/not_login_user.dart';
 import 'package:palapa1/pages/pengaturan_page.dart';
+import 'package:palapa1/pages/pilih_admin.dart';
 import 'package:palapa1/pages/profile_page.dart';
 import 'package:palapa1/pages/tanya_kami_page.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
+import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainContainer extends StatefulWidget {
@@ -19,27 +29,113 @@ class MainContainer extends StatefulWidget {
 class _MainContainerState extends State<MainContainer>
     with TickerProviderStateMixin<MainContainer> {
   late TabController _tabController;
-
+  var notifController = Get.put(NotificationController());
+  ActivityModel? _activityCheck;
   String? _token;
-  String? _email;
+  bool _vibra = false;
+  bool _notif = false;
+  int? _user_id;
+  String _textNotification = '';
+  AndroidNotificationChannel channel = const AndroidNotificationChannel(
+    'id high important channel',
+    'title',
+    importance: Importance.high,
+    playSound: true,
+  );
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> _localNotification() async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+  }
 
   Future<void> _sharePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _token = prefs.getString('token');
-      _email = prefs.getString('user_email');
+      _user_id = prefs.getInt('user_id');
+      _vibra = prefs.getBool('user_vibra') ?? false;
+      _notif = prefs.getBool('user_notif') ?? false;
     });
-    print(_email);
-    print(_token);
+    print('hasil vibrasi $_vibra');
+  }
+
+  Future<void> _showNotification() async {
+    await _sharePrefs();
+    await _localNotification();
+
+    await fetchData(
+      'api/aktivitas-harian/view-today/${_user_id}',
+      method: FetchDataMethod.get,
+      tokenLabel: TokenLabel.xa,
+      extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
+    ).then(
+      (dynamic value) {
+        print(value);
+        setState(() {
+          _activityCheck = ActivityModel(
+            absen_pagi: value['data']['absen_pagi'],
+            absen_siang: value['data']['absen_siang'],
+            absen_malem: value['data']['absen_malem'],
+            hari_aktivitas: value['data']['hari_aktivitas'].toString(),
+            tanggal_aktivitas: value['data']['tanggal_aktivitas'].toString(),
+          );
+        });
+
+        if (_activityCheck!.absen_pagi == null) {
+          setState(() {
+            _textNotification = 'Kamu belum absen pagi loh!';
+          });
+        } else if (_activityCheck!.absen_siang == null) {
+          setState(() {
+            _textNotification = 'Kamu belum absen siang loh!';
+          });
+        } else if (_activityCheck!.absen_malem == null) {
+          setState(() {
+            _textNotification = 'Kamu belum absen malam loh!';
+          });
+        }
+
+        print('haloiii');
+        if (_notif == true) {
+          flutterLocalNotificationsPlugin.show(
+            0,
+            'Absen',
+            _textNotification,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                importance: Importance.high,
+                enableVibration: _vibra,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
   void initState() {
-    super.initState();
+    _sharePrefs();
+    _localNotification();
+
+    print('log notif ${_notif}');
+    _showNotification();
+
     _tabController = TabController(vsync: this, length: 4);
     _tabController.addListener(_handleTabSelection);
     _tabController.index = widget.index;
-    _sharePrefs();
+
+    super.initState();
   }
 
   void _handleTabSelection() {
@@ -48,6 +144,48 @@ class _MainContainerState extends State<MainContainer>
 
   @override
   Widget build(BuildContext context) {
+//FIREBASE MESSAGING CONTROLLER
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
+                ),
+              );
+            });
+      }
+    });
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -57,9 +195,9 @@ class _MainContainerState extends State<MainContainer>
           controller: _tabController,
           children: <Widget>[
             const HomePage(),
-            const TanyaKamiPage(),
-            const PengaturanPage(),
-            const ProfilePage(),
+            _token != null ? const PilihAdmin() : const NotLoginUser(),
+            _token != null ? const PengaturanPage() : const NotLoginUser(),
+            _token != null ? const ProfilePage() : const NotLoginUser(),
           ],
         ),
         bottomNavigationBar: Container(
@@ -94,37 +232,26 @@ class _MainContainerState extends State<MainContainer>
             tabs: <Widget>[
               Tab(
                 iconMargin: const EdgeInsets.all(0),
-                icon: Icon(
-                  Icons.home,
-                  size: 30,
-                  color: _tabController.index == 0
-                      ? Config.primaryColor
-                      : Config.blackColor,
+                icon: InkWell(
+                  child: Icon(
+                    Icons.home,
+                    size: 30,
+                    color: _tabController.index == 0
+                        ? Config.primaryColor
+                        : Config.blackColor,
+                  ),
                 ),
-                text: 'Home',
+                text: getTranslated(context, 'beranda'),
               ),
               GestureDetector(
                 onTap: () async {
-                  await Navigator.of(context).push(
-                    AniRoute(
-                      child: const TanyaKamiPage(),
-                    ),
-                  );
-                  fetchData(
-                    'api/live-chat/create-anonym',
-                    method: FetchDataMethod.post,
-                    tokenLabel: TokenLabel.xa,
-                    extraHeader: <String, String>{
-                      'Authorization': 'Bearer ${_token}'
-                    },
-                    params: <String, dynamic>{
-                      'email': _email,
-                    },
-                  ).then(
-                    (dynamic value) async {
-                      print(value);
-                    },
-                  );
+                  if (_token != null) {
+                    await Navigator.of(context).push(
+                      AniRoute(
+                        child: const PilihAdmin(),
+                      ),
+                    );
+                  }
                 },
                 child: Tab(
                   iconMargin: const EdgeInsets.all(0),
@@ -135,7 +262,7 @@ class _MainContainerState extends State<MainContainer>
                         ? Config.primaryColor
                         : Config.blackColor,
                   ),
-                  text: 'Tanya Kami',
+                  text: getTranslated(context, 'tanya_kami'),
                 ),
               ),
               Tab(
@@ -147,7 +274,7 @@ class _MainContainerState extends State<MainContainer>
                       ? Config.primaryColor
                       : Config.blackColor,
                 ),
-                text: 'Pengaturan',
+                text: getTranslated(context, 'pengaturan'),
               ),
               Tab(
                 iconMargin: const EdgeInsets.all(0),
@@ -158,7 +285,7 @@ class _MainContainerState extends State<MainContainer>
                       ? Config.primaryColor
                       : Config.blackColor,
                 ),
-                text: 'Profile',
+                text: getTranslated(context, 'profil'),
               ),
             ],
           ),

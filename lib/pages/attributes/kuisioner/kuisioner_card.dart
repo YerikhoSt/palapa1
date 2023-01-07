@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/utils/config.dart';
 
 class KuisionerCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class KuisionerCard extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(vertical: 12),
-        margin: const EdgeInsets.only(bottom: 20),
+        margin: EdgeInsets.only(bottom: 15.h),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
@@ -36,14 +37,14 @@ class KuisionerCard extends StatelessWidget {
             Text(
               judul,
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                    fontSize: 16,
+                    fontSize: 14.sp,
                     fontWeight: Config.bold,
                   ),
             ),
             Text(
               subJudul,
               style: Config.primaryTextStyle.copyWith(
-                fontSize: 14,
+                fontSize: 12.sp,
                 fontWeight: Config.semiBold,
               ),
             ),

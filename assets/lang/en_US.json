@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "indonesia": "Indonesia",
   "inggris": "English",
   "pengaturan": "Setting",
@@ -168,3 +169,59 @@
   "foto_tidak_terbaca": "Unreadable photo",
   "foto_berhasil_terbaca": "The photo has been successfully read"
 }
+=======
+	"indonesia": "Indonesia",
+	"inggris": "English",
+	"pengaturan": "Setting",
+	"mode_gelap": "Dark Mode",
+	"pilih_bahasa": "Select a Language",
+	"bahasa": "Language",
+	"cari": "Search",
+	"dasbor": "Dashboard",
+	"map": "Map",
+	"profil": "Profile",
+
+	"beranda": "Home",
+	"tanya_kami": "Contact Us",
+	"berita": "News",
+	"lihat_semua": "See All",
+	"latihan_kegel": "Kegel Exercise",
+
+	"edukasi": "Education",
+	"kuisioner": "Questionnaire",
+	"aktivitas": "Activity",
+	"monitoring": "Monitoring",
+
+	"edukasi_senam_kegel": "Kegel Exercise Education",
+	"kuisioner_alert": "Questionnaire results will only be recorded once a month",
+	"pilih_kuisioner": "Select a Questionnaire",
+	"pertanyaan": "Question",
+	"pilih_admin": "Choose an admin for you to chat",
+	"selanjutnya": "Next",
+	"udi_topper": "The following questions relate to urinary incontinence",
+	"udi_bottom": "Does the urine coming out bother you:",
+	"udi": "Initial Symptoms",
+	"iiq": "Quality of Life",
+	"iiq_bottom": "Do you experience, and if so how badly are you bothered by:",
+	"panduan_awal": "Kegel exercise guide",
+	"video_desc": "Kegel movement videos that help warm up",
+	"informasi": "Information",
+
+	"tentang": "About Application",
+	"referensi": "Application Reference",
+	"tentang_1": "This application is a guide to Kegel exercises for women with urinary pressure incontinence.",
+	"tentang_2":"The application is in the form of exercise monitoring education, clinical evaluation, and communication between patients and doctors.",
+	"tentang_3":"The benefit of this application is that the mother will get a very detailed medical evaluation regarding complaints/illness so that a more optimal recovery is expected.",
+	"tentang_4": "The patient's identity or information will be kept confidential and the results may be used for research purposes in the future.",
+	"referensi_1": "1. Hakim S, Santoso BI, Rahardjo HE, Setiati S, Kusumaningsih W, Erwinanto, et al. The Role of the Kegel Exercise Handbook in Enhancing the Success of Non-surgical Treatment of Women with Stress Urinary Incontinence [dissertation]. 2023.",
+	"referensi_2": "2. Hakim S. Handbook of Kegel Exercises for Pressure Type Urinary Incontinence. 2021",
+	"referensi_3":"3. Abrams P, Andersson KE, Birder L, et al. Fourth International Consultation on Incontinence Recommendations of the International Scientific Committee: Evaluation and treatment of urinary incontinence, pelvic organ prolapse, and fecal incontinence. Neurourol Urodyn. 2010;29(1):213-40.",
+	"referensi_4":"4. Dumoulin C, Cacciari LP, Hay-Smith EJC. Pelvic floor muscle training versus no treatment, or inactive control treatments, for urinary incontinence in women. Cochrane Database System Rev. 2018;10.",
+	"referensi_5":"5. Araujo CC, Marques AA, Juliato CRT. The Adherence of Home Pelvic Floor Muscles Training Using a Mobile Device Application for Women With Urinary Incontinence: A Randomized Controlled Trial. Female Pelvic Med Reconstr Surg. Nov 2020;26(11):697-703."
+
+
+
+
+
+}
+>>>>>>> f559091 (fix bug on monitoring)

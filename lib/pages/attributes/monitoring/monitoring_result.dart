@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:graphic/graphic.dart';
 import 'package:palapa1/models/monitoring_result_model.dart';
 import 'package:palapa1/pages/attributes/monitoring/monitoring_result_card.dart';
 import 'package:palapa1/utils/config.dart';
@@ -16,7 +17,7 @@ class MonitoringResult extends StatefulWidget {
 
 class _PerbaikanGejalaState extends State<MonitoringResult> {
   List<MonitoringResultModel> _result = [];
-
+  List<Map<String, dynamic>> dataChart = [];
   String textDinamis() {
     switch (widget.idType) {
       case 1:
@@ -33,20 +34,34 @@ class _PerbaikanGejalaState extends State<MonitoringResult> {
   }
 
   Future<void> _resultData() async {
+    var resultMonitoring = widget.result.map((e) {
+      return {
+        'week': 'week ${e['week']}',
+        'skor': num.parse(e['skor'].toString()),
+      };
+    }).toList();
     setState(() {
-      for (final i in widget.result) {
+      dataChart = resultMonitoring;
+    });
+    for (var i in widget.result) {
+      i['week'] = '${i['week']}';
+      i['skor'] = num.parse(i['skor'].toString());
+      setState(() {
+        print('ISI RESULT ${widget.result}');
+
+        print('DATA CHART =====> $dataChart');
         final MonitoringResultModel rt = MonitoringResultModel(
           week: i['week'].toString(),
-          skor: double.parse(i['skor']),
+          skor: double.parse(i['skor'].toString()),
         );
         _result.add(rt);
-      }
-    });
+      });
+    }
   }
 
   @override
   void initState() {
-    print(widget.result);
+    print('ISI RESULT =======>>> ${widget.result}');
     _resultData();
     super.initState();
   }
@@ -58,6 +73,17 @@ class _PerbaikanGejalaState extends State<MonitoringResult> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
+          ),
+        ),
+        automaticallyImplyLeading: false,
         titleSpacing: 0,
       ),
       body: ListView(
@@ -72,6 +98,26 @@ class _PerbaikanGejalaState extends State<MonitoringResult> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 30),
+          SizedBox(
+              height: 200,
+              width: MediaQuery.of(context).size.width,
+              child: Chart(
+                data: dataChart,
+                variables: {
+                  'week': Variable(
+                    accessor: (Map map) => map['week'] as String,
+                  ),
+                  'skor': Variable(
+                    accessor: (Map map) => map['skor'] as num,
+                  ),
+                },
+                elements: [IntervalElement()],
+                axes: [
+                  Defaults.horizontalAxis,
+                  Defaults.verticalAxis,
+                ],
+              )),
+          const SizedBox(height: 50),
           ListView.builder(
             itemCount: _result.length,
             shrinkWrap: true,

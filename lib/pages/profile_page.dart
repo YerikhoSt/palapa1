@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:palapa1/models/user_model.dart';
 import 'package:palapa1/pages/attributes/profile/profile_page_card.dart';
-import 'package:palapa1/services/drift/drift_local.dart' as df;
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/config.dart';
@@ -18,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String? _token;
   int? _user_id;
-
+  bool _isLoading = false;
   Future<void> _sharePrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -32,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   UserModel? _user;
 
   Future<void> _getUsertInfo() async {
-    getPrefsProfileForm().then(
+    await getPrefsProfileForm().then(
       (Map<String, dynamic> value) {
         print(value);
 
@@ -52,13 +51,19 @@ class _ProfilePageState extends State<ProfilePage> {
         });
       },
     );
-    fetchData(
+    setState(() {
+      _isLoading = true;
+    });
+    await fetchData(
       'api/user/view/${_user_id}',
       method: FetchDataMethod.get,
       tokenLabel: TokenLabel.xa,
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then(
       (dynamic value) async {
+        setState(() {
+          _isLoading = false;
+        });
         print(value);
         await changePrefsProfile(
           <String, String>{
@@ -95,6 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: _user != null
           ? ProfilePageCard(
               user: _user!,

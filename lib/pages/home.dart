@@ -1,18 +1,15 @@
-import 'dart:convert';
-
-import 'package:drift/drift.dart' as df;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:palapa1/pages/edukasi.dart';
 import 'package:palapa1/pages/main_container.dart';
 import 'package:palapa1/providers/google_sign_in_provider.dart';
-import 'package:palapa1/services/drift/drift_local.dart';
-import 'package:palapa1/services/server/server.dart';
-import 'package:palapa1/utils/change_prefs.dart';
+import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/change_statusbar_color.dart';
 import 'package:palapa1/utils/localization/custom_localization.dart';
 import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:palapa1/utils/theme/theme_data_custom.dart';
 import 'package:palapa1/utils/theme/theme_mode.dart';
 import 'package:provider/provider.dart';
@@ -33,31 +30,58 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final AppDatabase appDatabase = AppDatabase();
-
-  // Future<void> _silentLogin() async {
-  //   await getPrefsProfile().then((Map<String, dynamic> v) {
-  //     login(
-  //       username: v['user_email'] ?? '',
-  //       pass: v['user_password'] ?? '',
-  //     ).then((dynamic value) async {
-  //       print('disini');
-  //       print(value);
-
-  //       await changePrefsLogin(<String, dynamic>{
-  //         'email': v['user_email'] ?? '',
-  //         'password': v['user_password'] ?? '',
-  //         'token': value['data']['remember_token'] as String,
-  //         'user_id': value['data']['id'],
-  //       });
-  //     });
-  //   });
-  // }
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  AndroidNotificationChannel channel = const AndroidNotificationChannel(
+    'id high important channel',
+    'title',
+    importance: Importance.high,
+    playSound: true,
+  );
+  Future<void> _localNotification() async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+  }
 
   @override
   void initState() {
-    // _silentLogin();
+    _localNotification();
+//FIREBASE MESSAGING CONTROLLER
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
+      }
+    });
 
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        Navigator.of(context).push(
+          AniRoute(
+            child: const Edukasi(),
+          ),
+        );
+      }
+    });
     super.initState();
   }
 
@@ -68,7 +92,6 @@ class HomeState extends State<Home> {
         ChangeNotifierProvider<ThemeModeCustom>(
           create: (_) => ThemeModeCustom(),
         ),
-        Provider<UserDao>(create: (_) => appDatabase.userDao),
         ChangeNotifierProvider<GoogleSignInProvider>(
           create: (_) => GoogleSignInProvider(),
         ),
@@ -111,6 +134,24 @@ class HomeBodyState extends State<HomeBody>
   }
 
   HomeBodyState();
+  // Future<void> _silentLogin() async {
+  //   await getPrefsProfile().then((Map<String, dynamic> v) {
+  //     login(
+  //       username: v['user_email'] ?? '',
+  //       pass: v['user_password'] ?? '',
+  //     ).then((dynamic value) async {
+  //       print('disini');
+  //       print(value);
+
+  //       await changePrefsLogin(<String, dynamic>{
+  //         'email': v['user_email'] ?? '',
+  //         'password': v['user_password'] ?? '',
+  //         'token': value['data']['remember_token'] as String,
+  //         'user_id': value['data']['id'],
+  //       });
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
