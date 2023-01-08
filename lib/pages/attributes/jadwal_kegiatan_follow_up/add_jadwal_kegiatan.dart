@@ -62,7 +62,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
           ),
         ),
         title: Text(
-          'Tambahkan Kegiatan Follow Up',
+          getTranslated(context, 'add_jadwal') ?? '',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 16.sp,
                 fontWeight: Config.bold,
@@ -326,7 +326,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
               ),
               child: Center(
                 child: Text(
-                  'Masukan Kegiatan Follow Up',
+                  'Confirm',
                   style: Config.primaryTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: Config.semiBold,

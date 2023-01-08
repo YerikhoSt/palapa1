@@ -6,6 +6,7 @@ import 'package:get/instance_manager.dart';
 import 'package:palapa1/controller/notification_controller.dart';
 import 'package:palapa1/models/activity_model.dart';
 import 'package:palapa1/pages/home_page.dart';
+import 'package:palapa1/pages/login.dart';
 import 'package:palapa1/pages/not_login_user.dart';
 import 'package:palapa1/pages/pengaturan_page.dart';
 import 'package:palapa1/pages/pilih_admin.dart';
@@ -74,50 +75,59 @@ class _MainContainerState extends State<MainContainer>
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then(
       (dynamic value) {
-        print(value);
-        setState(() {
-          _activityCheck = ActivityModel(
-            absen_pagi: value['data']['absen_pagi'],
-            absen_siang: value['data']['absen_siang'],
-            absen_malem: value['data']['absen_malem'],
-            hari_aktivitas: value['data']['hari_aktivitas'].toString(),
-            tanggal_aktivitas: value['data']['tanggal_aktivitas'].toString(),
-          );
-        });
+        if (value['status'] == 200) {
+          print('AKTIVITAS HARIAN ===> $value');
+          setState(() {
+            _activityCheck = ActivityModel(
+              absen_pagi: value['data']['absen_pagi'],
+              absen_siang: value['data']['absen_siang'],
+              absen_malem: value['data']['absen_malem'],
+              hari_aktivitas: value['data']['hari_aktivitas'].toString(),
+              tanggal_aktivitas: value['data']['tanggal_aktivitas'].toString(),
+            );
+          });
 
-        if (_activityCheck!.absen_pagi == null) {
-          setState(() {
-            _textNotification = 'Kamu belum absen pagi loh!';
-          });
-        } else if (_activityCheck!.absen_siang == null) {
-          setState(() {
-            _textNotification = 'Kamu belum absen siang loh!';
-          });
-        } else if (_activityCheck!.absen_malem == null) {
-          setState(() {
-            _textNotification = 'Kamu belum absen malam loh!';
-          });
-        }
+          if (_activityCheck!.absen_pagi == null) {
+            setState(() {
+              _textNotification = 'Kamu belum absen pagi loh!';
+            });
+          } else if (_activityCheck!.absen_siang == null) {
+            setState(() {
+              _textNotification = 'Kamu belum absen siang loh!';
+            });
+          } else if (_activityCheck!.absen_malem == null) {
+            setState(() {
+              _textNotification = 'Kamu belum absen malam loh!';
+            });
+          }
 
-        print('haloiii');
-        if (_notif == true) {
-          flutterLocalNotificationsPlugin.show(
-            0,
-            'Absen',
-            _textNotification,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                importance: Importance.high,
-                enableVibration: _vibra,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/ic_launcher',
+          print('haloiii');
+          if (_notif == true) {
+            flutterLocalNotificationsPlugin.show(
+              0,
+              'Absen',
+              _textNotification,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channelDescription: channel.description,
+                  importance: Importance.high,
+                  enableVibration: _vibra,
+                  color: Colors.blue,
+                  playSound: true,
+                  icon: '@mipmap/ic_launcher',
+                ),
               ),
-            ),
-          );
+            );
+          }
+        } else {
+          Navigator.pushAndRemoveUntil(
+              context,
+              AniRoute(
+                child: const Login(),
+              ),
+              (route) => false);
         }
       },
     );
@@ -243,27 +253,16 @@ class _MainContainerState extends State<MainContainer>
                 ),
                 text: getTranslated(context, 'beranda'),
               ),
-              GestureDetector(
-                onTap: () async {
-                  if (_token != null) {
-                    await Navigator.of(context).push(
-                      AniRoute(
-                        child: const PilihAdmin(),
-                      ),
-                    );
-                  }
-                },
-                child: Tab(
-                  iconMargin: const EdgeInsets.all(0),
-                  icon: Icon(
-                    Icons.headset_outlined,
-                    size: 30,
-                    color: _tabController.index == 1
-                        ? Config.primaryColor
-                        : Config.blackColor,
-                  ),
-                  text: getTranslated(context, 'tanya_kami'),
+              Tab(
+                iconMargin: const EdgeInsets.all(0),
+                icon: Icon(
+                  Icons.headset_outlined,
+                  size: 30,
+                  color: _tabController.index == 1
+                      ? Config.primaryColor
+                      : Config.blackColor,
                 ),
+                text: getTranslated(context, 'tanya_kami'),
               ),
               Tab(
                 iconMargin: const EdgeInsets.all(0),

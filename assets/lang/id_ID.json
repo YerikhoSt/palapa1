@@ -10,6 +10,9 @@
 	"map": "Peta",
 	"profil": "Profil",
 
+	"no_telepon": "No Telepon",
+	"alamat":"Alamat",
+
 	"beranda": "Beranda",
 	"tanya_kami": "Tanya Kami",
 	"berita": "Berita",
@@ -22,8 +25,8 @@
 	"monitoring": "Pemantauan",
 
 	"edukasi_senam_kegel": "Edukasi Senam Kegel",
-	"kuisioner_alert": "Hasil Kuisioner Hanya Akan Direkam Selama 1 Bulan Sekali",
-	"pilih_kuisioner": "Pilih Kuisioner",
+	"kuisioner_alert": "Hasil Penilaian Kondisi Hanya Akan Direkam Selama 1 Bulan Sekali",
+	"pilih_kuisioner": "Pilih Penilaian Kondisi",
 	"pertanyaan": "Pertanyaan",
 	"pilih_admin": "Pilih admin untuk kamu chat",
 	"selanjutnya": "Selanjutnya",
@@ -46,7 +49,68 @@
 	"referensi_2": "2. Hakim S. Buku Panduan Latihan Kegel Untuk Inkontinensia Urin Tipe Tekanan. 2021",
 	"referensi_3":"3. Abrams P, Andersson KE, Birder L, et al. Fourth International Consultation on Incontinence Recommendations of the International Scientific Committee: Evaluation and treatment of urinary incontinence, pelvic organ prolapse, and fecal incontinence. Neurourol Urodyn. 2010;29(1):213-40.",
 	"referensi_4":"4. Dumoulin C, Cacciari LP, Hay-Smith EJC. Pelvic floor muscle training versus no treatment, or inactive control treatments, for urinary incontinence in women. Cochrane Database Syst Rev. 2018;10.",
-	"referensi_5":"5. Araujo CC, Marques AA, Juliato CRT. The Adherence of Home Pelvic Floor Muscles Training Using a Mobile Device Application for Women With Urinary Incontinence: A Randomized Controlled Trial. Female Pelvic Med Reconstr Surg. Nov 2020;26(11):697-703."
+	"referensi_5":"5. Araujo CC, Marques AA, Juliato CRT. The Adherence of Home Pelvic Floor Muscles Training Using a Mobile Device Application for Women With Urinary Incontinence: A Randomized Controlled Trial. Female Pelvic Med Reconstr Surg. Nov 2020;26(11):697-703.",
+
+	"monitoring_1": "Perbaikan Gejala Inkontinensia Urin (Skor UDI - 6)",
+	"monitoring_2": "Perbaikan Kualitas Hidup yang berkaitan dengan kondisi IUT (Skor IIQ - 7)",
+	"monitoring_3": "Kekuatan Kontraksi Otot Dasar Panggal (Perineometri)",
+	"monitoring_4": "Keparahan IUT Berdasarkan Pengukuran Pad Test 1 Jam",
+
+	"mr_1": "Perbaikan Gejala Inkontinensia Urin",
+	"mr_2": "Perbaikan Kualitas Hidup",
+	"mr_3": "Kekuatan Kontraksi Otot Dasar Panggal",
+	"mr_4": "Keparahan IUT Berdasarkan Pad Test",
+
+	"edukasi_1": "Apa Itu Dasar Panggul",
+	"edukasi_2": "Inkontinensia Urin Tipe Tekanan (IUT)",
+	"edukasi_3": "Latihan Kegel",
+	"edukasi_4": "Posisi Melakukan latihan Kegel",
+
+	"jadwal_kegiatan":"Jadwal Kegiatan",
+
+	"add_jadwal": "Masukkan Hasil Follow-up",
+
+	"udi_q_1": "Sering Kencing?",
+	"udi_q_2": "Keluarnya Kencing yang berhubungan dengan perasaan ingin kencing?",
+	"udi_q_3": "Keluarnya kencing yang berhubungan dengan aktivitas fisik, batuk, atau bersin?",
+	"udi_q_4": "SKeluarnya kencing dalam jumlah sedikit (menetas)?",
+	"udi_q_5": "Kesulitan mengosongkan kandung kencing (puas berkemih)",
+	"udi_q_6": "Nyeri atau perasaan tidak enak pada perut bagian bawah atau daerah kemaluan?",
+
+	"iiq_q_1": "Aktivitas pekerjaan rumah tangga anda?",
+	"iiq_q_2": "Kegiatan rekreasi seperti berjalan - jalan, berenang, atau berolahraga?",
+	"iiq_q_3": "Aktivitas hiburan(nonton film, pertunjukan konser, dan lain - lain) ?",
+	"iiq_q_4": "Perjalanan dengan mobil atau bus lebih dari 30 menit?",
+	"iiq_q_5": "Kegiatan pada aktivitas sosial di luar rumah?",
+	"iiq_q_6": "Kesehatan mental(gelisah, depresi, malu, rendah hati, dan lain - lain)?",
+	"iiq_q_7": "Menimbulkan perasaan frustasi?",
+
+	"answer_1":"Tidak Pernah",
+	"answer_2":"Jarang",
+	"answer_3":"Kadang - Kadang",
+	"answer_4":"Sering Kali",
+
+	"edukasi_desc": "Video Edukasi untuk membantu proses kegiatan latihan kegel",
+
+	"daftar_aktivitas": "Daftar Aktivitas",
+
+	"history_aktivitas": "Lihat History Aktivitas",
+
+	"pagi": "Pagi",
+	"siang": "Siang",
+	"malam": "Malam",
+
+	"hasil_bagus": "Hasil Bagus",
+	"hasil_buruk": "Hasil Buruk",
+
+	"minggu": "Minggu",
+
+	"kc": "Kontraksi Cepat",
+	"kl": "Kontraksi Lambat",
+	"kontraksi":"Kontraksi",
+	"kontraksi_ask": "Apakah kamu sudah melakukan 2 kontraksi di bawah ini pada waktu"
+
+
 
 
 }

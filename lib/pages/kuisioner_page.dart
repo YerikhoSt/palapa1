@@ -6,6 +6,7 @@ import 'package:palapa1/pages/jadwal_kegiatan_follow_up.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KuisionerPage extends StatefulWidget {
@@ -66,7 +67,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
           ),
         ),
         title: Text(
-          'Penilaian Kondisi',
+          getTranslated(context, 'kuisioner') ?? 'Penilaian Kondisi',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
                 fontWeight: Config.bold,
@@ -77,7 +78,8 @@ class _KuisionerPageState extends State<KuisionerPage> {
         padding: const EdgeInsets.all(20),
         children: <Widget>[
           Text(
-            'Hasil Penilaian Kondisi Hanya Akan Direkam Selama 1 Bulan Sekali',
+            getTranslated(context, 'kuisioner_alert') ??
+                'Hasil Penilaian Kondisi Hanya Akan Direkam Selama 1 Bulan Sekali',
             style: Config.blackTextStyle.copyWith(
               fontSize: 16.sp,
               fontWeight: Config.semiBold,
@@ -97,7 +99,8 @@ class _KuisionerPageState extends State<KuisionerPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Pilih Penilaian Kondisi',
+                getTranslated(context, 'pilih_kuisioner') ??
+                    'Pilih Penilaian Kondisi',
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       fontSize: 18.sp,
                       fontWeight: Config.bold,
@@ -113,7 +116,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
           ),
           const SizedBox(height: 25),
           KuisionerCard(
-            judul: 'Kondisi Gejala Awal',
+            judul: getTranslated(context, 'udi') ?? '',
             subJudul: 'UDI-6',
             ontap: () => Navigator.of(context).push(
               AniRoute(
@@ -122,7 +125,7 @@ class _KuisionerPageState extends State<KuisionerPage> {
             ),
           ),
           KuisionerCard(
-            judul: 'Kualitas Hidup',
+            judul: getTranslated(context, 'iiq') ?? '',
             subJudul: 'IIQ-7',
             ontap: () => Navigator.of(context).push(
               AniRoute(
@@ -153,7 +156,8 @@ class _KuisionerPageState extends State<KuisionerPage> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Jadwal Kegiatan',
+                    getTranslated(context, 'jadwal_kegiatan') ??
+                        'Jadwal Kegiatan',
                     style: Config.whiteTextStyle.copyWith(
                       fontSize: 14.sp,
                       fontWeight: Config.bold,

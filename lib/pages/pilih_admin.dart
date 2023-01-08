@@ -5,6 +5,7 @@ import 'package:palapa1/pages/tanya_kami_page.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PilihAdmin extends StatefulWidget {
@@ -92,7 +93,7 @@ class _PilihAdminState extends State<PilihAdmin> {
           ),
         ),
         title: Text(
-          'Tanya Kami',
+          getTranslated(context, 'tanya_kami') ?? 'Tanya Kami',
           style: Config.whiteTextStyle.copyWith(
             fontSize: 18,
             fontWeight: Config.bold,
@@ -112,7 +113,8 @@ class _PilihAdminState extends State<PilihAdmin> {
           ),
           SizedBox(height: 25.h),
           Text(
-            'Pilih admin untuk kamu chat',
+            getTranslated(context, 'pilih_admin') ??
+                'Pilih Admin Untuk Kamu Chat',
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                   fontSize: 18.sp,
                   fontWeight: Config.semiBold,

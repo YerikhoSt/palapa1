@@ -6,6 +6,7 @@ import 'package:palapa1/utils/animation.dart';
 import 'package:intl/intl.dart';
 import 'package:palapa1/utils/config.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KuisionerQuestion extends StatefulWidget {
@@ -33,230 +34,6 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
     print(_user_id);
     print(_token);
   }
-
-  Widget dinamisQuestion() {
-    switch (widget.type) {
-      case 1:
-        return ListView(
-          padding: EdgeInsets.fromLTRB(20.w, 25.w, 20.w, 130.w),
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Text(
-                  'Kondisi Gejala Awal',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        fontSize: 20,
-                        fontWeight: Config.bold,
-                      ),
-                ),
-                Text(
-                  'UDI - 6',
-                  style: Config.primaryTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: Config.semiBold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Pertanyaan berikut berhubungan dengan inkontinensia urin',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: Config.regular,
-                      ),
-                ),
-                Text(
-                  'Apakah kencing yang keluar mengganggu:',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: Config.bold,
-                      ),
-                ),
-                Divider(
-                  color: Config.primaryColor,
-                  height: 40,
-                  thickness: 1.5,
-                ),
-              ],
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    _questionUdi6[_questionIndex],
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          fontSize: 20,
-                          fontWeight: Config.bold,
-                        ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _binaryAnswer.length,
-                    padding: const EdgeInsets.only(top: 15),
-                    itemBuilder: (_, int i) {
-                      return KuisionerAnswerCard(
-                        text: _answer[i],
-                        onChange: (s) {
-                          setState(() {
-                            if (_isAnswer.contains(s)) {
-                              _isAnswer.remove(_binaryAnswer[i]);
-                            } else {
-                              _isAnswer.add(_binaryAnswer[i]);
-                            }
-
-                            groupValue = s;
-                          });
-                        },
-                        radioValue: _binaryAnswer[i],
-                        groupValue: groupValue,
-                        onTap: () {
-                          setState(() {
-                            groupValue = _binaryAnswer[i];
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      case 2:
-        return ListView(
-          padding: EdgeInsets.fromLTRB(
-            20.w,
-            25.w,
-            20.w,
-            135.w,
-          ),
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Text(
-                  'Kualitas Hidup',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 20.sp,
-                        fontWeight: Config.bold,
-                      ),
-                ),
-                Text(
-                  'IIQ - 7',
-                  style: Config.primaryTextStyle.copyWith(
-                    fontSize: 18.sp,
-                    fontWeight: Config.semiBold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Distress Urinary',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: Config.regular,
-                      ),
-                ),
-                Text(
-                  'Apakah anda mengalami, dan jika ya seberapa parah anda terganggu dengan :',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: Config.bold,
-                      ),
-                ),
-                Divider(
-                  color: Config.primaryColor,
-                  height: 40,
-                  thickness: 1.5,
-                ),
-              ],
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    _questionIiq7[_questionIndex],
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          fontSize: 20,
-                          fontWeight: Config.bold,
-                        ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _binaryAnswer.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(top: 15),
-                    itemBuilder: (_, int i) {
-                      return KuisionerAnswerCard(
-                        text: _answer[i],
-                        onChange: (s) {
-                          setState(() {
-                            if (_isAnswer.contains(s)) {
-                              _isAnswer.remove(_binaryAnswer[i]);
-                            } else {
-                              _isAnswer.add(_binaryAnswer[i]);
-                            }
-
-                            groupValue = s;
-                          });
-                        },
-                        radioValue: _binaryAnswer[i],
-                        groupValue: groupValue,
-                        onTap: () {
-                          setState(() {
-                            groupValue = _binaryAnswer[i];
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      default:
-        return const SizedBox.shrink();
-    }
-  }
-
-  List<String> _questionIiq7 = <String>[
-    'Aktivitas pekerjaan rumah tangga anda?',
-    'Kegiatan rekreasi seperti berjalan - jalan, berenang, atau berolahraga?',
-    'Aktivitas hiburan(nonton film, pertunjukan konser, dan lain - lain) ?',
-    'Perjalanan dengan mobil atau bus lebih dari 30 menit?',
-    'Kegiatan pada aktivitas sosial di luar rumah?',
-    'Kesehatan mental(gelisah, depresi, malu, rendah hati, dan lain - lain)?',
-    'Menimbulkan perasaan frustasi?',
-  ];
-
-  List<String> _questionUdi6 = <String>[
-    'Sering Kencing?',
-    'Keluarnya Kencing yang berhubungan dengan perasaan ingin kencing?',
-    'Keluarnya kencing yang berhubungan dengan aktivitas fisik, batuk, atau bersin?',
-    'Keluarnya kencing dalam jumlah sedikit (menetas)?',
-    'Kesulitan mengosongkan kandung kencing (puas berkemih)',
-    'Nyeri atau perasaan tidak enak pada perut bagian bawah atau daerah kemaluan?',
-  ];
-  List<String> _answer = <String>[
-    'Tidak Pernah',
-    'Jarang',
-    'Kadang - Kadang',
-    'Sering Kali',
-  ];
-  List<int> _binaryAnswer = <int>[0, 1, 2, 3];
 
   int groupValue = 0;
 
@@ -369,13 +146,236 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
 
   @override
   void initState() {
-    groupValue = _binaryAnswer.first;
     super.initState();
   }
 
   List<dynamic> _isAnswer = <dynamic>[];
   @override
   Widget build(BuildContext context) {
+    List<String> _answer = <String>[
+      getTranslated(context, 'answer_1') ?? 'Tidak Pernah',
+      getTranslated(context, 'answer_2') ?? 'Jarang',
+      getTranslated(context, 'answer_3') ?? 'Kadang - kadang',
+      getTranslated(context, 'answer_4') ?? 'Sering Kali',
+    ];
+    List<int> _binaryAnswer = <int>[0, 1, 2, 3];
+
+    List<String> _questionIiq7 = <String>[
+      getTranslated(context, 'iiq_q_1') ?? '',
+      getTranslated(context, 'iiq_q_2') ?? '',
+      getTranslated(context, 'iiq_q_3') ?? '',
+      getTranslated(context, 'iiq_q_4') ?? '',
+      getTranslated(context, 'iiq_q_5') ?? '',
+      getTranslated(context, 'iiq_q_6') ?? '',
+      getTranslated(context, 'iiq_q_7') ?? '',
+    ];
+
+    List<String> _questionUdi6 = <String>[
+      getTranslated(context, 'udi_q_1') ?? '',
+      getTranslated(context, 'udi_q_2') ?? '',
+      getTranslated(context, 'udi_q_3') ?? '',
+      getTranslated(context, 'udi_q_4') ?? '',
+      getTranslated(context, 'udi_q_5') ?? '',
+      getTranslated(context, 'udi_q_6') ?? '',
+    ];
+    Widget dinamisQuestion() {
+      switch (widget.type) {
+        case 1:
+          return ListView(
+            padding: EdgeInsets.fromLTRB(20.w, 25.w, 20.w, 130.w),
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Text(
+                    getTranslated(context, 'udi') ?? 'Kondisi Gejala Awal',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          fontSize: 20,
+                          fontWeight: Config.bold,
+                        ),
+                  ),
+                  Text(
+                    'UDI - 6',
+                    style: Config.primaryTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: Config.semiBold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    getTranslated(context, 'udi_topper') ?? '',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: Config.regular,
+                        ),
+                  ),
+                  Text(
+                    getTranslated(context, 'udi_bottom') ?? '',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: Config.bold,
+                        ),
+                  ),
+                  Divider(
+                    color: Config.primaryColor,
+                    height: 40,
+                    thickness: 1.5,
+                  ),
+                ],
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      _questionUdi6[_questionIndex],
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 20,
+                            fontWeight: Config.bold,
+                          ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _binaryAnswer.length,
+                      padding: const EdgeInsets.only(top: 15),
+                      itemBuilder: (_, int i) {
+                        return KuisionerAnswerCard(
+                          text: _answer[i],
+                          onChange: (s) {
+                            setState(() {
+                              if (_isAnswer.contains(s)) {
+                                _isAnswer.remove(_binaryAnswer[i]);
+                              } else {
+                                _isAnswer.add(_binaryAnswer[i]);
+                              }
+
+                              groupValue = s;
+                            });
+                          },
+                          radioValue: _binaryAnswer[i],
+                          groupValue: groupValue,
+                          onTap: () {
+                            setState(() {
+                              groupValue = _binaryAnswer[i];
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        case 2:
+          return ListView(
+            padding: EdgeInsets.fromLTRB(
+              20.w,
+              25.w,
+              20.w,
+              135.w,
+            ),
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Text(
+                    getTranslated(context, 'iiq') ?? 'Kualitas Hidup',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 20.sp,
+                          fontWeight: Config.bold,
+                        ),
+                  ),
+                  Text(
+                    'IIQ - 7',
+                    style: Config.primaryTextStyle.copyWith(
+                      fontSize: 18.sp,
+                      fontWeight: Config.semiBold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Distress Urinary',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: Config.regular,
+                        ),
+                  ),
+                  Text(
+                    getTranslated(context, 'iiq_bottom') ?? '',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 16.sp,
+                          fontWeight: Config.bold,
+                        ),
+                  ),
+                  Divider(
+                    color: Config.primaryColor,
+                    height: 40,
+                    thickness: 1.5,
+                  ),
+                ],
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      _questionIiq7[_questionIndex],
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontSize: 20,
+                            fontWeight: Config.bold,
+                          ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _binaryAnswer.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.only(top: 15),
+                      itemBuilder: (_, int i) {
+                        return KuisionerAnswerCard(
+                          text: _answer[i],
+                          onChange: (s) {
+                            setState(() {
+                              if (_isAnswer.contains(s)) {
+                                _isAnswer.remove(_binaryAnswer[i]);
+                              } else {
+                                _isAnswer.add(_binaryAnswer[i]);
+                              }
+
+                              groupValue = s;
+                            });
+                          },
+                          radioValue: _binaryAnswer[i],
+                          groupValue: groupValue,
+                          onTap: () {
+                            setState(() {
+                              groupValue = _binaryAnswer[i];
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        default:
+          return const SizedBox.shrink();
+      }
+    }
+
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
@@ -411,14 +411,14 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
               onTap: () {
                 if (_questionIndex != 0) {
                   if (widget.type == 1) {
-                    if (_questionIndex < 5) {
+                    if (_questionIndex <= 5) {
                       setState(() {
                         _questionIndex--;
                         _isAnswer.remove(groupValue);
                       });
                     }
                   } else {
-                    if (_questionIndex < 6) {
+                    if (_questionIndex <= 6) {
                       setState(() {
                         _questionIndex--;
                         _isAnswer.remove(groupValue);

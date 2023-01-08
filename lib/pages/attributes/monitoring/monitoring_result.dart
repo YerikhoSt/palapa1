@@ -4,6 +4,7 @@ import 'package:graphic/graphic.dart';
 import 'package:palapa1/models/monitoring_result_model.dart';
 import 'package:palapa1/pages/attributes/monitoring/monitoring_result_card.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class MonitoringResult extends StatefulWidget {
   final int idType;
@@ -21,13 +22,13 @@ class _PerbaikanGejalaState extends State<MonitoringResult> {
   String textDinamis() {
     switch (widget.idType) {
       case 1:
-        return 'Perbaikan Gejala Inkontinensia Urin';
+        return getTranslated(context, 'mr_1') ?? '';
       case 2:
-        return 'Perbaikan Kualitas Hidup';
+        return getTranslated(context, 'mr_2') ?? '';
       case 3:
-        return 'Kekuatan Kontraksi Otot Dasar Panggal';
+        return getTranslated(context, 'mr_3') ?? '';
       case 4:
-        return 'Keparahan IUT Berdasarkan Pad Test';
+        return getTranslated(context, 'mr_4') ?? '';
       default:
         return '';
     }

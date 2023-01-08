@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/attributes/edukasi/list_video_card.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:palapa1/widgets/custom_progress_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
@@ -24,12 +25,7 @@ class _EdukasiState extends State<Edukasi> {
   ChewieController? _chewieController;
   DateTime _selectedDate = DateTime.now();
   bool _loadingVideo = false;
-  List<String> _listJudul = <String>[
-    'Apa Itu Dasar Panggul',
-    'Inkontinensia Urin Tipe Tekanan (IUT)',
-    'Latihan Kegel',
-    'Posisi Melakukan latihan Kegel',
-  ];
+
   List<String> _listVideo = <String>[
     // 'assets/images/palapa.mp4',
     // 'assets/images/palapa.mp4',
@@ -204,6 +200,12 @@ class _EdukasiState extends State<Edukasi> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> _listJudul = <String>[
+      getTranslated(context, 'edukasi_1') ?? '',
+      getTranslated(context, 'edukasi_2') ?? '',
+      getTranslated(context, 'edukasi_3') ?? '',
+      getTranslated(context, 'edukasi_4') ?? '',
+    ];
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
@@ -221,7 +223,7 @@ class _EdukasiState extends State<Edukasi> {
         ),
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
-          'Edukasi',
+          getTranslated(context, 'edukasi') ?? 'Edukasi',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 18,
                 fontWeight: Config.bold,
@@ -273,7 +275,8 @@ class _EdukasiState extends State<Edukasi> {
                       ),
                 ),
                 Text(
-                  'Video Edukasi untuk membantu proses kegiatan latihan kegel',
+                  getTranslated(context, 'edukasi_desc') ??
+                      'Educational videos to help with the Kegel exercise process',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 16,
                         fontWeight: Config.medium,
@@ -443,7 +446,7 @@ class _EdukasiState extends State<Edukasi> {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: _listVideo.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 220.w,
+              mainAxisExtent: 180.h,
               mainAxisSpacing: 10,
               crossAxisSpacing: 16,
               crossAxisCount: 2,

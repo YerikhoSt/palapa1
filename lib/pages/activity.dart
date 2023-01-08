@@ -10,6 +10,7 @@ import 'package:palapa1/pages/attributes/activity/activity_history.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Activity extends StatefulWidget {
@@ -32,6 +33,7 @@ class _ActivityState extends State<Activity> {
   List<String> _isClose = <String>[];
   DateTime _selectedDate = DateTime.now();
   ActivityModel? _activityCheck;
+  bool _isLoading = false;
 
   void _checkTimeForAbsen() {
     print('ISI HOUR =====> ${_dateTime.hour}');
@@ -68,7 +70,7 @@ class _ActivityState extends State<Activity> {
             return AlertDialog(
               alignment: Alignment.center,
               title: Text(
-                'Kontraksi',
+                getTranslated(context, 'kontraksi') ?? '',
                 style: Config.blackTextStyle.copyWith(
                   fontSize: 18.sp,
                   fontWeight: Config.semiBold,
@@ -77,7 +79,7 @@ class _ActivityState extends State<Activity> {
               ),
               actionsOverflowAlignment: OverflowBarAlignment.center,
               content: Text(
-                'Apakah kamu sudah melakukan 2 kontraksi di bawah ini pada waktu $waktu ?',
+                '${getTranslated(context, 'kontraksi_ask') ?? ''} ${getTranslated(context, waktu.toLowerCase())} ?',
                 style: Config.blackTextStyle.copyWith(
                   fontSize: 16.sp,
                   fontWeight: Config.medium,
@@ -94,15 +96,17 @@ class _ActivityState extends State<Activity> {
                     color: _isKL ? Config.primaryColor : Colors.grey,
                     borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: TextButton(
-                    child: Text(
-                      'Kontraksi Lambat',
+                  child: CheckboxListTile(
+                    value: _isKL,
+                    title: Text(
+                      getTranslated(context, 'kl') ?? 'Kontraksi Lambat',
                       style: Config.whiteTextStyle.copyWith(
                         fontSize: 14.sp,
                         fontWeight: Config.bold,
                       ),
                     ),
-                    onPressed: () {
+                    checkColor: Config.primaryColor,
+                    onChanged: (bool? value) {
                       setState(() {
                         _isKL = !_isKL;
                       });
@@ -112,21 +116,22 @@ class _ActivityState extends State<Activity> {
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   width: MediaQuery.of(context).size.width,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 10.sp, vertical: 7.sp),
+                  padding: EdgeInsets.symmetric(vertical: 7.sp),
                   decoration: BoxDecoration(
                     color: _isKC ? Config.primaryColor : Colors.grey,
                     borderRadius: BorderRadius.circular(12.r),
                   ),
-                  child: TextButton(
-                    child: Text(
-                      'Kontraksi Cepat',
+                  child: CheckboxListTile(
+                    value: _isKC,
+                    title: Text(
+                      getTranslated(context, 'kc') ?? 'Kontraksi Cepat',
                       style: Config.whiteTextStyle.copyWith(
                         fontSize: 14.sp,
                         fontWeight: Config.bold,
                       ),
                     ),
-                    onPressed: () {
+                    checkColor: Config.primaryColor,
+                    onChanged: (bool? value) {
                       setState(() {
                         _isKC = !_isKC;
                       });
@@ -176,13 +181,19 @@ class _ActivityState extends State<Activity> {
 
   Future<void> _getStatusActivity() async {
     await _sharePrefs();
-    fetchData(
+    setState(() {
+      _isLoading = true;
+    });
+    await fetchData(
       'api/aktivitas-harian/view-today/${_user_id}',
       method: FetchDataMethod.get,
       tokenLabel: TokenLabel.xa,
       extraHeader: <String, String>{'Authorization': 'Bearer ${_token}'},
     ).then(
       (dynamic value) {
+        setState(() {
+          _isLoading = false;
+        });
         print('CHECK AKTIFITY ===> $value');
         setState(() {
           _activityCheck = ActivityModel(
@@ -248,7 +259,7 @@ class _ActivityState extends State<Activity> {
         ),
         elevation: 0,
         title: Text(
-          'Aktivitas',
+          getTranslated(context, 'aktivitas') ?? 'Aktivitas',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
                 fontSize: 16.sp,
                 fontWeight: Config.bold,
@@ -262,7 +273,7 @@ class _ActivityState extends State<Activity> {
               ),
             ),
             child: Text(
-              'Daftar Aktivitas',
+              getTranslated(context, 'daftar_aktivitas') ?? 'Daftar Aktivitas',
               style: Config.primaryTextStyle.copyWith(
                 fontSize: 14.sp,
                 fontWeight: Config.semiBold,
@@ -305,104 +316,112 @@ class _ActivityState extends State<Activity> {
                   height: 50.h,
                   thickness: 1.5,
                 ),
-                ListView.builder(
-                  itemCount: _listJawaban.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (_, int i) {
-                    return ButtonAbsen(
-                      text: _listJawaban[i],
-                      colorDynamic: _isCheck.contains(_listJawaban[i])
-                          ? 1
-                          : _isClose.contains(_listJawaban[i])
-                              ? 2
-                              : 0,
-                      check: () {
-                        ShowQuestionDialog(
-                          () {
-                            print('send');
-                            setState(() {
-                              _isCheck.add(_listJawaban[i]);
-                            });
-                            fetchData(
-                              'api/aktivitas-harian/post',
-                              method: FetchDataMethod.post,
-                              tokenLabel: TokenLabel.xa,
-                              extraHeader: <String, String>{
-                                'Authorization': 'Bearer ${_token}'
-                              },
-                              params: <String, dynamic>{
-                                'user_id': _user_id,
-                                'absen_pagi': _isCheck.contains('Pagi')
-                                    ? _selectedDate.toString()
-                                    : null,
-                                'absen_siang': _isCheck.contains('Siang')
-                                    ? _selectedDate.toString()
-                                    : null,
-                                'absen_malem': _isCheck.contains('Malam')
-                                    ? _selectedDate.toString()
-                                    : null,
-                                'tanggal_aktivitas': _dateActivity,
-                              },
-                            ).then((dynamic value) {
-                              if (value['status'] == 200) {
-                                print('hasil dari absen $value');
+                _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Config.primaryColor,
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: _listJawaban.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, int i) {
+                          return ButtonAbsen(
+                            text: _listJawaban[i],
+                            colorDynamic: _isCheck.contains(_listJawaban[i])
+                                ? 1
+                                : _isClose.contains(_listJawaban[i])
+                                    ? 2
+                                    : 0,
+                            check: () {
+                              ShowQuestionDialog(
+                                () {
+                                  print('send');
+                                  setState(() {
+                                    _isCheck.add(_listJawaban[i]);
+                                  });
+                                  fetchData(
+                                    'api/aktivitas-harian/post',
+                                    method: FetchDataMethod.post,
+                                    tokenLabel: TokenLabel.xa,
+                                    extraHeader: <String, String>{
+                                      'Authorization': 'Bearer ${_token}'
+                                    },
+                                    params: <String, dynamic>{
+                                      'user_id': _user_id,
+                                      'absen_pagi': _isCheck.contains('Pagi')
+                                          ? _selectedDate.toString()
+                                          : null,
+                                      'absen_siang': _isCheck.contains('Siang')
+                                          ? _selectedDate.toString()
+                                          : null,
+                                      'absen_malem': _isCheck.contains('Malam')
+                                          ? _selectedDate.toString()
+                                          : null,
+                                      'tanggal_aktivitas': _dateActivity,
+                                    },
+                                  ).then((dynamic value) {
+                                    if (value['status'] == 200) {
+                                      print('hasil dari absen $value');
+                                      setState(() {
+                                        _listJawaban.removeAt(i);
+                                        _getStatusActivity();
+                                      });
+                                      Navigator.pop(context);
+                                    } else {
+                                      Navigator.pop(context);
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          backgroundColor: Config.alertColor,
+                                          content: const Text(
+                                            'Silahkan Selesaikan Kedua Penilaian Kondisi Dahulu',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  });
+                                },
+                                _listJawaban[i],
+                              );
+                            },
+                            close: () {
+                              setState(() {
+                                _isClose.add(_listJawaban[i]);
+                              });
+                              fetchData(
+                                'api/aktivitas-harian/post',
+                                method: FetchDataMethod.post,
+                                tokenLabel: TokenLabel.xa,
+                                extraHeader: <String, String>{
+                                  'Authorization': 'Bearer ${_token}'
+                                },
+                                params: <String, dynamic>{
+                                  'user_id': _user_id,
+                                  'absen_pagi':
+                                      _isClose.contains('Pagi') ? null : null,
+                                  'absen_siang':
+                                      _isClose.contains('Siang') ? null : null,
+                                  'absen_malem':
+                                      _isClose.contains('Malam') ? null : null,
+                                  'tanggal_aktivitas': _dateActivity,
+                                },
+                              ).then((dynamic value) {
+                                print(value);
                                 setState(() {
                                   _listJawaban.removeAt(i);
                                   _getStatusActivity();
                                 });
-                                Navigator.pop(context);
-                              } else {
-                                Navigator.pop(context);
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    duration: const Duration(milliseconds: 500),
-                                    backgroundColor: Config.alertColor,
-                                    content: const Text(
-                                      'Silahkan Selesaikan Kedua Penilaian Kondisi Dahulu',
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                );
-                              }
-                            });
-                          },
-                          _listJawaban[i],
-                        );
-                      },
-                      close: () {
-                        setState(() {
-                          _isClose.add(_listJawaban[i]);
-                        });
-                        fetchData(
-                          'api/aktivitas-harian/post',
-                          method: FetchDataMethod.post,
-                          tokenLabel: TokenLabel.xa,
-                          extraHeader: <String, String>{
-                            'Authorization': 'Bearer ${_token}'
-                          },
-                          params: <String, dynamic>{
-                            'user_id': _user_id,
-                            'absen_pagi':
-                                _isClose.contains('Pagi') ? null : null,
-                            'absen_siang':
-                                _isClose.contains('Siang') ? null : null,
-                            'absen_malem':
-                                _isClose.contains('Malam') ? null : null,
-                            'tanggal_aktivitas': _dateActivity,
-                          },
-                        ).then((dynamic value) {
-                          print(value);
-                          setState(() {
-                            _listJawaban.removeAt(i);
-                            _getStatusActivity();
-                          });
-                        });
-                      },
-                    );
-                  },
-                ),
+                              });
+                            },
+                          );
+                        },
+                      ),
               ],
             ),
       bottomNavigationBar: InkWell(
@@ -421,7 +440,8 @@ class _ActivityState extends State<Activity> {
           ),
           child: Center(
             child: Text(
-              'Lihat History Aktivitas',
+              getTranslated(context, 'history_aktivitas') ??
+                  'Lihat History Aktivitas',
               style: Config.whiteTextStyle.copyWith(
                 fontSize: 16.sp,
                 fontWeight: Config.bold,

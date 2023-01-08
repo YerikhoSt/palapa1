@@ -10,6 +10,9 @@
 	"map": "Map",
 	"profil": "Profile",
 
+	"no_telepon": "Phone Number",
+	"alamat": "Address",
+
 	"beranda": "Home",
 	"tanya_kami": "Contact Us",
 	"berita": "News",
@@ -17,13 +20,13 @@
 	"latihan_kegel": "Kegel Exercise",
 
 	"edukasi": "Education",
-	"kuisioner": "Questionnaire",
+	"kuisioner": "Condition Assessment",
 	"aktivitas": "Activity",
 	"monitoring": "Monitoring",
 
 	"edukasi_senam_kegel": "Kegel Exercise Education",
-	"kuisioner_alert": "Questionnaire results will only be recorded once a month",
-	"pilih_kuisioner": "Select a Questionnaire",
+	"kuisioner_alert": "The results of the condition assessment will only be recorded once a month",
+	"pilih_kuisioner": "Select Condition Assessment",
 	"pertanyaan": "Question",
 	"pilih_admin": "Choose an admin for you to chat",
 	"selanjutnya": "Next",
@@ -46,10 +49,70 @@
 	"referensi_2": "2. Hakim S. Handbook of Kegel Exercises for Pressure Type Urinary Incontinence. 2021",
 	"referensi_3":"3. Abrams P, Andersson KE, Birder L, et al. Fourth International Consultation on Incontinence Recommendations of the International Scientific Committee: Evaluation and treatment of urinary incontinence, pelvic organ prolapse, and fecal incontinence. Neurourol Urodyn. 2010;29(1):213-40.",
 	"referensi_4":"4. Dumoulin C, Cacciari LP, Hay-Smith EJC. Pelvic floor muscle training versus no treatment, or inactive control treatments, for urinary incontinence in women. Cochrane Database System Rev. 2018;10.",
-	"referensi_5":"5. Araujo CC, Marques AA, Juliato CRT. The Adherence of Home Pelvic Floor Muscles Training Using a Mobile Device Application for Women With Urinary Incontinence: A Randomized Controlled Trial. Female Pelvic Med Reconstr Surg. Nov 2020;26(11):697-703."
+	"referensi_5":"5. Araujo CC, Marques AA, Juliato CRT. The Adherence of Home Pelvic Floor Muscles Training Using a Mobile Device Application for Women With Urinary Incontinence: A Randomized Controlled Trial. Female Pelvic Med Reconstr Surg. Nov 2020;26(11):697-703.",
 
 
+	"monitoring_1": "Improvement of Urinary Incontinence Symptoms (UDI Score - 6)",
+	"monitoring_2": "Improved Quality of Life related to IUT conditions (IIQ Score - 7)",
+	"monitoring_3": "Pelvic Floor Muscle Contraction Strength (Perineometry)",
+	"monitoring_4": "IUT Severity Based on 1 Hour Pad Test Measurement",
 
+	"mr_1": "Urinary Incontinence Symptom Improvement",
+	"mr_2": "Quality of Life Improvement",
+	"mr_3": "Pelvic Floor Muscle Contraction Force",
+	"mr_4": "IUT Severity Based on Pad Test",
+
+	"edukasi_1": "What is the Pelvic Floor",
+	"edukasi_2": "Pressure Type Urinary Incontinence (IUT)",
+	"edukasi_3": "Kegel Exercise",
+	"edukasi_4": "Position Doing Kegel exercises",
+	"jadwal_kegiatan":"Schedule of Activities",
+
+	"add_jadwal": "Enter Follow-up results",
+
+
+	"udi_q_1": "Pee often?",
+	"udi_q_2": "Discharge of urine associated with the feeling of wanting to urinate?",
+	"udi_q_3": "Urinary discharge associated with physical activity, coughing or sneezing?",
+	"udi_q_4": "Leaving small amounts of urine (hatches)?",
+	"udi_q_5": "Difficulty emptying the bladder (satisfied urination)",
+	"udi_q_6": "Pain or discomfort in the lower abdomen or pubic area?",
+
+	"iiq_q_1": "Your household chores?",
+	"iiq_q_2": "Recreational activities such as walking, swimming, or playing sports?",
+	"iiq_q_3": "Entertainment activities (watching movies, concerts, etc.) ?",
+	"iiq_q_4": "Travel by car or bus longer than 30 minutes?",
+	"iiq_q_5": "Activities on social activities outside the home?",
+	"iiq_q_6": "Mental health (anxiety, depression, shame, humility, etc.)?",
+	"iiq_q_7": "Feeling frustrated?",
+
+
+	"answer_1":"Never",
+	"answer_2":"Seldom",
+	"answer_3":"Sometimes",
+	"answer_4":"often",
+
+	"edukasi_desc": "Educational videos to help with the Kegel exercise process",
+
+
+	"daftar_aktivitas": "Activity List",
+
+	"history_aktivitas": "View Activity History",
+
+	"pagi": "Morning",
+	"siang": "Afternoon",
+	"malam": "Night",
+
+
+	"hasil_bagus": "Great Results",
+	"hasil_buruk": "Bad Results",
+
+	"minggu": "Week",
+
+	"kc": "Fast Contraction",
+	"kl": "Slow Contraction",
+	"kontraksi":"Contraction",
+	"kontraksi_ask": "Have you done the 2 contractions below at "
 
 
 }

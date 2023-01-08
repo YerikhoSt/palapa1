@@ -6,6 +6,7 @@ import 'package:palapa1/pages/attributes/jadwal_kegiatan_follow_up/jadwal_kegiat
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JadwalKegiatanFollowUp extends StatefulWidget {
@@ -90,9 +91,9 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
         ),
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
-          'Jadwal',
+          '${getTranslated(context, 'jadwal_kegiatan') ?? 'Jadwal Kegiatan'} Follow Up',
           style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                fontSize: 16.sp,
+                fontSize: 15.sp,
                 fontWeight: Config.bold,
               ),
         ),
@@ -135,7 +136,8 @@ class _JadwalKegiatanFollowUpState extends State<JadwalKegiatanFollowUp> {
                     ),
                     child: Center(
                       child: Text(
-                        'Masukan Kegiatan Follow Up',
+                        getTranslated(context, 'add_jadwal') ??
+                            'Masukkan Hasil Follow Up',
                         style: Config.primaryTextStyle.copyWith(
                           fontSize: 18,
                           fontWeight: Config.semiBold,

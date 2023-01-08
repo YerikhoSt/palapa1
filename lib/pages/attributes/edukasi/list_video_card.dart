@@ -25,6 +25,7 @@ class ListVideoCard extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image.asset(
             'assets/images/login_image.png',
@@ -32,33 +33,13 @@ class ListVideoCard extends StatelessWidget {
             height: 80,
           ),
           const SizedBox(height: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 13.sp,
-                        fontWeight: Config.bold,
-                      ),
-                  textAlign: TextAlign.center,
+          Text(
+            title,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 13.sp,
+                  fontWeight: Config.bold,
                 ),
-                Divider(
-                  color: Config.primaryColor,
-                  height: 20,
-                  thickness: 1.5,
-                ),
-                Text(
-                  subTitle,
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 12.sp,
-                        fontWeight: Config.medium,
-                      ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

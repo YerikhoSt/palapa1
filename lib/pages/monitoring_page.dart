@@ -109,7 +109,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 ),
                 SizedBox(height: 25.h),
                 MonitoringPageCard(
-                  text: 'Perbaikan Gejala Inkontinensia Urin (Skor UDI - 6)',
+                  text: getTranslated(context, 'monitoring_1') ?? '',
                   onTap: () {
                     if (_udi6.isEmpty) {
                       Navigator.of(context).push(
@@ -130,8 +130,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   },
                 ),
                 MonitoringPageCard(
-                  text:
-                      'Perbaikan Kualitas Hidup yang berkaitan dengan kondisi IUT (Skor IIQ - 7)',
+                  text: getTranslated(context, 'monitoring_2') ?? '',
                   onTap: () {
                     if (_iiq7.isEmpty) {
                       Navigator.of(context).push(
@@ -152,7 +151,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   },
                 ),
                 MonitoringPageCard(
-                  text: 'Kekuatan Kontraksi Otot Dasar Panggal (Perineometri)',
+                  text: getTranslated(context, 'monitoring_3') ?? '',
                   onTap: () {
                     if (_perineometri.isEmpty) {
                       Navigator.of(context).push(
@@ -173,7 +172,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   },
                 ),
                 MonitoringPageCard(
-                  text: 'Keparahan IUT Berdasarkan Pengukuran Pad Test 1 Jam',
+                  text: getTranslated(context, 'monitoring_4') ?? '',
                   onTap: () {
                     if (_padTest.isEmpty) {
                       Navigator.of(context).push(

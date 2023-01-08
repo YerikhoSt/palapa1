@@ -5,6 +5,7 @@ import 'package:palapa1/pages/attributes/profile/edit_profile_page.dart';
 import 'package:palapa1/pages/login.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePageCard extends StatelessWidget {
@@ -69,12 +70,9 @@ class ProfilePageCard extends StatelessWidget {
                             alamat: user.alamat,
                             email: user.email,
                             kota: user.kota,
-                            namaPendamping: user.nama_pendamping,
                             name: user.name,
-                            noTelponPendamping: user.no_telpon_pendamping,
                             provinsi: user.provinsi,
                             tanggalLahir: user.tanggal_lahir,
-                            username: user.username,
                           ),
                         ),
                       ),
@@ -154,7 +152,7 @@ class ProfilePageCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'No. Telepon',
+                      getTranslated(context, 'no_telepon') ?? 'No Telepon',
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontSize: 14.w,
                             fontWeight: Config.bold,
@@ -214,7 +212,7 @@ class ProfilePageCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Alamat',
+                      getTranslated(context, 'alamat') ?? 'Alamat',
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             fontSize: 14.w,
                             fontWeight: Config.bold,

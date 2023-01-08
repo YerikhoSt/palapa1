@@ -5,6 +5,7 @@ import 'package:palapa1/models/activity_model.dart';
 import 'package:palapa1/pages/attributes/activity/activity_history_card.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ActivityHistory extends StatefulWidget {
@@ -133,14 +134,16 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                 ),
           ),
         ),
-        body: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            _isLoading
-                ? CircularProgressIndicator(
-                    color: Config.primaryColor,
-                  )
-                : SizedBox(
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Config.primaryColor,
+                ),
+              )
+            : ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 200,
                     child: Chart(
@@ -182,48 +185,48 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                       ),
                     ),
                   ),
-            SizedBox(height: 20.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text(
-                  'Pagi : ${_totalPagi}x',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 15.sp,
-                        fontWeight: Config.bold,
+                  SizedBox(height: 20.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(
+                        '${getTranslated(context, 'pagi') ?? 'Pagi'} : ${_totalPagi}x',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: Config.bold,
+                            ),
                       ),
-                ),
-                Text(
-                  'Siang : ${_totalSiang}x',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 15.sp,
-                        fontWeight: Config.bold,
+                      Text(
+                        '${getTranslated(context, 'siang') ?? 'Siang'} : ${_totalSiang}x',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: Config.bold,
+                            ),
                       ),
-                ),
-                Text(
-                  'Malam : ${_totalMalam}x',
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 15.sp,
-                        fontWeight: Config.bold,
+                      Text(
+                        '${getTranslated(context, 'malam') ?? 'Malam'} : ${_totalMalam}x',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              fontSize: 14.sp,
+                              fontWeight: Config.bold,
+                            ),
                       ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _activityHistory.length,
-                padding: EdgeInsets.fromLTRB(22.w, 50.h, 22.w, 50.h),
-                itemBuilder: (_, int i) {
-                  return ActivityHistoryCard(
-                    activity: _activityHistory[i],
-                  );
-                },
-              ),
-            ),
-          ],
-        ));
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _activityHistory.length,
+                      padding: EdgeInsets.fromLTRB(22.w, 50.h, 22.w, 50.h),
+                      itemBuilder: (_, int i) {
+                        return ActivityHistoryCard(
+                          activity: _activityHistory[i],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ));
   }
 }

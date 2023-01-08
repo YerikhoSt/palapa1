@@ -26,8 +26,8 @@ class _PengaturanPageState extends State<PengaturanPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (mounted) {
       setState(() {
-        _notif = prefs.getBool('user_notif')!;
-        _vibra = prefs.getBool('user_vibra')!;
+        _notif = prefs.getBool('user_notif') ?? true;
+        _vibra = prefs.getBool('user_vibra') ?? true;
       });
     }
   }

@@ -31,29 +31,6 @@ class _ProfilePageState extends State<ProfilePage> {
   UserModel? _user;
 
   Future<void> _getUsertInfo() async {
-    await getPrefsProfileForm().then(
-      (Map<String, dynamic> value) {
-        print(value);
-
-        setState(() {
-          _user = UserModel(
-            username: value['user_username'],
-            email: value['user_email'],
-            name: value['user_name'],
-            tanggal_lahir: value['user_tanggal_lahir'],
-            alamat: value['user_alamat'],
-            no_telpon: value['user_no_telpon'],
-            nama_pendamping: value['user_nama_pendamping'],
-            no_telpon_pendamping: value['user_no_telpon_pendamping'],
-            kota: value['user_kota'],
-            provinsi: value['user_provinsi'],
-          );
-        });
-      },
-    );
-    setState(() {
-      _isLoading = true;
-    });
     await fetchData(
       'api/user/view/${_user_id}',
       method: FetchDataMethod.get,
@@ -80,6 +57,26 @@ class _ProfilePageState extends State<ProfilePage> {
         print(value);
       },
     );
+    await getPrefsProfileForm().then(
+      (Map<String, dynamic> value) {
+        print(value);
+
+        setState(() {
+          _user = UserModel(
+            email: value['user_email'],
+            name: value['user_name'],
+            tanggal_lahir: value['user_tanggal_lahir'],
+            alamat: value['user_alamat'],
+            no_telpon: value['user_no_telpon'],
+            kota: value['user_kota'],
+            provinsi: value['user_provinsi'],
+          );
+        });
+      },
+    );
+    setState(() {
+      _isLoading = true;
+    });
   }
 
   Future<void> _getUserData() async {

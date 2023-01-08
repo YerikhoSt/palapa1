@@ -16,12 +16,9 @@ class EditProfilePage extends StatefulWidget {
   final String email;
   final String alamat;
   final String NoTelpon;
-  final String namaPendamping;
-  final String noTelponPendamping;
   final String kota;
   final String provinsi;
   final String tanggalLahir;
-  final String username;
 
   const EditProfilePage({
     Key? key,
@@ -29,11 +26,8 @@ class EditProfilePage extends StatefulWidget {
     required this.email,
     required this.alamat,
     required this.NoTelpon,
-    required this.namaPendamping,
-    required this.noTelponPendamping,
     required this.kota,
     required this.provinsi,
-    required this.username,
     required this.tanggalLahir,
   }) : super(key: key);
 
@@ -81,15 +75,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         print(value);
         await changePrefsProfile(
           <String, String>{
-            'username': value['data']['username'],
             'email': value['data']['email'],
             'name': value['data']['name'],
             'tanggal_lahir': value['data']['tanggal_lahir'].toString(),
             'alamat': value['data']['alamat'],
             'no_telpon': value['data']['no_telpon'].toString(),
-            'nama_pendamping': value['data']['nama_pendamping'],
-            'no_telpon_pendamping':
-                value['data']['no_telpon_pendamping'].toString(),
             'kota': value['data']['kota'],
             'provinsi': value['data']['provinsi'],
           },
@@ -108,10 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _controllerAlamat.text = widget.alamat;
       _controllerEmail.text = widget.email;
       _controllerKota.text = widget.kota;
-      _controllerNamaPendamping.text = widget.namaPendamping;
       _controllerNoTelepon.text = widget.NoTelpon;
-      _controllerNoTeleponPendamping.text = widget.noTelponPendamping;
-      _controllerUsername.text = widget.username;
       _controllerTanggalLahir.text = widget.tanggalLahir;
       _controllerProvinsi.text = widget.provinsi;
     });
@@ -712,24 +699,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
               ),
               onPressed: () async {
-                if (_controllerAlamat.text.isNotEmpty &&
-                    _controllerEmail.text.isNotEmpty &&
-                    _controllerKota.text.isNotEmpty &&
-                    _controllerName.text.isNotEmpty &&
-                    _controllerNoTelepon.text.isNotEmpty &&
-                    _controllerProvinsi.text.isNotEmpty &&
-                    _controllerTanggalLahir.text.isNotEmpty) {
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  await fetchData(
-                    'api/user/edit/${_user_id}',
-                    method: FetchDataMethod.post,
-                    tokenLabel: TokenLabel.xa,
-                    extraHeader: <String, String>{
-                      'Authorization': 'Bearer ${_token}'
-                    },
-                    params: <String, dynamic>{
+                setState(() {
+                  _isLoading = true;
+                });
+                await fetchData(
+                  'api/user/edit/${_user_id}',
+                  method: FetchDataMethod.post,
+                  tokenLabel: TokenLabel.xa,
+                  extraHeader: <String, String>{
+                    'Authorization': 'Bearer ${_token}'
+                  },
+                  params: <String, dynamic>{
                       'avatar': 'https://via.placeholder.com/150',
                       'email': _controllerEmail.text,
                       'name': _controllerName.text,
@@ -743,34 +723,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     },
                   ).then(
                     (dynamic value) async {
-                      print('response regist');
-                      print(value);
-                      await _getDataUser();
-                      setState(() {
-                        _isLoading = false;
-                      });
-                      Navigator.of(context).pushAndRemoveUntil(
-                        AniRoute(
-                          child: const MainContainer(
-                            index: 3,
-                          ),
+                    print('EDIT RESPONSE =====> $value');
+                    await _getDataUser();
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    Navigator.of(context).pushAndRemoveUntil(
+                      AniRoute(
+                        child: const MainContainer(
+                          index: 3,
                         ),
-                        (route) => false,
-                      );
-                    },
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: const Duration(milliseconds: 500),
-                      backgroundColor: Colors.red.shade400,
-                      content: const Text(
-                        'Silahkan isi semua data terlebih dahulu',
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                  );
-                }
+                      (route) => false,
+                    );
+                  },
+                );
               },
               child: Center(
                 child: _isLoading

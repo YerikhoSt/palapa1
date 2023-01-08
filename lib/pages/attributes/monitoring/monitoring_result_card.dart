@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/models/monitoring_result_model.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class MonitoringResultCard extends StatefulWidget {
   final MonitoringResultModel result;
@@ -29,20 +30,20 @@ class _MonitoringResultCardState extends State<MonitoringResultCard> {
     }
   }
 
-  String _textDinamis() {
-    switch (widget.param) {
-      case 1:
-        return 'Hasil Buruk';
-      case 2:
-        return 'Hasil Bagus';
-
-      default:
-        return '';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    String _textDinamis() {
+      switch (widget.param) {
+        case 1:
+          return getTranslated(context, 'hasil_buruk') ?? 'Hasil Buruk';
+        case 2:
+          return getTranslated(context, 'hasil_bagus') ?? 'Hasil Bagus';
+
+        default:
+          return '';
+      }
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(12.w),
@@ -62,7 +63,7 @@ class _MonitoringResultCardState extends State<MonitoringResultCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Minggu ke - ${widget.result.week}',
+            '${getTranslated(context, 'minggu') ?? 'Minggu'} ke - ${widget.result.week}',
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                   fontSize: 18.sp,
                   fontWeight: Config.semiBold,
