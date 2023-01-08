@@ -140,90 +140,106 @@ class _ActivityHistoryState extends State<ActivityHistory> {
                   color: Config.primaryColor,
                 ),
               )
-            : ListView(
-                shrinkWrap: true,
+            : Stack(
                 children: <Widget>[
-                  SizedBox(
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _activityHistory.length,
+                    padding: EdgeInsets.fromLTRB(22.w, 240.h, 22.w, 50.h),
+                    itemBuilder: (_, int i) {
+                      return ActivityHistoryCard(
+                        activity: _activityHistory[i],
+                      );
+                    },
+                  ),
+                  Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    child: Chart(
-                      data: dataPie,
-                      variables: {
-                        'time': Variable(
-                          accessor: (Map map) => map['time'] as String,
-                        ),
-                        'sales': Variable(
-                          accessor: (Map map) => map['sales'] as num,
-                          scale: LinearScale(min: 0),
-                        ),
-                      },
-                      transforms: [
-                        Proportion(
-                          variable: 'sales',
-                          as: 'percent',
-                        ),
-                      ],
-                      elements: [
-                        IntervalElement(
-                          position: Varset('percent') / Varset('time'),
-                          modifiers: [StackModifier()],
-                          color: ColorAttr(
-                            variable: 'time',
-                            values: _colorPie,
-                          ),
-                          label: LabelAttr(
-                            encoder: (Tuple tuple) => Label(
-                              tuple['time'].toString(),
-                              LabelStyle(style: Defaults.runeStyle),
-                            ),
-                          ),
-                        )
-                      ],
-                      coord: PolarCoord(
-                        transposed: true,
-                        dimCount: 1,
-                      ),
+                    height: 220.h,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
                     ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(
-                        '${getTranslated(context, 'pagi') ?? 'Pagi'} : ${_totalPagi}x',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 14.sp,
-                              fontWeight: Config.bold,
+                    child: ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 200,
+                          child: Chart(
+                            data: dataPie,
+                            variables: {
+                              'time': Variable(
+                                accessor: (Map map) => map['time'] as String,
+                              ),
+                              'sales': Variable(
+                                accessor: (Map map) => map['sales'] as num,
+                                scale: LinearScale(min: 0),
+                              ),
+                            },
+                            transforms: [
+                              Proportion(
+                                variable: 'sales',
+                                as: 'percent',
+                              ),
+                            ],
+                            elements: [
+                              IntervalElement(
+                                position: Varset('percent') / Varset('time'),
+                                modifiers: [StackModifier()],
+                                color: ColorAttr(
+                                  variable: 'time',
+                                  values: _colorPie,
+                                ),
+                                label: LabelAttr(
+                                  encoder: (Tuple tuple) => Label(
+                                    tuple['time'].toString(),
+                                    LabelStyle(style: Defaults.runeStyle),
+                                  ),
+                                ),
+                              )
+                            ],
+                            coord: PolarCoord(
+                              transposed: true,
+                              dimCount: 1,
                             ),
-                      ),
-                      Text(
-                        '${getTranslated(context, 'siang') ?? 'Siang'} : ${_totalSiang}x',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 14.sp,
-                              fontWeight: Config.bold,
+                          ),
+                        ),
+                        SizedBox(height: 20.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Text(
+                              '${getTranslated(context, 'pagi') ?? 'Pagi'} : ${_totalPagi}x',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    fontSize: 14.sp,
+                                    fontWeight: Config.bold,
+                                  ),
                             ),
-                      ),
-                      Text(
-                        '${getTranslated(context, 'malam') ?? 'Malam'} : ${_totalMalam}x',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              fontSize: 14.sp,
-                              fontWeight: Config.bold,
+                            Text(
+                              '${getTranslated(context, 'siang') ?? 'Siang'} : ${_totalSiang}x',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    fontSize: 14.sp,
+                                    fontWeight: Config.bold,
+                                  ),
                             ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _activityHistory.length,
-                      padding: EdgeInsets.fromLTRB(22.w, 50.h, 22.w, 50.h),
-                      itemBuilder: (_, int i) {
-                        return ActivityHistoryCard(
-                          activity: _activityHistory[i],
-                        );
-                      },
+                            Text(
+                              '${getTranslated(context, 'malam') ?? 'Malam'} : ${_totalMalam}x',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                    fontSize: 14.sp,
+                                    fontWeight: Config.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],

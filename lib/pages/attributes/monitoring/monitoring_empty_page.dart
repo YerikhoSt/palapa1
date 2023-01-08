@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class MonitoringEmptyPage extends StatelessWidget {
   const MonitoringEmptyPage({super.key});
@@ -36,7 +37,7 @@ class MonitoringEmptyPage extends StatelessWidget {
             ),
             SizedBox(height: 15.h),
             Text(
-              'Hasil Monitoring Kamu Masih Kosong!',
+              getTranslated(context, 'monitoring_empty') ?? 'Monitoring Kosong',
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontSize: 20.w,
                     fontWeight: Config.semiBold,

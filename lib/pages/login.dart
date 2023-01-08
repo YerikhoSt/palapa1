@@ -199,7 +199,7 @@ class _LoginBodyState extends State<LoginBody> {
                         width: 2,
                       ),
                     ),
-                    hintText: 'Enter your username',
+                    hintText: 'Enter your Email',
                     hintStyle: Theme.of(context).textTheme.bodyText1,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),

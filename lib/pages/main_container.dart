@@ -35,6 +35,7 @@ class _MainContainerState extends State<MainContainer>
   String? _token;
   bool _vibra = false;
   bool _notif = false;
+  bool _isValidSession = false;
   int? _user_id;
   String _textNotification = '';
   AndroidNotificationChannel channel = const AndroidNotificationChannel(
@@ -122,13 +123,18 @@ class _MainContainerState extends State<MainContainer>
             );
           }
         } else {
-          Navigator.pushAndRemoveUntil(
-              context,
-              AniRoute(
-                child: const Login(),
-              ),
-              (route) => false);
+          setState(() {
+            _isValidSession = true;
+          });
         }
+        // } else {
+        //   Navigator.pushAndRemoveUntil(
+        //       context,
+        //       AniRoute(
+        //         child: const Login(),
+        //       ),
+        //       (route) => false);
+        // }
       },
     );
   }
@@ -204,10 +210,18 @@ class _MainContainerState extends State<MainContainer>
           physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: <Widget>[
-            const HomePage(),
-            _token != null ? const PilihAdmin() : const NotLoginUser(),
-            _token != null ? const PengaturanPage() : const NotLoginUser(),
-            _token != null ? const ProfilePage() : const NotLoginUser(),
+            HomePage(
+              validSession: _isValidSession,
+            ),
+            _token != null || _isValidSession == false
+                ? const PilihAdmin()
+                : const NotLoginUser(),
+            _token != null || _isValidSession == false
+                ? const PengaturanPage()
+                : const NotLoginUser(),
+            _token != null || _isValidSession == false
+                ? const ProfilePage()
+                : const NotLoginUser(),
           ],
         ),
         bottomNavigationBar: Container(

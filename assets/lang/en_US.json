@@ -9,6 +9,8 @@
 	"dasbor": "Dashboard",
 	"map": "Map",
 	"profil": "Profile",
+	"notifikasi": "Notification",
+	"getaran": "Vibration",
 
 	"no_telepon": "Phone Number",
 	"alamat": "Address",
@@ -112,7 +114,15 @@
 	"kc": "Fast Contraction",
 	"kl": "Slow Contraction",
 	"kontraksi":"Contraction",
-	"kontraksi_ask": "Have you done the 2 contractions below at "
+	"kontraksi_ask": "Have you done the 2 contractions below at ",
+
+
+	"activity_empty": "Yey you have finished all activities today!",
+	"monitoring_empty": "Your monitoring results are still empty!",
+
+
+	"log_alert": "You are not logged in",
+	"log_alert2": "Come on login to unlock all features!"
 
 
 }

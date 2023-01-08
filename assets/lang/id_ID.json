@@ -9,6 +9,8 @@
 	"dasbor": "Dasbor",
 	"map": "Peta",
 	"profil": "Profil",
+	"notifikasi": "Notifikasi",
+	"getaran": "Getaran",
 
 	"no_telepon": "No Telepon",
 	"alamat":"Alamat",
@@ -108,7 +110,13 @@
 	"kc": "Kontraksi Cepat",
 	"kl": "Kontraksi Lambat",
 	"kontraksi":"Kontraksi",
-	"kontraksi_ask": "Apakah kamu sudah melakukan 2 kontraksi di bawah ini pada waktu"
+	"kontraksi_ask": "Apakah kamu sudah melakukan 2 kontraksi di bawah ini pada waktu",
+
+	"activity_empty": "Yey kamu sudah menyelesaikan semua aktivitas hari ini!",
+	"monitoring_empty": "Hasil Monitoring Kamu Masih Kosong!",
+
+	"log_alert": "Kamu Belum Login",
+	"log_alert2": "Ayo login untuk membuka semua fitur!"
 
 
 

@@ -82,16 +82,6 @@ class _PilihAdminState extends State<PilihAdmin> {
         backgroundColor: Config.primaryColor,
         automaticallyImplyLeading: false,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            size: 20,
-            color: Config.whiteColor,
-          ),
-        ),
         title: Text(
           getTranslated(context, 'tanya_kami') ?? 'Tanya Kami',
           style: Config.whiteTextStyle.copyWith(

@@ -233,7 +233,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
             minLeadingWidth: 0,
             contentPadding: const EdgeInsets.all(0),
             title: Text(
-              'Getaran',
+              getTranslated(context, 'getaran') ?? 'Vibration',
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontSize: 14,
                   ),
@@ -265,7 +265,7 @@ class _PengaturanPageState extends State<PengaturanPage> {
             minLeadingWidth: 0,
             contentPadding: const EdgeInsets.all(0),
             title: Text(
-              'Notification',
+              getTranslated(context, 'notifikasi') ?? 'Notification',
               style: Theme.of(context).textTheme.bodyText1!.copyWith(
                     fontSize: 14,
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class ActivityEmpty extends StatefulWidget {
   const ActivityEmpty({super.key});
@@ -25,7 +26,7 @@ class _ActivityEmptyState extends State<ActivityEmpty> {
           ),
           SizedBox(height: 15.h),
           Text(
-            'Yey kamu sudah menyelesaikan semua aktivitas hari ini!',
+            getTranslated(context, 'activity_empty') ?? 'Aktifitas Selesai',
             style: Config.blackTextStyle.copyWith(
               fontSize: 20.w,
               fontWeight: Config.semiBold,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/login.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class NotLoginUser extends StatelessWidget {
   const NotLoginUser({super.key});
@@ -15,7 +16,7 @@ class NotLoginUser extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Kamu Belum Login',
+            getTranslated(context, 'log_alert') ?? 'Kamu Belum Login',
             style: Config.blackTextStyle.copyWith(
               fontSize: 15.sp,
               fontWeight: Config.semiBold,
@@ -23,7 +24,7 @@ class NotLoginUser extends StatelessWidget {
           ),
           SizedBox(height: 5.h),
           Text(
-            'Ayo login untuk membuka semua fitur!',
+            getTranslated(context, 'log_alert2') ?? 'Ayo Login',
             style: Config.blackTextStyle.copyWith(
               fontSize: 15.sp,
               fontWeight: Config.semiBold,

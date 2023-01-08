@@ -26,7 +26,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vibration/vibration.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  bool validSession;
+  HomePage({
+    super.key,
+    this.validSession = false,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -71,14 +75,11 @@ class _HomePageState extends State<HomePage> {
         print(value);
         await changePrefsProfile(
           <String, String>{
-            'username': value['data']['username'],
             'email': value['data']['email'],
             'name': value['data']['name'],
             'tanggal_lahir': value['data']['tanggal_lahir'].toString(),
             'alamat': value['data']['alamat'],
             'no_telpon': value['data']['no_telpon'].toString(),
-            'no_telpon_pendamping':
-                value['data']['no_telpon_pendamping'].toString(),
             'kota': value['data']['kota'],
             'provinsi': value['data']['provinsi'],
           },
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
           'user_id': _user_id,
         }).then((dynamic value) {
       if (value['data'] != null) {
-        print('object $value');
+        print('ISI CHECK AKSES $value');
 
         if (value['status'] == 200) {
           setState(() {
@@ -112,6 +113,14 @@ class _HomePageState extends State<HomePage> {
           });
         } else {
           _checkStatus();
+        }
+        if (value['status'] == 401) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              AniRoute(
+                child: const Login(),
+              ),
+              (route) => false);
         }
       }
     });
@@ -467,7 +476,7 @@ class _HomePageState extends State<HomePage> {
                     text: getTranslated(context, 'edukasi') ?? 'Edukasi',
                     isDisable: _menuAccess[0] == 'enabled' ? false : true,
                     onTap: () async {
-                      if (_token != null) {
+                      if (_token != null || widget.validSession == false) {
                         await Navigator.of(context).push(
                           AniRoute(
                             child: const Edukasi(),
@@ -482,7 +491,8 @@ class _HomePageState extends State<HomePage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Text(
-                                    'Kamu Belum Login',
+                                    getTranslated(context, 'log_alert') ??
+                                        'Kamu Belum Login',
                                     style: Config.blackTextStyle.copyWith(
                                       fontSize: 15.sp,
                                       fontWeight: Config.semiBold,
@@ -490,7 +500,8 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   SizedBox(height: 5.h),
                                   Text(
-                                    'Ayo login untuk membuka semua fitur!',
+                                    getTranslated(context, 'log_alert2') ??
+                                        'Ayo Login',
                                     style: Config.blackTextStyle.copyWith(
                                       fontSize: 15.sp,
                                       fontWeight: Config.semiBold,
