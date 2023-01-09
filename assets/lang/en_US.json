@@ -40,6 +40,10 @@
 	"panduan_awal": "Kegel exercise guide",
 	"video_desc": "Kegel movement videos that help warm up",
 	"informasi": "Information",
+	"next_video": "Next Video",
+	"edukasi_selesai": "Education Finished",
+	"tulis_pesan": "write text...",
+
 
 	"tentang": "About Application",
 	"referensi": "Application Reference",
@@ -122,7 +126,29 @@
 
 
 	"log_alert": "You are not logged in",
-	"log_alert2": "Come on login to unlock all features!"
+	"log_alert2": "Come on login to unlock all features!",
+
+	"sm_log": "Your username or password is wrong",
+	"sm_activity": "Please Complete Both Condition Assessments First",
+	"sm_forgot": "Enter your Email", 
+	"sm_home_edu": "Please Watch Educational Videos First",
+	"sm_home_kuis": "Please Complete the Questionnaire First",
+	"sm_regis": "Complete the data correctly",
+	"sm_regis2": "Please fill in all the data first",
+	"sm_new_pw": "Enter your New Password",
+	"sm_jadwal": "Not yet time to enter the results of follow-up",
+	"sm_jadwal2": "All Data Must Be Filled In",
+	"sm_kuis2": "It's not time to fill out the questionnaire again",
+	"forgot_1": "Insert your email",
+	"forgot_2": "You will receive a 5 digit code in an email for verification",
+	"ipn": "Code sent to",
+	"ipn2": "Enter your new password",
+	"log_sign": "Don't have an account yet?",
+	"log_sign2": "Register Here",
+
+	"selesaikan": "Complete the Quiz",
+	"forgot_pw": "Forgot Password?"
+
 
 
 }

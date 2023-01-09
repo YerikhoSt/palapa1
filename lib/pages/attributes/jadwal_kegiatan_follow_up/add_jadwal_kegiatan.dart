@@ -125,7 +125,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                       width: 2,
                     ),
                   ),
-                  hintText: 'Tanggal Follow Up Kamu',
+                  hintText: 'Follow Up',
                   hintStyle: Theme.of(context).textTheme.bodyText1,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -176,7 +176,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                       width: 2,
                     ),
                   ),
-                  hintText: 'Enter nilai perineometri kamu',
+                  hintText: 'perineometri',
                   hintStyle: Theme.of(context).textTheme.bodyText1,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -227,7 +227,7 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                       width: 2,
                     ),
                   ),
-                  hintText: 'Enter nilai pad test kamu',
+                  hintText: 'pad test',
                   hintStyle: Theme.of(context).textTheme.bodyText1,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -293,8 +293,8 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                       SnackBar(
                         duration: const Duration(milliseconds: 500),
                         backgroundColor: Colors.red.shade400,
-                        content: const Text(
-                          'Belum saatnya memasukan hasil follow up',
+                        content: Text(
+                          getTranslated(context, 'sm_jadwal') ?? 'Erorr',
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -306,8 +306,8 @@ class _AddJadwalKegiatanState extends State<AddJadwalKegiatan> {
                   SnackBar(
                     duration: const Duration(milliseconds: 500),
                     backgroundColor: Colors.red.shade400,
-                    content: const Text(
-                      'Semua Data Wajib Di Isi',
+                    content: Text(
+                      getTranslated(context, 'sm_jadwal2') ?? 'Error',
                       textAlign: TextAlign.center,
                     ),
                   ),

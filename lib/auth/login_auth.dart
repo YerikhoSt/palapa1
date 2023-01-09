@@ -4,6 +4,7 @@ import 'package:palapa1/pages/home.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/change_prefs.dart';
 import 'package:palapa1/utils/checker_chat.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:palapa1/widgets/toast_custom.dart';
 
 Future<void> doLoginToServer(BuildContext context, String username,
@@ -26,8 +27,8 @@ Future<void> doLoginToServer(BuildContext context, String username,
               SnackBar(
                 duration: const Duration(milliseconds: 500),
                 backgroundColor: Colors.red.shade400,
-                content: const Text(
-                  'username atau password Anda Salah',
+                content: Text(
+                  getTranslated(context, 'sm_log') ?? 'Error',
                   textAlign: TextAlign.center,
                 ),
               ),

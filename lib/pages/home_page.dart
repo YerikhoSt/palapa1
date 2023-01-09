@@ -560,8 +560,8 @@ class _HomePageState extends State<HomePage> {
                           SnackBar(
                             duration: const Duration(milliseconds: 500),
                             backgroundColor: Config.alertColor,
-                            content: const Text(
-                              'Silahkan Tonton Video Edukasi Dahulu',
+                            content: Text(
+                              getTranslated(context, 'sm_home_edu') ?? 'Error',
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -585,8 +585,8 @@ class _HomePageState extends State<HomePage> {
                           SnackBar(
                             duration: const Duration(milliseconds: 500),
                             backgroundColor: Config.alertColor,
-                            content: const Text(
-                              'Silahkan Selesaikan Kuisioner Dahulu',
+                            content: Text(
+                              getTranslated(context, 'sm_home_kuis') ?? 'Error',
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -610,8 +610,8 @@ class _HomePageState extends State<HomePage> {
                           SnackBar(
                             duration: const Duration(milliseconds: 500),
                             backgroundColor: Config.alertColor,
-                            content: const Text(
-                              'Silahkan Selesaikan Kuisioner Dahulu',
+                            content: Text(
+                              getTranslated(context, 'sm_home_kuis') ?? 'Error',
                               textAlign: TextAlign.center,
                             ),
                           ),

@@ -5,6 +5,7 @@ import 'package:palapa1/models/chat_model_statis.dart';
 import 'package:palapa1/models/list_admin_model.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TanyaKamiPage extends StatefulWidget {
@@ -110,8 +111,8 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
         elevation: 0,
         backgroundColor: Config.primaryColor,
         automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: isSearch
+        leading: IconButton(
+          onPressed: isSearch
               ? () {
                   setState(() {
                     isSearch = false;
@@ -120,13 +121,10 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
               : () {
                   Navigator.pop(context);
                 },
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Config.whiteColor,
-            ),
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 20,
+            color: Theme.of(context).iconTheme.color,
           ),
         ),
         leadingWidth: isSearch ? 50 : 40,
@@ -274,7 +272,8 @@ class _TanyaKamiPageState extends State<TanyaKamiPage> {
                           keyboardType: TextInputType.text,
                           cursorHeight: 20,
                           decoration: InputDecoration(
-                            hintText: 'Tulis Pesan...',
+                            hintText:
+                                getTranslated(context, 'tulis_pesan') ?? '',
                             hintStyle: const TextStyle(color: Colors.black54),
                             border: InputBorder.none,
                             suffixIcon: GestureDetector(

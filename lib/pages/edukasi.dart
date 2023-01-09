@@ -411,8 +411,8 @@ class _EdukasiState extends State<Edukasi> {
                         child: Center(
                           child: Text(
                             _selectedVideoIndex == 3
-                                ? 'Edukasi Selesai'
-                                : 'Video Selanjutnya',
+                                ? getTranslated(context, 'edukasi_selesai') ?? ''
+                                : getTranslated(context, 'next_video') ?? '',
                             style: Config.whiteTextStyle.copyWith(
                               fontSize: 18.sp,
                               fontWeight: Config.semiBold,

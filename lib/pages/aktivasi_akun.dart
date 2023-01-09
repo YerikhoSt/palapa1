@@ -3,6 +3,7 @@ import 'package:palapa1/pages/login.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class AktivasiAkun extends StatefulWidget {
@@ -48,7 +49,7 @@ class AktivasiAkunState extends State<AktivasiAkun> {
                   height: 20,
                 ),
                 Text(
-                  'Kode terkirim ke',
+                  getTranslated(context, 'ipn') ?? '',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 12,
                       ),

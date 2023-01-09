@@ -83,8 +83,8 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
               SnackBar(
                 duration: const Duration(milliseconds: 500),
                 backgroundColor: Colors.red.shade400,
-                content: const Text(
-                  'belom waktunya untuk mengisi kuisioner lagi',
+                content: Text(
+                  getTranslated(context, 'sm_kuis2') ?? 'Error',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -132,8 +132,8 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
               SnackBar(
                 duration: const Duration(milliseconds: 500),
                 backgroundColor: Colors.red.shade400,
-                content: const Text(
-                  'belom waktunya untuk mengisi kuisioner lagi',
+                content: Text(
+                  getTranslated(context, 'sm_kuis2') ?? 'Error',
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -493,8 +493,10 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
                         child: widget.type == 1
                             ? Text(
                                 _questionIndex == 5
-                                    ? 'Selesaikan Kuis'
-                                    : 'Selanjutnya',
+                                    ? getTranslated(context, 'selesaikan') ??
+                                        'Selesaikan'
+                                    : getTranslated(context, 'selanjutnya') ??
+                                        'selanjutnya',
                                 style: Config.whiteTextStyle.copyWith(
                                   fontSize: 16,
                                   fontWeight: Config.bold,
@@ -502,8 +504,10 @@ class _KuisionerQuestionState extends State<KuisionerQuestion> {
                               )
                             : Text(
                                 _questionIndex == 6
-                                    ? 'Selesaikan Kuis'
-                                    : 'Selanjutnya',
+                                    ? getTranslated(context, 'selesaikan') ??
+                                        'Selesaikan'
+                                    : getTranslated(context, 'selanjutnya') ??
+                                        'selanjutnya',
                                 style: Config.whiteTextStyle.copyWith(
                                   fontSize: 16,
                                   fontWeight: Config.bold,

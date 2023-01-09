@@ -310,7 +310,7 @@ class _LoginBodyState extends State<LoginBody> {
                         ),
                       ),
                       child: Text(
-                        'Lupa Password?',
+                        getTranslated(context, 'forgot_pw') ?? 'Lupa Password?',
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               fontSize: 15,
                               fontWeight: Config.bold,
@@ -342,8 +342,8 @@ class _LoginBodyState extends State<LoginBody> {
                       SnackBar(
                         duration: const Duration(milliseconds: 500),
                         backgroundColor: Colors.red.shade400,
-                        content: const Text(
-                          'username atau password anda belum di isi',
+                        content: Text(
+                          getTranslated(context, 'sm_logx') ?? 'Error',
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -375,7 +375,7 @@ class _LoginBodyState extends State<LoginBody> {
             Column(
               children: <Widget>[
                 Text(
-                  'belum memiliki akun?',
+                  getTranslated(context, 'log_sign') ?? '',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 15,
                         fontWeight: Config.regular,
@@ -388,7 +388,7 @@ class _LoginBodyState extends State<LoginBody> {
                     ),
                   ),
                   child: Text(
-                    'Daftar disini',
+                    getTranslated(context, 'log_sign2') ?? '',
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           fontSize: 16,
                           fontWeight: Config.bold,

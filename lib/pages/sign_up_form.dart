@@ -602,8 +602,8 @@ class _SignUpFormState extends State<SignUpForm> {
                           SnackBar(
                             duration: const Duration(milliseconds: 500),
                             backgroundColor: Colors.red.shade400,
-                            content: const Text(
-                              'Lengkapi data dengan benar',
+                            content: Text(
+                              getTranslated(context, 'sm_regis') ?? 'Error',
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -616,8 +616,8 @@ class _SignUpFormState extends State<SignUpForm> {
                     SnackBar(
                       duration: const Duration(milliseconds: 500),
                       backgroundColor: Colors.red.shade400,
-                      content: const Text(
-                        'Silahkan isi semua data terlebih dahulu',
+                      content: Text(
+                        getTranslated(context, 'sm_regis2') ?? 'Error',
                         textAlign: TextAlign.center,
                       ),
                     ),

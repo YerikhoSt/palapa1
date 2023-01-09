@@ -4,6 +4,7 @@ import 'package:palapa1/pages/attributes/forgot_password/input_new_password.dart
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
+import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   height: 20,
                 ),
                 Text(
-                  'Masukkan Email Kamu',
+                  getTranslated(context, 'forgot_1') ?? '',
                   style: Config.blackTextStyle.copyWith(
                     fontSize: 22,
                     fontWeight: Config.bold,
@@ -74,7 +75,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  'kamu akan menerima 5 digit kode di email untuk verifikasi',
+                  getTranslated(context, 'forgot_2') ?? '',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontSize: 12,
                       ),
@@ -172,8 +173,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           SnackBar(
                             duration: const Duration(milliseconds: 500),
                             backgroundColor: Config.alertColor,
-                            content: const Text(
-                              'Masukkan Email Anda',
+                            content: Text(
+                              getTranslated(context, 'sm_forgot') ?? 'Error',
                               textAlign: TextAlign.center,
                             ),
                           ),

@@ -40,6 +40,9 @@
 	"panduan_awal": "Panduan awal senam kegel",
 	"video_desc": "Video gerakan kegel yang membantu melakukan pemanasan",
 	"informasi": "Informasi",
+	"next_video": "Video Selanjutnya",
+	"edukasi_selesai": "Edukasi Selesai",
+	"tulis_pesan": "tulis pesan...",
 
 	"tentang": "Tentang Aplikasi",
 	"referensi": "Referensi Aplikasi",
@@ -116,8 +119,28 @@
 	"monitoring_empty": "Hasil Monitoring Kamu Masih Kosong!",
 
 	"log_alert": "Kamu Belum Login",
-	"log_alert2": "Ayo login untuk membuka semua fitur!"
+	"log_alert2": "Ayo login untuk membuka semua fitur!",
 
+	"sm_log": "username atau password Anda Salah",
+	"sm_activity": "Silahkan Selesaikan Kedua Penilaian Kondisi Dahulu",
+	"sm_forgot": "Masukkan Email Anda", 
+	"sm_home_edu": "Silahkan Tonton Video Edukasi Dahulu",
+	"sm_home_kuis": "Silahkan Selesaikan Kuisioner Dahulu",
+	"sm_regis": "Lengkapi data dengan benar",
+	"sm_regis2": "Silahkan isi semua data terlebih dahulu",
+	"sm_new_pw": "Masukkan Password Baru Anda",
+	"sm_jadwal": "Belum saatnya memasukan hasil follow up",
+	"sm_jadwal2": "Semua Data Wajib Di Isi",
+	"sm_kuis2": "belum waktunya untuk mengisi kuisioner lagi",
+	"forgot_1": "Masukkan Email Kamu",
+	"forgot_2": "kamu akan menerima 5 digit kode di email untuk verifikasi",
+	"ipn": "Kode terkirim ke",
+	"ipn2": "Masukkan password baru kamu",
+	"log_sign": "belum memiliki akun?",
+	"log_sign2": "Daftar disini",
+
+	"selesaikan": "Selesaikan Kuis",
+	"forgot_pw": "Lupa Password?"
 
 
 

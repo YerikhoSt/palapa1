@@ -378,8 +378,10 @@ class _ActivityState extends State<Activity> {
                                           duration:
                                               const Duration(milliseconds: 500),
                                           backgroundColor: Config.alertColor,
-                                          content: const Text(
-                                            'Silahkan Selesaikan Kedua Penilaian Kondisi Dahulu',
+                                          content: Text(
+                                            getTranslated(
+                                                    context, 'sm_activity') ??
+                                                'Error',
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
