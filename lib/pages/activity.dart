@@ -37,7 +37,7 @@ class _ActivityState extends State<Activity> {
 
   void _checkTimeForAbsen() {
     print('ISI HOUR =====> ${_dateTime.hour}');
-    if (_dateTime.hour > 12) {
+    if (_dateTime.hour > 11) {
       print('JANCOK ${_dateTime.hour}');
 
       setState(() {
@@ -328,100 +328,125 @@ class _ActivityState extends State<Activity> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (_, int i) {
                           return ButtonAbsen(
-                            text: _listJawaban[i],
-                            colorDynamic: _isCheck.contains(_listJawaban[i])
-                                ? 1
-                                : _isClose.contains(_listJawaban[i])
-                                    ? 2
-                                    : 0,
-                            check: () {
-                              ShowQuestionDialog(
-                                () {
-                                  print('send');
-                                  setState(() {
-                                    _isCheck.add(_listJawaban[i]);
-                                  });
-                                  fetchData(
-                                    'api/aktivitas-harian/post',
-                                    method: FetchDataMethod.post,
-                                    tokenLabel: TokenLabel.xa,
-                                    extraHeader: <String, String>{
-                                      'Authorization': 'Bearer ${_token}'
-                                    },
-                                    params: <String, dynamic>{
-                                      'user_id': _user_id,
-                                      'absen_pagi': _isCheck.contains('Pagi')
-                                          ? _selectedDate.toString()
-                                          : null,
-                                      'absen_siang': _isCheck.contains('Siang')
-                                          ? _selectedDate.toString()
-                                          : null,
-                                      'absen_malem': _isCheck.contains('Malam')
-                                          ? _selectedDate.toString()
-                                          : null,
-                                      'tanggal_aktivitas': _dateActivity,
-                                    },
-                                  ).then((dynamic value) {
-                                    if (value['status'] == 200) {
-                                      print('hasil dari absen $value');
-                                      setState(() {
-                                        _listJawaban.removeAt(i);
-                                        _getStatusActivity();
-                                      });
-                                      Navigator.pop(context);
-                                    } else {
-                                      Navigator.pop(context);
+                              text: _listJawaban[i],
+                              colorDynamic: _isCheck.contains(_listJawaban[i])
+                                  ? 1
+                                  : _isClose.contains(_listJawaban[i])
+                                      ? 2
+                                      : 0,
+                              check: _listJawaban[i] == 'Malam' &&
+                                          _dateTime.hour > 17 ||
+                                      _listJawaban[i] == 'Siang' &&
+                                          _dateTime.hour > 11 ||
+                                      _listJawaban[i] == 'Pagi'
+                                  ? () {
+                                      ShowQuestionDialog(
+                                        () {
+                                          print('send');
+                                          setState(() {
+                                            _isCheck.add(_listJawaban[i]);
+                                          });
+                                          fetchData(
+                                            'api/aktivitas-harian/post',
+                                            method: FetchDataMethod.post,
+                                            tokenLabel: TokenLabel.xa,
+                                            extraHeader: <String, String>{
+                                              'Authorization':
+                                                  'Bearer ${_token}'
+                                            },
+                                            params: <String, dynamic>{
+                                              'user_id': _user_id,
+                                              'absen_pagi':
+                                                  _isCheck.contains('Pagi')
+                                                      ? _selectedDate.toString()
+                                                      : null,
+                                              'absen_siang':
+                                                  _isCheck.contains('Siang')
+                                                      ? _selectedDate.toString()
+                                                      : null,
+                                              'absen_malem':
+                                                  _isCheck.contains('Malam')
+                                                      ? _selectedDate.toString()
+                                                      : null,
+                                              'tanggal_aktivitas':
+                                                  _dateActivity,
+                                            },
+                                          ).then((dynamic value) {
+                                            print('hasil dari absen $value');
 
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          backgroundColor: Config.alertColor,
-                                          content: Text(
-                                            getTranslated(
-                                                    context, 'sm_activity') ??
-                                                'Error',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
+                                            if (value['status'] == 200) {
+                                              print('hasil dari absen $value');
+                                              setState(() {
+                                                _listJawaban.removeAt(i);
+                                                _getStatusActivity();
+                                              });
+                                              Navigator.pop(context);
+                                            } else {
+                                              Navigator.pop(context);
+
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  duration: const Duration(
+                                                      milliseconds: 500),
+                                                  backgroundColor:
+                                                      Config.alertColor,
+                                                  content: Text(
+                                                    getTranslated(context,
+                                                            'sm_activity') ??
+                                                        'Error',
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          });
+                                        },
+                                        _listJawaban[i],
                                       );
                                     }
-                                  });
-                                },
-                                _listJawaban[i],
-                              );
-                            },
-                            close: () {
-                              setState(() {
-                                _isClose.add(_listJawaban[i]);
-                              });
-                              fetchData(
-                                'api/aktivitas-harian/post',
-                                method: FetchDataMethod.post,
-                                tokenLabel: TokenLabel.xa,
-                                extraHeader: <String, String>{
-                                  'Authorization': 'Bearer ${_token}'
-                                },
-                                params: <String, dynamic>{
-                                  'user_id': _user_id,
-                                  'absen_pagi':
-                                      _isClose.contains('Pagi') ? null : null,
-                                  'absen_siang':
-                                      _isClose.contains('Siang') ? null : null,
-                                  'absen_malem':
-                                      _isClose.contains('Malam') ? null : null,
-                                  'tanggal_aktivitas': _dateActivity,
-                                },
-                              ).then((dynamic value) {
-                                print(value);
-                                setState(() {
-                                  _listJawaban.removeAt(i);
-                                  _getStatusActivity();
-                                });
-                              });
-                            },
-                          );
+                                  : null,
+                              close: _listJawaban[i] == 'Malam' &&
+                                          _dateTime.hour > 17 ||
+                                      _listJawaban[i] == 'Siang' &&
+                                          _dateTime.hour > 11 ||
+                                      _listJawaban[i] == 'Pagi'
+                                  ? () {
+                                      setState(() {
+                                        _isClose.add(_listJawaban[i]);
+                                      });
+                                      fetchData(
+                                        'api/aktivitas-harian/post',
+                                        method: FetchDataMethod.post,
+                                        tokenLabel: TokenLabel.xa,
+                                        extraHeader: <String, String>{
+                                          'Authorization': 'Bearer ${_token}'
+                                        },
+                                        params: <String, dynamic>{
+                                          'user_id': _user_id,
+                                          'absen_pagi':
+                                              _isClose.contains('Pagi')
+                                                  ? null
+                                                  : null,
+                                          'absen_siang':
+                                              _isClose.contains('Siang')
+                                                  ? null
+                                                  : null,
+                                          'absen_malem':
+                                              _isClose.contains('Malam')
+                                                  ? null
+                                                  : null,
+                                          'tanggal_aktivitas': _dateActivity,
+                                        },
+                                      ).then((dynamic value) {
+                                        print(value);
+                                        setState(() {
+                                          _listJawaban.removeAt(i);
+                                          _getStatusActivity();
+                                        });
+                                      });
+                                    }
+                                  : null);
                         },
                       ),
               ],

@@ -19,6 +19,6 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
-
+  await Future.delayed(const Duration(seconds: 2));
   runApp(Home());
 }

@@ -5,14 +5,14 @@ import 'package:palapa1/utils/config.dart';
 
 class ButtonAbsen extends StatefulWidget {
   final String text;
-  final void Function() check;
-  final void Function() close;
+  final void Function()? check;
+  final void Function()? close;
   final int colorDynamic;
   const ButtonAbsen({
     super.key,
     required this.text,
-    required this.check,
-    required this.close,
+    this.check,
+    this.close,
     required this.colorDynamic,
   });
 

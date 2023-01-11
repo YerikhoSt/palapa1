@@ -79,15 +79,15 @@ class _PilihAdminState extends State<PilihAdmin> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        backgroundColor: Config.primaryColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         title: Text(
           getTranslated(context, 'tanya_kami') ?? 'Tanya Kami',
-          style: Config.whiteTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: Config.bold,
-          ),
+          style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                fontSize: 18,
+                fontWeight: Config.bold,
+              ),
         ),
       ),
       body: ListView(

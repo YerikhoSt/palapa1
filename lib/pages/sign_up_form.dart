@@ -2,7 +2,9 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palapa1/pages/aktivasi_akun.dart';
+import 'package:palapa1/pages/constant.dart';
 import 'package:palapa1/pages/login.dart';
+import 'package:palapa1/pages/selection_province.dart';
 import 'package:palapa1/services/server/server.dart';
 import 'package:palapa1/utils/animation.dart';
 import 'package:palapa1/utils/config.dart';
@@ -10,7 +12,9 @@ import 'package:intl/intl.dart';
 import 'package:palapa1/utils/localization/localization_constants.dart';
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+  final String? provinsi;
+  final String? kota;
+  const SignUpForm({Key? key, this.provinsi, this.kota}) : super(key: key);
 
   @override
   State<SignUpForm> createState() => _SignUpFormState();
@@ -35,7 +39,16 @@ class _SignUpFormState extends State<SignUpForm> {
   bool _isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    setState(() {
+      Constant.controllerProvinsi.text = Constant.provinsi;
+      Constant.controllerKota.text = Constant.kota;
+    });
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       appBar: AppBar(
@@ -392,7 +405,15 @@ class _SignUpFormState extends State<SignUpForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextField(
-                controller: _controllerProvinsi,
+                controller: Constant.controllerProvinsi,
+                readOnly: true,
+                onTap: () {
+                  Navigator.of(context).push(
+                    AniRoute(
+                      child: const SelectionProvince(),
+                    ),
+                  );
+                },
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -442,7 +463,15 @@ class _SignUpFormState extends State<SignUpForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextField(
-                controller: _controllerKota,
+                controller: Constant.controllerKota,
+                readOnly: true,
+                onTap: () {
+                  Navigator.of(context).push(
+                    AniRoute(
+                      child: const SelectionProvince(),
+                    ),
+                  );
+                },
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -554,11 +583,11 @@ class _SignUpFormState extends State<SignUpForm> {
               onPressed: () async {
                 if (_controllerAlamat.text.isNotEmpty &&
                     _controllerEmail.text.isNotEmpty &&
-                    _controllerKota.text.isNotEmpty &&
+                    Constant.controllerKota.text.isNotEmpty &&
                     _controllerName.text.isNotEmpty &&
                     _controllerNoTelepon.text.isNotEmpty &&
                     _controllerPassword.text.isNotEmpty &&
-                    _controllerProvinsi.text.isNotEmpty &&
+                    Constant.controllerProvinsi.text.isNotEmpty &&
                     _controllerTanggalLahir.text.isNotEmpty) {
                   setState(() {
                     _isLoading = true;
@@ -574,8 +603,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       'name': _controllerName.text,
                       'tanggal_lahir': _controllerTanggalLahir.text,
                       'alamat': _controllerAlamat.text,
-                      'kota': _controllerKota.text,
-                      'provinsi': _controllerProvinsi.text,
+                      'kota': Constant.controllerKota.text,
+                      'provinsi': Constant.controllerProvinsi.text,
                       'long': '3412412',
                       'lat': '1231231',
                       'no_telpon': _controllerNoTelepon.text,

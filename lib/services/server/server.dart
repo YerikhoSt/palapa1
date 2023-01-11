@@ -39,6 +39,7 @@ Future<dynamic> fetchData(
   String rtoMessage = 'Request Timeout',
   String noConnectionMessage = 'No Connection Detected',
   bool showToastWhenRto = true,
+  bool useBaseUrl = true,
   bool showToastWhenNoConnection = true,
   Map<String, dynamic> params = const <String, dynamic>{},
   List<String>? paramsDelete = const <String>[],
@@ -62,7 +63,7 @@ Future<dynamic> fetchData(
       if (method == FetchDataMethod.put) {
         return client
             .put(
-              Uri.parse('${Config.domain}$url'),
+              Uri.parse(useBaseUrl ? '${Config.domain}$url' : '$url'),
               headers: _h ?? _headers,
               body: jsonEncode(params),
             )
@@ -70,7 +71,7 @@ Future<dynamic> fetchData(
       } else if (method == FetchDataMethod.post) {
         return client
             .post(
-              Uri.parse('${Config.domain}$url'),
+              Uri.parse(useBaseUrl ? '${Config.domain}$url' : '$url'),
               headers: _h ?? _headers,
               body: jsonEncode(params),
             )
@@ -78,7 +79,7 @@ Future<dynamic> fetchData(
       } else if (method == FetchDataMethod.delete) {
         return client
             .delete(
-              Uri.parse('${Config.domain}$url'),
+              Uri.parse(useBaseUrl ? '${Config.domain}$url' : '$url'),
               headers: _h ?? _headers,
               body: jsonEncode(paramsDelete),
             )
@@ -86,7 +87,7 @@ Future<dynamic> fetchData(
       } else {
         return client
             .get(
-              Uri.parse('${Config.domain}$url'),
+              Uri.parse(useBaseUrl ? '${Config.domain}$url' : '$url'),
               headers: _h ?? _headers,
             )
             .timeout(Duration(seconds: timeoutInSecond));

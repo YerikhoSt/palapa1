@@ -49,6 +49,7 @@ dependencies:
     shared_preferences: ^2.0.15
 
 dev_dependencies:
+    flutter_launcher_icons: "^0.11.0"
     drift_dev: ^2.2.0+1
     flutter_localizations:
         sdk: flutter
@@ -58,8 +59,15 @@ dev_dependencies:
     lint: ^1.8.2
     flutter_lints: ^1.0.0
 flutter_native_splash:
-    image: assets/images/login_image.png
+    image: assets/images/logo_palapa.png
     color: '#ffffff'
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  background_color: "#ffffff"
+  image_path: "assets/images/logo_palapa.png"
+  min_sdk_android: 21
 
 flutter:
     uses-material-design: true
