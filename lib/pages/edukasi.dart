@@ -111,21 +111,21 @@ class _EdukasiState extends State<Edukasi> {
       setState(() {
         _progressVideoIndex = 1;
       });
-      if (_progressVideo[1] != 'null') {
-        setState(() {
-          _progressVideoIndex = 2;
-        });
-        if (_progressVideo[2] != 'null') {
-          setState(() {
-            _progressVideoIndex = 3;
-          });
-          if (_progressVideo[3] != 'null') {
-            setState(() {
-              _progressVideoIndex = 4;
-            });
-          }
-        }
-      }
+    }
+    if (_progressVideo[1] != 'null') {
+      setState(() {
+        _progressVideoIndex = 2;
+      });
+    }
+    if (_progressVideo[2] != 'null') {
+      setState(() {
+        _progressVideoIndex = 3;
+      });
+    }
+    if (_progressVideo[3] != 'null') {
+      setState(() {
+        _progressVideoIndex = 4;
+      });
     }
 
     await fetchData(
@@ -292,7 +292,13 @@ class _EdukasiState extends State<Edukasi> {
                         : false,
                     child: InkWell(
                       onTap: () async {
-                        if (_progressVideo[3] == 'null') {
+                        print('ISI VIDEO 3 ${_progressVideo}');
+                        if (_progressVideo[0] == 'null' ||
+                            _progressVideo[1] == 'null' ||
+                            _progressVideo[2] == 'null' ||
+                            _progressVideo[3] == 'null') {
+                          print('POST API');
+
                           if (_selectedVideoIndex == 0) {
                             log('testing post video');
                             await fetchData(
@@ -307,8 +313,7 @@ class _EdukasiState extends State<Edukasi> {
                                 'video_1': _selectedDate.toString(),
                               },
                             ).then((dynamic value) async {
-                              log('testing post video');
-                              log(value.toString());
+                              print('testing post video $value');
 
                               await _getVideosList();
 
@@ -330,8 +335,7 @@ class _EdukasiState extends State<Edukasi> {
                                 'video_2': _selectedDate.toString(),
                               },
                             ).then((dynamic value) async {
-                              log('testing post video');
-                              log(value.toString());
+                              print('testing post video $value');
 
                               await _getVideosList();
 
@@ -353,8 +357,8 @@ class _EdukasiState extends State<Edukasi> {
                                 'video_3': _selectedDate.toString(),
                               },
                             ).then((dynamic value) async {
-                              log('testing post video');
-                              log(value.toString());
+                              print('testing post video $value');
+
                               await _getVideosList();
 
                               setState(() {
@@ -375,8 +379,7 @@ class _EdukasiState extends State<Edukasi> {
                                 'video_4': _selectedDate.toString(),
                               },
                             ).then((dynamic value) async {
-                              log('testing post video');
-                              log(value.toString());
+                              print('testing post video $value');
 
                               await _getVideosList();
 
@@ -411,7 +414,8 @@ class _EdukasiState extends State<Edukasi> {
                         child: Center(
                           child: Text(
                             _selectedVideoIndex == 3
-                                ? getTranslated(context, 'edukasi_selesai') ?? ''
+                                ? getTranslated(context, 'edukasi_selesai') ??
+                                    ''
                                 : getTranslated(context, 'next_video') ?? '',
                             style: Config.whiteTextStyle.copyWith(
                               fontSize: 18.sp,

@@ -305,7 +305,7 @@ class _HomePageState extends State<HomePage> {
                                               BorderRadius.circular(10),
                                           image: DecorationImage(
                                             image: imageProvider,
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       ),

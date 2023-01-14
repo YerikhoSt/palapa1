@@ -9,6 +9,7 @@ import 'package:palapa1/utils/localization/localization_constants.dart';
 import 'package:palapa1/utils/theme/theme_mode.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PengaturanPage extends StatefulWidget {
   const PengaturanPage({super.key});
@@ -285,6 +286,42 @@ class _PengaturanPageState extends State<PengaturanPage> {
               },
               activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.3),
               activeColor: Theme.of(context).primaryColor,
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              launchUrl(Uri.parse('https://hugi.my.id/privacy.html'));
+            },
+            leading: Icon(
+              Icons.privacy_tip_outlined,
+              color: Theme.of(context).iconTheme.color,
+              size: 25,
+            ),
+            minLeadingWidth: 0,
+            contentPadding: const EdgeInsets.all(0),
+            title: Text(
+              getTranslated(context, 'privacy') ?? 'Privacy Policy',
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontSize: 14,
+                  ),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              launchUrl(Uri.parse(''));
+            },
+            leading: Icon(
+              Icons.verified_user_outlined,
+              color: Theme.of(context).iconTheme.color,
+              size: 25,
+            ),
+            minLeadingWidth: 0,
+            contentPadding: const EdgeInsets.all(0),
+            title: Text(
+              getTranslated(context, 'term') ?? 'Term Of Use',
+              style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    fontSize: 14,
+                  ),
             ),
           ),
         ],
